@@ -8,25 +8,25 @@
 import Foundation
 
 
-class EntityListViewModel: EntityListViewModelProtocol {
+struct EntityListViewModel: EntityListViewModelProtocol {
     
     var contentType: ContentType
     var nextUrl: String = ""
     var array: [String] = []
     var urlArray: [String] = []
     
-    init(url: String, type: ContentType) {
-        EntityListViewModel.createViewModel(url: url, type: type) {
-            result in
-            self.array.append(contentsOf: result.array)
-            self.urlArray.append(contentsOf: result.urlArray)
-//                print(self.viewModel.array.count)
-            self.nextUrl = result.nextUrl
-//                print(self.viewModel.nextUrl)
-            
-            
-        }
-    }
+//    init(url: String, type: ContentType) {
+//        EntityListViewModel.createViewModel(url: url, type: type) {
+//            result in
+//            self.array.append(contentsOf: result.array)
+//            self.urlArray.append(contentsOf: result.urlArray)
+////                print(self.viewModel.array.count)
+//            self.nextUrl = result.nextUrl
+////                print(self.viewModel.nextUrl)
+//
+//
+//        }
+//    }
     
     static func createViewModel(url: String, type: ContentType, completion: @escaping (EntityListViewModelProtocol) -> Void) {
         Networking.getData(url: url) { result in
