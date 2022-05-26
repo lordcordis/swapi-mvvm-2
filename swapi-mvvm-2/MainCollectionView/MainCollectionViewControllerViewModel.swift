@@ -10,6 +10,12 @@ import Foundation
 
 class MainCollectionViewControllerViewModel: MainCollectionViewControllerViewModelProtocol {
     
+    
+    func textForButton(at indexPath: Int) -> String {
+        return buttonNames[indexPath]
+    }
+    
+    
     var buttonNames: [String] = []
     
     var buttonURLs: [String] = []
