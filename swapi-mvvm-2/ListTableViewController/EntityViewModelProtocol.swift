@@ -10,11 +10,11 @@ import Foundation
 
 protocol EntityListViewModelProtocol {
     var array: [String] {get set}
+    func textFor(indexPath: Int) -> String
     var urlArray: [String] {get set}
     var nextUrl: String {get set}
-    var contentType: ContentType {get}
+    var contentType: ContentType {get set}
     static func createViewModel(url: String, type: ContentType, completion: @escaping (EntityListViewModelProtocol) -> Void)
-//    func updateViewModel(url: String, type: ContentType)
 }
 
 

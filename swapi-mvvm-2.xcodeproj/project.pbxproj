@@ -17,6 +17,7 @@
 		0018BD12283690FB0066B1D8 /* JsonDecoderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018BD11283690FB0066B1D8 /* JsonDecoderService.swift */; };
 		0018BD14283696910066B1D8 /* MainCollectionViewControllerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018BD13283696910066B1D8 /* MainCollectionViewControllerViewModel.swift */; };
 		0018BD162836970B0066B1D8 /* MainScreenCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018BD152836970B0066B1D8 /* MainScreenCell.swift */; };
+		005D8D16284135F2009B241F /* PlanetInfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005D8D15284135F2009B241F /* PlanetInfoTableViewController.swift */; };
 		005DE317283AE85900290EC1 /* MainCollectionViewControllerViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE316283AE85900290EC1 /* MainCollectionViewControllerViewModelProtocol.swift */; };
 		005DE320283B81E000290EC1 /* FilmNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE31A283B81E000290EC1 /* FilmNetworkResponse.swift */; };
 		005DE321283B81E000290EC1 /* CharacterNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE31B283B81E000290EC1 /* CharacterNetworkResponse.swift */; };
@@ -42,6 +43,7 @@
 		0018BD11283690FB0066B1D8 /* JsonDecoderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonDecoderService.swift; sourceTree = "<group>"; };
 		0018BD13283696910066B1D8 /* MainCollectionViewControllerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewControllerViewModel.swift; sourceTree = "<group>"; };
 		0018BD152836970B0066B1D8 /* MainScreenCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainScreenCell.swift; sourceTree = "<group>"; };
+		005D8D15284135F2009B241F /* PlanetInfoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetInfoTableViewController.swift; sourceTree = "<group>"; };
 		005DE316283AE85900290EC1 /* MainCollectionViewControllerViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewControllerViewModelProtocol.swift; sourceTree = "<group>"; };
 		005DE31A283B81E000290EC1 /* FilmNetworkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilmNetworkResponse.swift; sourceTree = "<group>"; };
 		005DE31B283B81E000290EC1 /* CharacterNetworkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterNetworkResponse.swift; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 		0018BCF628368DE90066B1D8 /* swapi-mvvm-2 */ = {
 			isa = PBXGroup;
 			children = (
+				005D8D17284135F8009B241F /* PlanetInfoTableView */,
 				005DE326283B820A00290EC1 /* MainCollectionView */,
 				005DE329283B836C00290EC1 /* ListTableViewController */,
 				005DE319283B81E000290EC1 /* NetworkResponse */,
@@ -96,6 +99,14 @@
 				0018BD0528368DEB0066B1D8 /* Info.plist */,
 			);
 			path = "swapi-mvvm-2";
+			sourceTree = "<group>";
+		};
+		005D8D17284135F8009B241F /* PlanetInfoTableView */ = {
+			isa = PBXGroup;
+			children = (
+				005D8D15284135F2009B241F /* PlanetInfoTableViewController.swift */,
+			);
+			path = PlanetInfoTableView;
 			sourceTree = "<group>";
 		};
 		005DE318283B712100290EC1 /* Services */ = {
@@ -215,6 +226,7 @@
 				0018BD0E28368E860066B1D8 /* Networking.swift in Sources */,
 				007CD93A283BD3FC00452415 /* EntityViewModelProtocol.swift in Sources */,
 				005DE323283B81E000290EC1 /* SpeciesNetworkResponse.swift in Sources */,
+				005D8D16284135F2009B241F /* PlanetInfoTableViewController.swift in Sources */,
 				0018BD1028368E920066B1D8 /* Keys.swift in Sources */,
 				0018BD12283690FB0066B1D8 /* JsonDecoderService.swift in Sources */,
 				005DE325283B81E000290EC1 /* StarshipNetworkResponse.swift in Sources */,

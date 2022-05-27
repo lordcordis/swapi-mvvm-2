@@ -10,6 +10,11 @@ import Foundation
 
 struct EntityListViewModel: EntityListViewModelProtocol {
     
+    func textFor(indexPath: Int) -> String {
+        return array[indexPath]
+    }
+    
+    
     var contentType: ContentType
     var nextUrl: String = ""
     var array: [String] = []
@@ -37,8 +42,18 @@ struct EntityListViewModel: EntityListViewModelProtocol {
             case (.success(let data), .Planets):
                 guard let result = JsonDecoderService.decodeJsonToEntityList(data: data, contentType: .Planets) else {return}
                 completion(result)
-//            case (.failure(let error), ):
-//                print(error.localizedDescription)
+            case (.success(let data), .Films):
+                guard let result = JsonDecoderService.decodeJsonToEntityList(data: data, contentType: .Films) else {return}
+                completion(result)
+            case (.success(let data), .Starships):
+                guard let result = JsonDecoderService.decodeJsonToEntityList(data: data, contentType: .Starships) else {return}
+                completion(result)
+            case (.success(let data), .Vehicles):
+                guard let result = JsonDecoderService.decodeJsonToEntityList(data: data, contentType: .Vehicles) else {return}
+                completion(result)
+            case (.success(let data), .Species):
+                guard let result = JsonDecoderService.decodeJsonToEntityList(data: data, contentType: .Species) else {return}
+                completion(result)
             case (.failure(let error), _):
                 print(error.localizedDescription)
         }

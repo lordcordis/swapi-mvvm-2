@@ -29,17 +29,17 @@ struct FilmNetworkResponse: Codable {
 
 struct FilmListNetworkResponse: Codable {
     let count: Int
-    let next: String
+    let next: String?
     let previous: String?
     let results: [FilmNetworkResponse]
 }
 
-struct GenericNetworkResponse: Codable {
-    let count: Int
-    let next: String
-    let previous: String?
-    let results: [FilmNetworkResponse]
-}
+//struct GenericNetworkResponse: Codable {
+//    let count: Int
+//    let next: String
+//    let previous: String?
+//    let results: [FilmNetworkResponse]
+//}
 
 
 

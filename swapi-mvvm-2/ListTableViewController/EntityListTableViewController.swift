@@ -25,6 +25,14 @@ class EntityListTableViewController: UITableViewController {
             title = "People"
         case .Planets:
             title = "Planets"
+        case .Starships:
+            title = "Starships"
+        case .Species:
+            title = "Species"
+        case .Vehicles:
+            title = "Vehicles"
+        case .Films:
+            title = "Films"
         }
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: Keys.listTableViewCellId)
@@ -46,7 +54,7 @@ class EntityListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Keys.listTableViewCellId, for: indexPath)
         var content = cell.defaultContentConfiguration()
-        content.text = viewModel.array[indexPath.row]
+        content.text = viewModel.textFor(indexPath: indexPath.row)
         cell.accessoryType = .disclosureIndicator
         cell.contentConfiguration = content
         return cell
@@ -56,6 +64,7 @@ class EntityListTableViewController: UITableViewController {
         if indexPath.row == viewModel.array.count - 1 {
             print("end of array")
             EntityListViewModel.createViewModel(url: viewModel.nextUrl, type: viewModel.contentType) { result in
+                print("\(self.viewModel.contentType) TYPE")
                 self.viewModel.array.append(contentsOf: result.array)
                 self.viewModel.urlArray.append(contentsOf: result.urlArray)
 //                print(self.viewModel.array.count)
@@ -69,6 +78,21 @@ class EntityListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
         print(viewModel.urlArray[indexPath.row])
+        
+        switch viewModel.contentType {
+        case .Planets:
+            print(viewModel.contentType)
+        case .Films:
+            print(viewModel.contentType)
+        case .People:
+            print(viewModel.contentType)
+        case .Species:
+            print(viewModel.contentType)
+        case .Starships:
+            print(viewModel.contentType)
+        case .Vehicles:
+            print(viewModel.contentType)
+        }
     }
     
 }
