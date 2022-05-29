@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct StarshipNetworkResponse: Codable {
+struct StarshipNetworkResponse: Codable, NetworkResponse {
     let mglt, cargoCapacity, consumables, costInCredits: String
     let created, crew, edited, hyperdriveRating: String
     let length, manufacturer, maxAtmospheringSpeed, model: String

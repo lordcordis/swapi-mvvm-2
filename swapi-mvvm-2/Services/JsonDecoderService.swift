@@ -7,9 +7,13 @@
 
 import Foundation
 
-protocol EntityViewModelProtocol {
-    var description: String {get}
-    var desc: String {get}
+//protocol EntityViewModelProtocol {
+//    var description: String {get}
+//    var desc: String {get}
+//}
+
+protocol NetworkResponse {
+    var url: String {get}
 }
 
 struct JsonDecoderService {
@@ -19,16 +23,41 @@ struct JsonDecoderService {
         return res
     }
     
-    static func decodeJsonToEntity(data: Data, contentType: ContentType) -> PlanetNetworkResponse? {
+    // MARK: - Json To Name
+    
+    static func decodeJsonToName(data: Data, contentType: ContentType, completion: @escaping (String?)->()) {
+        switch contentType {
+        case .Films:
+            completion(nil)
+        case .People:
+            guard let response = JsonDecoderService.decodeJsonToNetworkResponse(data: data, contentType: .People) as! CharacterNetworkResponse? else {return completion(nil)}
+            completion(response.name)
+        case .Planets:
+            completion(nil)
+        case .Species:
+            completion(nil)
+        case .Starships:
+            completion(nil)
+        case .Vehicles:
+            completion(nil)
+        }
+    }
+    
+    // MARK: - Json To Network Response
+    
+    static func decodeJsonToNetworkResponse(data: Data, contentType: ContentType) -> NetworkResponse? {
         let jsondec = JSONDecoder()
         switch contentType {
         case .Films:
             return nil
         case .People:
-            return nil
+            guard let result = try? jsondec.decode(CharacterNetworkResponse.self, from: data) else {
+                print("decodeJsonToEntity .person failed")
+                return nil}
+            return result
         case .Planets:
             guard let result = try? jsondec.decode(PlanetNetworkResponse.self, from: data) else {
-                print("planet nope")
+                print("decodeJsonToEntity .planet failed")
                 return nil}
             return result
         case .Species:

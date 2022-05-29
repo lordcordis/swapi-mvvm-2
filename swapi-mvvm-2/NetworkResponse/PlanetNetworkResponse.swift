@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct PlanetNetworkResponse: Codable {
+struct PlanetNetworkResponse: Codable, NetworkResponse {
     let name, rotationPeriod, orbitalPeriod, diameter: String
     let climate, gravity, terrain, surfaceWater: String
     let population: String

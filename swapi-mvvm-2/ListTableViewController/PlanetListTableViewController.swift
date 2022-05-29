@@ -95,12 +95,12 @@ class EntityListTableViewController: UITableViewController {
             Networking.getData(url: url) { result in
                 switch result {
                 case.success(let data):
-                    guard let res = JsonDecoderService.decodeJsonToEntity(data: data, contentType: .Planets) else {return}
-                    let viewModel = TestViewModel.init(planetResponse: res)
+                    guard let res = JsonDecoderService.decodeJsonToNetworkResponse(data: data, contentType: .Planets) else {return}
+                    let viewModel = PlanetInfoViewModel.init(planetResponse: res as! PlanetNetworkResponse)
                     print(viewModel.films)
 
                     DispatchQueue.main.async {
-                        let vc = TestTableViewController()
+                        let vc = PlanetInfoTableViewController()
                         vc.viewModel = viewModel
                         self.navigationController?.pushViewController(vc, animated: true)
                     }

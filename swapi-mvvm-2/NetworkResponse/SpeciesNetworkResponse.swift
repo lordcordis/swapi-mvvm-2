@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SpeciesNetworkResponse: Codable {
+struct SpeciesNetworkResponse: Codable, NetworkResponse {
     let name, classification: String
     let designation: Designation
     let averageHeight, skinColors, hairColors, eyeColors: String

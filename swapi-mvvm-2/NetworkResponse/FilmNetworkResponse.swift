@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FilmNetworkResponse: Codable {
+struct FilmNetworkResponse: Codable, NetworkResponse {
     
     let title: String
     let episodeID: Int
@@ -33,13 +33,6 @@ struct FilmListNetworkResponse: Codable {
     let previous: String?
     let results: [FilmNetworkResponse]
 }
-
-//struct GenericNetworkResponse: Codable {
-//    let count: Int
-//    let next: String
-//    let previous: String?
-//    let results: [FilmNetworkResponse]
-//}
 
 
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct VehicleNetworkResponse: Codable {
+struct VehicleNetworkResponse: Codable, NetworkResponse {
     let cargoCapacity, consumables, costInCredits, created: String
     let crew, edited, length, manufacturer: String
     let maxAtmospheringSpeed, model, name, passengers: String

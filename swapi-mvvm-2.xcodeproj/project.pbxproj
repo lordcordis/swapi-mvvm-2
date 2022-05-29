@@ -20,8 +20,6 @@
 		0057928A2842C2ED0081DDC3 /* characterDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005792862842C2ED0081DDC3 /* characterDescription.swift */; };
 		0057928B2842C2ED0081DDC3 /* filmDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005792872842C2ED0081DDC3 /* filmDescription.swift */; };
 		0057928C2842C2ED0081DDC3 /* vehicleDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005792882842C2ED0081DDC3 /* vehicleDescription.swift */; };
-		005D8D16284135F2009B241F /* EntityInfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005D8D15284135F2009B241F /* EntityInfoTableViewController.swift */; };
-		005D8D1B2842AE06009B241F /* EntityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005D8D1A2842AE06009B241F /* EntityViewModel.swift */; };
 		005DE317283AE85900290EC1 /* MainCollectionViewControllerViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE316283AE85900290EC1 /* MainCollectionViewControllerViewModelProtocol.swift */; };
 		005DE320283B81E000290EC1 /* FilmNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE31A283B81E000290EC1 /* FilmNetworkResponse.swift */; };
 		005DE321283B81E000290EC1 /* CharacterNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE31B283B81E000290EC1 /* CharacterNetworkResponse.swift */; };
@@ -30,8 +28,8 @@
 		005DE324283B81E000290EC1 /* PlanetNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE31E283B81E000290EC1 /* PlanetNetworkResponse.swift */; };
 		005DE325283B81E000290EC1 /* StarshipNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE31F283B81E000290EC1 /* StarshipNetworkResponse.swift */; };
 		005DE328283B836300290EC1 /* PlanetListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE327283B836300290EC1 /* PlanetListTableViewController.swift */; };
-		0070CBB628435A5F0071447E /* TestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0070CBB528435A5F0071447E /* TestViewModel.swift */; };
-		0070CBB8284366490071447E /* TestTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0070CBB7284366490071447E /* TestTableViewController.swift */; };
+		0070CBB628435A5F0071447E /* PlanetInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0070CBB528435A5F0071447E /* PlanetInfoViewModel.swift */; };
+		0070CBB8284366490071447E /* PlanetInfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0070CBB7284366490071447E /* PlanetInfoTableViewController.swift */; };
 		007CD938283BD3BF00452415 /* EntityListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007CD937283BD3BF00452415 /* EntityListViewModel.swift */; };
 		007CD93A283BD3FC00452415 /* EntityViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007CD939283BD3FC00452415 /* EntityViewModelProtocol.swift */; };
 /* End PBXBuildFile section */
@@ -52,8 +50,6 @@
 		005792862842C2ED0081DDC3 /* characterDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = characterDescription.swift; sourceTree = "<group>"; };
 		005792872842C2ED0081DDC3 /* filmDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = filmDescription.swift; sourceTree = "<group>"; };
 		005792882842C2ED0081DDC3 /* vehicleDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = vehicleDescription.swift; sourceTree = "<group>"; };
-		005D8D15284135F2009B241F /* EntityInfoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityInfoTableViewController.swift; sourceTree = "<group>"; };
-		005D8D1A2842AE06009B241F /* EntityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityViewModel.swift; sourceTree = "<group>"; };
 		005DE316283AE85900290EC1 /* MainCollectionViewControllerViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewControllerViewModelProtocol.swift; sourceTree = "<group>"; };
 		005DE31A283B81E000290EC1 /* FilmNetworkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilmNetworkResponse.swift; sourceTree = "<group>"; };
 		005DE31B283B81E000290EC1 /* CharacterNetworkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterNetworkResponse.swift; sourceTree = "<group>"; };
@@ -62,8 +58,8 @@
 		005DE31E283B81E000290EC1 /* PlanetNetworkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanetNetworkResponse.swift; sourceTree = "<group>"; };
 		005DE31F283B81E000290EC1 /* StarshipNetworkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarshipNetworkResponse.swift; sourceTree = "<group>"; };
 		005DE327283B836300290EC1 /* PlanetListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetListTableViewController.swift; sourceTree = "<group>"; };
-		0070CBB528435A5F0071447E /* TestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewModel.swift; sourceTree = "<group>"; };
-		0070CBB7284366490071447E /* TestTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTableViewController.swift; sourceTree = "<group>"; };
+		0070CBB528435A5F0071447E /* PlanetInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetInfoViewModel.swift; sourceTree = "<group>"; };
+		0070CBB7284366490071447E /* PlanetInfoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetInfoTableViewController.swift; sourceTree = "<group>"; };
 		007CD937283BD3BF00452415 /* EntityListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityListViewModel.swift; sourceTree = "<group>"; };
 		007CD939283BD3FC00452415 /* EntityViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityViewModelProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -127,10 +123,8 @@
 		005D8D17284135F8009B241F /* PlanetInfoTableView */ = {
 			isa = PBXGroup;
 			children = (
-				005D8D15284135F2009B241F /* EntityInfoTableViewController.swift */,
-				0070CBB7284366490071447E /* TestTableViewController.swift */,
-				005D8D1A2842AE06009B241F /* EntityViewModel.swift */,
-				0070CBB528435A5F0071447E /* TestViewModel.swift */,
+				0070CBB7284366490071447E /* PlanetInfoTableViewController.swift */,
+				0070CBB528435A5F0071447E /* PlanetInfoViewModel.swift */,
 			);
 			path = PlanetInfoTableView;
 			sourceTree = "<group>";
@@ -147,11 +141,11 @@
 		005DE319283B81E000290EC1 /* NetworkResponse */ = {
 			isa = PBXGroup;
 			children = (
+				005DE31E283B81E000290EC1 /* PlanetNetworkResponse.swift */,
 				005DE31A283B81E000290EC1 /* FilmNetworkResponse.swift */,
 				005DE31B283B81E000290EC1 /* CharacterNetworkResponse.swift */,
 				005DE31C283B81E000290EC1 /* VehicleNetworkResponse.swift */,
 				005DE31D283B81E000290EC1 /* SpeciesNetworkResponse.swift */,
-				005DE31E283B81E000290EC1 /* PlanetNetworkResponse.swift */,
 				005DE31F283B81E000290EC1 /* StarshipNetworkResponse.swift */,
 			);
 			path = NetworkResponse;
@@ -253,14 +247,12 @@
 				007CD93A283BD3FC00452415 /* EntityViewModelProtocol.swift in Sources */,
 				0057928B2842C2ED0081DDC3 /* filmDescription.swift in Sources */,
 				005DE323283B81E000290EC1 /* SpeciesNetworkResponse.swift in Sources */,
-				005D8D16284135F2009B241F /* EntityInfoTableViewController.swift in Sources */,
 				0018BD1028368E920066B1D8 /* Keys.swift in Sources */,
 				0018BD12283690FB0066B1D8 /* JsonDecoderService.swift in Sources */,
-				005D8D1B2842AE06009B241F /* EntityViewModel.swift in Sources */,
 				005DE325283B81E000290EC1 /* StarshipNetworkResponse.swift in Sources */,
 				005DE324283B81E000290EC1 /* PlanetNetworkResponse.swift in Sources */,
 				0018BD0C28368E290066B1D8 /* MainCollectionViewController.swift in Sources */,
-				0070CBB628435A5F0071447E /* TestViewModel.swift in Sources */,
+				0070CBB628435A5F0071447E /* PlanetInfoViewModel.swift in Sources */,
 				007CD938283BD3BF00452415 /* EntityListViewModel.swift in Sources */,
 				0018BD162836970B0066B1D8 /* MainScreenCell.swift in Sources */,
 				0018BCF828368DE90066B1D8 /* AppDelegate.swift in Sources */,
@@ -269,7 +261,7 @@
 				005DE321283B81E000290EC1 /* CharacterNetworkResponse.swift in Sources */,
 				005DE328283B836300290EC1 /* PlanetListTableViewController.swift in Sources */,
 				0018BCFA28368DE90066B1D8 /* SceneDelegate.swift in Sources */,
-				0070CBB8284366490071447E /* TestTableViewController.swift in Sources */,
+				0070CBB8284366490071447E /* PlanetInfoTableViewController.swift in Sources */,
 				0018BD14283696910066B1D8 /* MainCollectionViewControllerViewModel.swift in Sources */,
 				005DE317283AE85900290EC1 /* MainCollectionViewControllerViewModelProtocol.swift in Sources */,
 				005DE320283B81E000290EC1 /* FilmNetworkResponse.swift in Sources */,
@@ -417,6 +409,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -428,7 +421,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -445,6 +438,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -456,7 +450,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -7,20 +7,25 @@
 
 import UIKit
 
-class TestTableViewController: UITableViewController {
+class PlanetInfoTableViewController: UITableViewController, PlanetInfoViewModelDelegate {
     
-    var viewModel: TestViewModel?
+    
+    func updateView() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
+    
+    var viewModel: PlanetInfoViewModel? 
 
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        viewModel?.delegate = self
+        tableView.separatorStyle = .none
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: Keys.detailViewInfoCell)
         title = viewModel?.name
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     // MARK: - Table view data source
@@ -35,6 +40,8 @@ class TestTableViewController: UITableViewController {
             return 1
         case 1:
             return viewModel?.films.count ?? 0
+        case 2:
+            return viewModel?.residentNames.count ?? 0
         default:
             return 1
         }
@@ -48,12 +55,11 @@ class TestTableViewController: UITableViewController {
             config.text = viewModel?.description
         case 1:
             config.text = viewModel?.filmName(for: indexPath.row)
+        case 2:
+            config.text = viewModel?.residentNames[indexPath.row]
         default:
             config.text = "test"
         }
-        
-        
-        
         cell.contentConfiguration = config
         return cell
     }
@@ -64,6 +70,8 @@ class TestTableViewController: UITableViewController {
             return nil
         case 1:
             return "Films"
+        case 2:
+            return "Residents"
         default:
             return "no"
         }
@@ -113,5 +121,15 @@ class TestTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.section {
+        case 0: tableView.deselectRow(at: indexPath, animated: false)
+        case 1: print("selected")
+            tableView.deselectRow(at: indexPath, animated: true)
+        default:
+            print("default")
+        }
+    }
 
 }

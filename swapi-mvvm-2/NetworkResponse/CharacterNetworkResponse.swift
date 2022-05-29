@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct CharacterNetworkResponse: Codable {
+struct CharacterNetworkResponse: Codable, NetworkResponse {
     let name, height, mass, hairColor: String
     let skinColor, eyeColor, birthYear, gender: String
     let homeworld: String
