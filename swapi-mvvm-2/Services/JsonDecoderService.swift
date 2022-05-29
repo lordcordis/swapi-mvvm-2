@@ -7,11 +7,38 @@
 
 import Foundation
 
+protocol EntityViewModelProtocol {
+    var description: String {get}
+    var desc: String {get}
+}
+
 struct JsonDecoderService {
     static func decodeJsonToDictionary (data: Data) -> Dictionary<String, String>? {
         let jsonDec = JSONDecoder()
         guard let res = try? jsonDec.decode(Dictionary<String, String>.self, from: data) else {return nil}
         return res
+    }
+    
+    static func decodeJsonToEntity(data: Data, contentType: ContentType) -> PlanetNetworkResponse? {
+        let jsondec = JSONDecoder()
+        switch contentType {
+        case .Films:
+            return nil
+        case .People:
+            return nil
+        case .Planets:
+            guard let result = try? jsondec.decode(PlanetNetworkResponse.self, from: data) else {
+                print("planet nope")
+                return nil}
+            return result
+        case .Species:
+            return nil
+        case .Starships:
+            return nil
+        case .Vehicles:
+            return nil
+        }
+        
     }
     
     static func decodeJsonToEntityList(data: Data, contentType: ContentType) -> EntityListViewModelProtocol? {

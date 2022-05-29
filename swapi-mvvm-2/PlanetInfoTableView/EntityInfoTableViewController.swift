@@ -10,14 +10,18 @@ import UIKit
 
 
 
-class PlanetInfoTableViewController: UITableViewController {
+class EntityInfoTableViewController: UITableViewController {
     
-    var url: String?
-    var viewModel: EntityListViewModelProtocol?
+    var url: String!
+    
+    var viewModel: EntityViewModelProtocol!
     
     
     override func viewDidLoad() {
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: Keys.detailViewInfoCell)
         super.viewDidLoad()
+//        view.backgroundColor = .systemPink
+        print(viewModel.description)
         
         
         // Uncomment the following line to preserve selection between presentations
@@ -31,23 +35,22 @@ class PlanetInfoTableViewController: UITableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return 1
     }
     
-    /*
+
      override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-     let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-     
-     // Configure the cell...
-     
+         let cell = tableView.dequeueReusableCell(withIdentifier: Keys.detailViewInfoCell, for: indexPath)
+         var config = cell.defaultContentConfiguration()
+         config.text = viewModel.description
+         cell.contentConfiguration = config
      return cell
      }
-     */
     
     /*
      // Override to support conditional editing of the table view.
@@ -93,5 +96,9 @@ class PlanetInfoTableViewController: UITableViewController {
      // Pass the selected object to the new view controller.
      }
      */
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false    )
+    }
+    
     
 }

@@ -81,7 +81,36 @@ class EntityListTableViewController: UITableViewController {
         
         switch viewModel.contentType {
         case .Planets:
-            print(viewModel.contentType)
+//            let vc = EntityInfoTableViewController(style: .grouped)
+//            EntityViewModel.createViewModel(url: viewModel.urlArray[indexPath.row], type: .Planets) { viewModel in
+//                vc.viewModel = viewModel
+//
+//                DispatchQueue.main.async {
+//                    self.navigationController?.pushViewController(vc, animated: true)
+//                }
+//
+//            }
+            
+            let url = viewModel.urlArray[indexPath.row]
+            Networking.getData(url: url) { result in
+                switch result {
+                case.success(let data):
+                    guard let res = JsonDecoderService.decodeJsonToEntity(data: data, contentType: .Planets) else {return}
+                    let viewModel = TestViewModel.init(planetResponse: res)
+                    print(viewModel.films)
+
+                    DispatchQueue.main.async {
+                        let vc = TestTableViewController()
+                        vc.viewModel = viewModel
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
+                    
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+            
+            
         case .Films:
             print(viewModel.contentType)
         case .People:

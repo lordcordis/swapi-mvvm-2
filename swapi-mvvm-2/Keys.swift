@@ -11,6 +11,7 @@ struct Keys {
     static let initalURL = "https://swapi.dev/api/"
     static let mainScreenCellIdentificator = "mainScreenCellIdentificator"
     static let listTableViewCellId = "listTableViewCellId"
+    static let detailViewInfoCell = "detailViewInfoCell"
 //    static let planetsRootUrl = "https://swapi.dev/api/planets/"
 }
 

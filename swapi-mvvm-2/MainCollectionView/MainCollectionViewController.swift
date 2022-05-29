@@ -51,10 +51,8 @@ class MainCollectionViewController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //        print(viewModel.buttonURLs[indexPath.row])
         let type = viewModel.buttonNames[indexPath.row]
         guard let contentType = ContentType.init(rawValue: type) else {return}
-        print(contentType)
                 EntityListViewModel.createViewModel(url: viewModel.buttonURLs[indexPath.row], type: contentType, completion: { [weak self] result in
                     guard let self = self else {return}
                     DispatchQueue.main.async {
@@ -69,7 +67,6 @@ class MainCollectionViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Keys.mainScreenCellIdentificator, for: indexPath) as! MainScreenCell
         cell.backgroundColor = .systemPink
         cell.layer.cornerRadius = 10
-        cell.layer.shadowRadius = 2
         cell.headlineLabel.text = viewModel.textForButton(at: indexPath.row)
         return cell
     }
