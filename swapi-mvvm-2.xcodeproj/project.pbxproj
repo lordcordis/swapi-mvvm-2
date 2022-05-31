@@ -14,22 +14,21 @@
 		0018BD0C28368E290066B1D8 /* MainCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018BD0B28368E290066B1D8 /* MainCollectionViewController.swift */; };
 		0018BD0E28368E860066B1D8 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018BD0D28368E860066B1D8 /* Networking.swift */; };
 		0018BD1028368E920066B1D8 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018BD0F28368E920066B1D8 /* Keys.swift */; };
-		0018BD12283690FB0066B1D8 /* JsonDecoderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018BD11283690FB0066B1D8 /* JsonDecoderService.swift */; };
+		0018BD12283690FB0066B1D8 /* JsonService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018BD11283690FB0066B1D8 /* JsonService.swift */; };
 		0018BD14283696910066B1D8 /* MainCollectionViewControllerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018BD13283696910066B1D8 /* MainCollectionViewControllerViewModel.swift */; };
 		0018BD162836970B0066B1D8 /* MainScreenCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018BD152836970B0066B1D8 /* MainScreenCell.swift */; };
-		0057928A2842C2ED0081DDC3 /* characterDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005792862842C2ED0081DDC3 /* characterDescription.swift */; };
 		0057928B2842C2ED0081DDC3 /* filmDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005792872842C2ED0081DDC3 /* filmDescription.swift */; };
 		0057928C2842C2ED0081DDC3 /* vehicleDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005792882842C2ED0081DDC3 /* vehicleDescription.swift */; };
 		005DE317283AE85900290EC1 /* MainCollectionViewControllerViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE316283AE85900290EC1 /* MainCollectionViewControllerViewModelProtocol.swift */; };
 		005DE320283B81E000290EC1 /* FilmNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE31A283B81E000290EC1 /* FilmNetworkResponse.swift */; };
-		005DE321283B81E000290EC1 /* CharacterNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE31B283B81E000290EC1 /* CharacterNetworkResponse.swift */; };
+		005DE321283B81E000290EC1 /* PersonNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE31B283B81E000290EC1 /* PersonNetworkResponse.swift */; };
 		005DE322283B81E000290EC1 /* VehicleNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE31C283B81E000290EC1 /* VehicleNetworkResponse.swift */; };
 		005DE323283B81E000290EC1 /* SpeciesNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE31D283B81E000290EC1 /* SpeciesNetworkResponse.swift */; };
 		005DE324283B81E000290EC1 /* PlanetNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE31E283B81E000290EC1 /* PlanetNetworkResponse.swift */; };
 		005DE325283B81E000290EC1 /* StarshipNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE31F283B81E000290EC1 /* StarshipNetworkResponse.swift */; };
 		005DE328283B836300290EC1 /* PlanetListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE327283B836300290EC1 /* PlanetListTableViewController.swift */; };
 		0070CBB628435A5F0071447E /* InfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0070CBB528435A5F0071447E /* InfoViewModel.swift */; };
-		0070CBB8284366490071447E /* PlanetInfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0070CBB7284366490071447E /* PlanetInfoTableViewController.swift */; };
+		0070CBB8284366490071447E /* DetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0070CBB7284366490071447E /* DetailTableViewController.swift */; };
 		007CD938283BD3BF00452415 /* EntityListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007CD937283BD3BF00452415 /* EntityListViewModel.swift */; };
 		007CD93A283BD3FC00452415 /* EntityViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007CD939283BD3FC00452415 /* EntityViewModelProtocol.swift */; };
 /* End PBXBuildFile section */
@@ -44,22 +43,21 @@
 		0018BD0B28368E290066B1D8 /* MainCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewController.swift; sourceTree = "<group>"; };
 		0018BD0D28368E860066B1D8 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		0018BD0F28368E920066B1D8 /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
-		0018BD11283690FB0066B1D8 /* JsonDecoderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonDecoderService.swift; sourceTree = "<group>"; };
+		0018BD11283690FB0066B1D8 /* JsonService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonService.swift; sourceTree = "<group>"; };
 		0018BD13283696910066B1D8 /* MainCollectionViewControllerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewControllerViewModel.swift; sourceTree = "<group>"; };
 		0018BD152836970B0066B1D8 /* MainScreenCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainScreenCell.swift; sourceTree = "<group>"; };
-		005792862842C2ED0081DDC3 /* characterDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = characterDescription.swift; sourceTree = "<group>"; };
 		005792872842C2ED0081DDC3 /* filmDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = filmDescription.swift; sourceTree = "<group>"; };
 		005792882842C2ED0081DDC3 /* vehicleDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = vehicleDescription.swift; sourceTree = "<group>"; };
 		005DE316283AE85900290EC1 /* MainCollectionViewControllerViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewControllerViewModelProtocol.swift; sourceTree = "<group>"; };
 		005DE31A283B81E000290EC1 /* FilmNetworkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilmNetworkResponse.swift; sourceTree = "<group>"; };
-		005DE31B283B81E000290EC1 /* CharacterNetworkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterNetworkResponse.swift; sourceTree = "<group>"; };
+		005DE31B283B81E000290EC1 /* PersonNetworkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonNetworkResponse.swift; sourceTree = "<group>"; };
 		005DE31C283B81E000290EC1 /* VehicleNetworkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleNetworkResponse.swift; sourceTree = "<group>"; };
 		005DE31D283B81E000290EC1 /* SpeciesNetworkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeciesNetworkResponse.swift; sourceTree = "<group>"; };
 		005DE31E283B81E000290EC1 /* PlanetNetworkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanetNetworkResponse.swift; sourceTree = "<group>"; };
 		005DE31F283B81E000290EC1 /* StarshipNetworkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarshipNetworkResponse.swift; sourceTree = "<group>"; };
 		005DE327283B836300290EC1 /* PlanetListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetListTableViewController.swift; sourceTree = "<group>"; };
 		0070CBB528435A5F0071447E /* InfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewModel.swift; sourceTree = "<group>"; };
-		0070CBB7284366490071447E /* PlanetInfoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetInfoTableViewController.swift; sourceTree = "<group>"; };
+		0070CBB7284366490071447E /* DetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewController.swift; sourceTree = "<group>"; };
 		007CD937283BD3BF00452415 /* EntityListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityListViewModel.swift; sourceTree = "<group>"; };
 		007CD939283BD3FC00452415 /* EntityViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityViewModelProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -96,7 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				005DE326283B820A00290EC1 /* MainCollectionView */,
-				005D8D17284135F8009B241F /* PlanetInfoTableView */,
+				005D8D17284135F8009B241F /* DetailTableView */,
 				005DE329283B836C00290EC1 /* ListTableViewController */,
 				005DE319283B81E000290EC1 /* NetworkResponse */,
 				005DE318283B712100290EC1 /* Services */,
@@ -113,27 +111,26 @@
 		005792842842C2ED0081DDC3 /* Description */ = {
 			isa = PBXGroup;
 			children = (
-				005792862842C2ED0081DDC3 /* characterDescription.swift */,
 				005792872842C2ED0081DDC3 /* filmDescription.swift */,
 				005792882842C2ED0081DDC3 /* vehicleDescription.swift */,
 			);
 			path = Description;
 			sourceTree = "<group>";
 		};
-		005D8D17284135F8009B241F /* PlanetInfoTableView */ = {
+		005D8D17284135F8009B241F /* DetailTableView */ = {
 			isa = PBXGroup;
 			children = (
-				0070CBB7284366490071447E /* PlanetInfoTableViewController.swift */,
+				0070CBB7284366490071447E /* DetailTableViewController.swift */,
 				0070CBB528435A5F0071447E /* InfoViewModel.swift */,
 			);
-			path = PlanetInfoTableView;
+			path = DetailTableView;
 			sourceTree = "<group>";
 		};
 		005DE318283B712100290EC1 /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				0018BD0D28368E860066B1D8 /* Networking.swift */,
-				0018BD11283690FB0066B1D8 /* JsonDecoderService.swift */,
+				0018BD11283690FB0066B1D8 /* JsonService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -143,7 +140,7 @@
 			children = (
 				005DE31E283B81E000290EC1 /* PlanetNetworkResponse.swift */,
 				005DE31A283B81E000290EC1 /* FilmNetworkResponse.swift */,
-				005DE31B283B81E000290EC1 /* CharacterNetworkResponse.swift */,
+				005DE31B283B81E000290EC1 /* PersonNetworkResponse.swift */,
 				005DE31C283B81E000290EC1 /* VehicleNetworkResponse.swift */,
 				005DE31D283B81E000290EC1 /* SpeciesNetworkResponse.swift */,
 				005DE31F283B81E000290EC1 /* StarshipNetworkResponse.swift */,
@@ -248,7 +245,7 @@
 				0057928B2842C2ED0081DDC3 /* filmDescription.swift in Sources */,
 				005DE323283B81E000290EC1 /* SpeciesNetworkResponse.swift in Sources */,
 				0018BD1028368E920066B1D8 /* Keys.swift in Sources */,
-				0018BD12283690FB0066B1D8 /* JsonDecoderService.swift in Sources */,
+				0018BD12283690FB0066B1D8 /* JsonService.swift in Sources */,
 				005DE325283B81E000290EC1 /* StarshipNetworkResponse.swift in Sources */,
 				005DE324283B81E000290EC1 /* PlanetNetworkResponse.swift in Sources */,
 				0018BD0C28368E290066B1D8 /* MainCollectionViewController.swift in Sources */,
@@ -257,11 +254,10 @@
 				0018BD162836970B0066B1D8 /* MainScreenCell.swift in Sources */,
 				0018BCF828368DE90066B1D8 /* AppDelegate.swift in Sources */,
 				0057928C2842C2ED0081DDC3 /* vehicleDescription.swift in Sources */,
-				0057928A2842C2ED0081DDC3 /* characterDescription.swift in Sources */,
-				005DE321283B81E000290EC1 /* CharacterNetworkResponse.swift in Sources */,
+				005DE321283B81E000290EC1 /* PersonNetworkResponse.swift in Sources */,
 				005DE328283B836300290EC1 /* PlanetListTableViewController.swift in Sources */,
 				0018BCFA28368DE90066B1D8 /* SceneDelegate.swift in Sources */,
-				0070CBB8284366490071447E /* PlanetInfoTableViewController.swift in Sources */,
+				0070CBB8284366490071447E /* DetailTableViewController.swift in Sources */,
 				0018BD14283696910066B1D8 /* MainCollectionViewControllerViewModel.swift in Sources */,
 				005DE317283AE85900290EC1 /* MainCollectionViewControllerViewModelProtocol.swift in Sources */,
 				005DE320283B81E000290EC1 /* FilmNetworkResponse.swift in Sources */,

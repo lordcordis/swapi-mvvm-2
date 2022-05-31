@@ -32,7 +32,7 @@ class MainCollectionViewControllerViewModel: MainCollectionViewControllerViewMod
             case.failure(.badURL):
                 print("Bad URL")
             case .success(let data):
-                guard let jsonOutput = JsonDecoderService.decodeJsonToDictionary(data: data) else {return}
+                guard let jsonOutput = JsonService.decodeJsonToDictionary(data: data) else {return}
                 for (name, path) in jsonOutput.sorted(by: <) {
                     self?.buttonNames.append(name.capitalized)
                     self?.buttonURLs.append(path)

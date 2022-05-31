@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct CharacterNetworkResponse: Codable, NetworkResponse {
+struct PersonNetworkResponse: Codable, NetworkResponse {
     let name, height, mass, hairColor: String
     let skinColor, eyeColor, birthYear, gender: String
     let homeworld: String
@@ -32,7 +32,7 @@ struct CharacterListNetworkResponse: Codable {
     let count: Int
     let next: String
     let previous: String?
-    let results: [CharacterNetworkResponse]
+    let results: [PersonNetworkResponse]
 }
 
 

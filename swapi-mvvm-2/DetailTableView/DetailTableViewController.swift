@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PlanetInfoTableViewController: UITableViewController, InfoViewModelDelegate {
+ class DetailTableViewController: UITableViewController, InfoViewModelDelegate {
     
     
     func updateView() {
@@ -17,7 +17,12 @@ class PlanetInfoTableViewController: UITableViewController, InfoViewModelDelegat
     }
     
     
-    var viewModel: InfoViewModel? 
+     var viewModel: InfoViewModel?
+//     {
+//         didSet{
+//             updateView()
+//         }
+//     }
 
     override func viewDidLoad() {
         
@@ -41,17 +46,23 @@ class PlanetInfoTableViewController: UITableViewController, InfoViewModelDelegat
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Keys.detailViewInfoCell, for: indexPath)
         var config = cell.defaultContentConfiguration()
+        
         switch indexPath.section {
         case 0:
             config.text = viewModel?.giveDescription()
         case 1:
             config.text = viewModel?.filmName(for: indexPath.row)
         case 2:
-//            config.text = viewModel?.residentNames[indexPath.row]
             config.text = viewModel?.residentName(for: indexPath.row)
+        case 3:
+            config.text = viewModel?.planetName(for: indexPath.row)
         default:
             config.text = "test"
         }
+        
+        
+        
+        
         cell.contentConfiguration = config
         return cell
     }
