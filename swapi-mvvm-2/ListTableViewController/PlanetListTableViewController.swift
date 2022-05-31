@@ -80,27 +80,15 @@ class EntityListTableViewController: UITableViewController {
         print(viewModel.urlArray[indexPath.row])
         
         switch viewModel.contentType {
-        case .Planets:
-//            let vc = EntityInfoTableViewController(style: .grouped)
-//            EntityViewModel.createViewModel(url: viewModel.urlArray[indexPath.row], type: .Planets) { viewModel in
-//                vc.viewModel = viewModel
-//
-//                DispatchQueue.main.async {
-//                    self.navigationController?.pushViewController(vc, animated: true)
-//                }
-//
-//            }
-            
+        case .Planets:            
             let url = viewModel.urlArray[indexPath.row]
             Networking.getData(url: url) { result in
                 switch result {
                 case.success(let data):
                     guard let res = JsonDecoderService.decodeJsonToNetworkResponse(data: data, contentType: .Planets) else {return}
-                    let viewModel = PlanetInfoViewModel.init(planetResponse: res as! PlanetNetworkResponse)
-                    print(viewModel.films)
-
+                    let viewModel = InfoViewModel.init(response: res as! PlanetNetworkResponse, contentType: .Planets)
                     DispatchQueue.main.async {
-                        let vc = PlanetInfoTableViewController()
+                        let vc = PlanetInfoTableViewController(style: .insetGrouped)
                         vc.viewModel = viewModel
                         self.navigationController?.pushViewController(vc, animated: true)
                     }

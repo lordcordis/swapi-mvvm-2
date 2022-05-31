@@ -17,6 +17,7 @@ protocol NetworkResponse {
 }
 
 struct JsonDecoderService {
+    
     static func decodeJsonToDictionary (data: Data) -> Dictionary<String, String>? {
         let jsonDec = JSONDecoder()
         guard let res = try? jsonDec.decode(Dictionary<String, String>.self, from: data) else {return nil}
@@ -28,7 +29,9 @@ struct JsonDecoderService {
     static func decodeJsonToName(data: Data, contentType: ContentType, completion: @escaping (String?)->()) {
         switch contentType {
         case .Films:
-            completion(nil)
+            guard let response = JsonDecoderService.decodeJsonToNetworkResponse(data: data, contentType: .Films) as! FilmNetworkResponse? else {print("JsonDecoderService film fucked")
+                return completion(nil)}
+            completion(response.title)
         case .People:
             guard let response = JsonDecoderService.decodeJsonToNetworkResponse(data: data, contentType: .People) as! CharacterNetworkResponse? else {return completion(nil)}
             completion(response.name)
@@ -49,7 +52,10 @@ struct JsonDecoderService {
         let jsondec = JSONDecoder()
         switch contentType {
         case .Films:
-            return nil
+            guard let result = try? jsondec.decode(FilmNetworkResponse.self, from: data) else {
+                print("decodeJsonToEntity .film failed")
+                return nil}
+            return result
         case .People:
             guard let result = try? jsondec.decode(CharacterNetworkResponse.self, from: data) else {
                 print("decodeJsonToEntity .person failed")
@@ -61,11 +67,20 @@ struct JsonDecoderService {
                 return nil}
             return result
         case .Species:
-            return nil
+            guard let result = try? jsondec.decode(SpeciesNetworkResponse.self, from: data) else {
+                print("decodeJsonToEntity .species failed")
+                return nil}
+            return result
         case .Starships:
-            return nil
+            guard let result = try? jsondec.decode(StarshipNetworkResponse.self, from: data) else {
+                print("decodeJsonToEntity .starship failed")
+                return nil}
+            return result
         case .Vehicles:
-            return nil
+            guard let result = try? jsondec.decode(VehicleNetworkResponse.self, from: data) else {
+                print("decodeJsonToEntity .vehicle failed")
+                return nil}
+            return result
         }
         
     }
