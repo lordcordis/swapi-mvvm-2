@@ -9,6 +9,7 @@ import Foundation
 
 
 protocol EntityListViewModelProtocol {
+    func generateViewModel (indexPath: IndexPath, viewModel: EntityListViewModelProtocol, completion: @escaping (InfoViewModel?)->Void)
     var array: [String] {get set}
     func textFor(indexPath: Int) -> String
     var urlArray: [String] {get set}

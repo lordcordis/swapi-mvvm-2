@@ -13,8 +13,6 @@ func filmDescription (film: FilmNetworkResponse) -> String {
     Director: \(film.director)\n
     Producer: \(film.producer)\n
     Release date: \(film.releaseDate)\n
-    Characters: \(film.characters)\n
-    Planets: \(film.planets)\n
     Starships: \(film.planets)\n
     Vehicles: \(film.planets)\n
     Species: \(film.species)\n

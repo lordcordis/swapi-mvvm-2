@@ -16,7 +16,7 @@ class EntityListTableViewController: UITableViewController {
             }
         }
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -37,19 +37,17 @@ class EntityListTableViewController: UITableViewController {
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: Keys.listTableViewCellId)
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return viewModel.array.count
     }
-
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Keys.listTableViewCellId, for: indexPath)
@@ -67,61 +65,61 @@ class EntityListTableViewController: UITableViewController {
                 print("\(self.viewModel.contentType) TYPE")
                 self.viewModel.array.append(contentsOf: result.array)
                 self.viewModel.urlArray.append(contentsOf: result.urlArray)
-//                print(self.viewModel.array.count)
+                //                print(self.viewModel.array.count)
                 self.viewModel.nextUrl = result.nextUrl
-//                print(self.viewModel.nextUrl)
+                //                print(self.viewModel.nextUrl)
                 
             }
         }
     }
-
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-        print(viewModel.urlArray[indexPath.row])
+//        print(viewModel.urlArray[indexPath.row])
         
-        switch viewModel.contentType {
-        case .Planets:
-//            let vc = EntityInfoTableViewController(style: .grouped)
-//            EntityViewModel.createViewModel(url: viewModel.urlArray[indexPath.row], type: .Planets) { viewModel in
-//                vc.viewModel = viewModel
-//
-//                DispatchQueue.main.async {
-//                    self.navigationController?.pushViewController(vc, animated: true)
-//                }
-//
-//            }
-            
-            let url = viewModel.urlArray[indexPath.row]
-            Networking.getData(url: url) { result in
-                switch result {
-                case.success(let data):
-                    guard let res = JsonDecoderService.decodeJsonToNetworkResponse(data: data, contentType: .Planets) else {return}
-                    let viewModel = PlanetInfoViewModel.init(planetResponse: res as! PlanetNetworkResponse)
-                    print(viewModel.films)
-
-                    DispatchQueue.main.async {
-                        let vc = PlanetInfoTableViewController()
-                        vc.viewModel = viewModel
-                        self.navigationController?.pushViewController(vc, animated: true)
-                    }
-                    
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
+        viewModel.generateViewModel(indexPath: indexPath, viewModel: self.viewModel) { viewModelExport in
+            guard let viewModelExport = viewModelExport else {
+                return
+            }
+            DispatchQueue.main.async {
+                let vc = DetailTableViewController(style: .insetGrouped)
+                vc.viewModel = viewModelExport
+                self.navigationController?.pushViewController(vc, animated: true)
             }
             
-            
-        case .Films:
-            print(viewModel.contentType)
-        case .People:
-            print(viewModel.contentType)
-        case .Species:
-            print(viewModel.contentType)
-        case .Starships:
-            print(viewModel.contentType)
-        case .Vehicles:
-            print(viewModel.contentType)
         }
+        
+        //        switch viewModel.contentType {
+        //        case .Planets:
+        //            let url = viewModel.urlArray[indexPath.row]
+        //            Networking.getData(url: url) { result in
+        //                switch result {
+        //                case.success(let data):
+        //                    guard let res = JsonDecoderService.decodeJsonToNetworkResponse(data: data, contentType: .Planets) else {return}
+        //                    let viewModel = InfoViewModel.init(response: res as! PlanetNetworkResponse, contentType: .Planets)
+        //                    DispatchQueue.main.async {
+        //                        let vc = PlanetInfoTableViewController(style: .insetGrouped)
+        //                        vc.viewModel = viewModel
+        //                        self.navigationController?.pushViewController(vc, animated: true)
+        //                    }
+        //
+        //                case .failure(let error):
+        //                    print(error.localizedDescription)
+        //                }
+        //            }
+        //
+        //
+        //        case .Films:
+        //            print(viewModel.contentType)
+        //        case .People:
+        //            print(viewModel.contentType)
+        //        case .Species:
+        //            print(viewModel.contentType)
+        //        case .Starships:
+        //            print(viewModel.contentType)
+        //        case .Vehicles:
+        //            print(viewModel.contentType)
+        //        }
     }
     
 }
