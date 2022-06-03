@@ -16,6 +16,25 @@ struct StarshipNetworkResponse: Codable, NetworkResponse {
     let pilots: [String]?
     let starshipClass: String
     let url: String
+    
+    var description: String {
+        let output = """
+        MGLT: \(mglt)\n
+        Cargo capacity: \(cargoCapacity)\n
+        Consumables: \(consumables)\n
+        Cost in credits: \(costInCredits)\n
+        Crew: \(crew)\n
+        Hyperdrive rating: \(hyperdriveRating)\n
+        Length: \(length)\n
+        Manufacturer: \(manufacturer)\n
+        Max atmosphering speed: \(maxAtmospheringSpeed)\n
+        Model: \(model)\n
+        Name: \(name)\n
+        Passengers: \(passengers)\n
+        Starship class: \(starshipClass)
+        """
+        return output
+    }
 
     enum CodingKeys: String, CodingKey {
         case mglt = "MGLT"

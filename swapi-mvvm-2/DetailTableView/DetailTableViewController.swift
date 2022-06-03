@@ -27,6 +27,7 @@ import UIKit
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
         viewModel?.delegate = self
         tableView.separatorStyle = .none
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: Keys.detailViewInfoCell)
@@ -56,6 +57,8 @@ import UIKit
             config.text = viewModel?.residentName(for: indexPath.row)
         case 3:
             config.text = viewModel?.planetName(for: indexPath.row)
+        case 4:
+            config.text = viewModel?.vehicleName(for: indexPath.row)
         default:
             config.text = "test"
         }

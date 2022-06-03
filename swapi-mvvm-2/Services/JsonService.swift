@@ -20,8 +20,8 @@ struct JsonService {
     
     static func decodeJsonToDictionary (data: Data) -> Dictionary<String, String>? {
         let jsonDec = JSONDecoder()
-        guard let res = try? jsonDec.decode(Dictionary<String, String>.self, from: data) else {return nil}
-        return res
+        guard let response = try? jsonDec.decode(Dictionary<String, String>.self, from: data) else {return nil}
+        return response
     }
     
     // MARK: - Json To Name

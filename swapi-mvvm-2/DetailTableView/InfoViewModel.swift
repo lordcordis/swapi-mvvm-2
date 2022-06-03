@@ -24,13 +24,39 @@ class InfoViewModel {
         case 1:
             return contentType == .Films ? nil : "Films"
         case 2:
-            return contentType == .People ? nil : "Residents"
+//            return contentType == .People ? nil : "Residents"
+            switch contentType {
+            case .Films:
+                return "Characters"
+            case .People:
+                return nil
+            case .Vehicles:
+                return "Pilots"
+            case .Planets, .Species:
+                return "Residents"
+            case .Starships:
+                return residentNames.isEmpty ? nil : "Pilots"
+            }
         case 3:
-            return "Homeworld"
+            switch contentType {
+            case .Films:
+                return "Planets"
+            case .Species, .People :
+                return "Homeworld"
+            case .Planets, .Vehicles, .Starships:
+                return nil
+            }
+        case 4:
+//            return "Vehicles"
+            return vehicleNames.isEmpty ? nil : "Vehicles"
+            
+            
         default:
-            return "no"
+            return "header-in-section"
         }
     }
+    
+    
     
     func rowsInSection(section: Int) -> Int {
         switch section {
@@ -42,6 +68,8 @@ class InfoViewModel {
             return self.residentNames.count
         case 3:
             return self.planetNames.count
+        case 4:
+            return self.vehicleNames.count
         default:
             return 1
         }
@@ -60,9 +88,7 @@ class InfoViewModel {
     Birth year: \(character.birthYear) \n
     Gender: \(character.gender.capitalized) \n
     Species: \([character.species]) \n
-    Vehicles: \(character.vehicles) \n
     Starships: \(character.starships) \n
-    Homeworld: \(character.homeworld)
     """
         
         
@@ -92,7 +118,7 @@ class InfoViewModel {
     var name: String = ""
     
     var numberOfSections: Int {
-        return 4
+        return 5
     }
     
     func filmName(for indexpath: Int) -> String {
@@ -107,6 +133,11 @@ class InfoViewModel {
         return planetNames[indexpath]
     }
     
+    func vehicleName(for indexpath: Int) -> String {
+        return vehicleNames[indexpath]
+    }
+    
+    
     func giveDescription() -> String {
         return description
     }
@@ -116,10 +147,14 @@ class InfoViewModel {
     private var filmURLArray: [String] = []
     private var residentsURLArray: [String] = []
     private var planetURLArray: [String] = []
+    private var vehicleURLArray: [String] = []
+    private var starshipsURLArray: [String] = []
     
     private var filmNames: [String] = []
     private var residentNames: [String] = []
     private var planetNames: [String] = []
+    private var vehicleNames: [String] = []
+    private var starshipNames: [String] = []
     
     //    MARK: Info Fill
     
@@ -137,13 +172,13 @@ class InfoViewModel {
                                 self.residentNames.append(name)
                             case .Planets:
                                 self.planetNames.append(name)
-                                print(self.planetNames)
+//                                print(self.planetNames)
                             case .Species:
                                 return
                             case .Starships:
-                                return
+                                self.starshipNames.append(name)
                             case .Vehicles:
-                                return
+                                self.vehicleNames.append(name)
                             }
                             self.delegate?.updateView()
                         }
@@ -172,7 +207,18 @@ class InfoViewModel {
             self.residentsURLArray = filmResponse?.characters ?? []
             print(residentsURLArray)
             fillInfo(arrayOfUrls: residentsURLArray, contentType: .People)
-            print(residentNames)
+//            print(residentNames)
+            
+            self.vehicleURLArray = filmResponse?.vehicles ?? []
+            print(vehicleURLArray)
+            fillInfo(arrayOfUrls: vehicleURLArray, contentType: .Vehicles)
+            print(vehicleNames)
+            
+            guard let planetURL = filmResponse?.planets else {return}
+            self.planetURLArray.append(contentsOf: planetURL)
+            fillInfo(arrayOfUrls: self.planetURLArray, contentType: .Planets)
+            
+            
         case .People:
             self.contentType = .People
             let characterResponse = response as? PersonNetworkResponse
@@ -186,6 +232,11 @@ class InfoViewModel {
             self.planetURLArray.append(homeworldURL ?? "")
                 fillInfo(arrayOfUrls: self.planetURLArray, contentType: .Planets)
             print(self.planetNames)
+            
+            self.vehicleURLArray = characterResponse?.vehicles ?? []
+            print(vehicleURLArray)
+            fillInfo(arrayOfUrls: vehicleURLArray, contentType: .Vehicles)
+            print(vehicleNames)
             
             
         case .Planets:
@@ -205,8 +256,35 @@ class InfoViewModel {
             self.contentType = .Species
         case .Starships:
             self.contentType = .Starships
+            let starshipResponse = response as? StarshipNetworkResponse
+            self.name = starshipResponse?.name ?? "starship name"
+            self.description = starshipResponse?.description ?? "description is empty"
+//            films
+            self.filmURLArray = starshipResponse?.films ?? []
+            fillInfo(arrayOfUrls: filmURLArray, contentType: .Films)
+//            pilots
+            self.residentsURLArray = starshipResponse?.pilots ?? []
+            fillInfo(arrayOfUrls: residentsURLArray, contentType: .People)
+            
         case .Vehicles:
             self.contentType = .Vehicles
+            
+            let vehicleResponse = response as? VehicleNetworkResponse
+            
+            self.name = vehicleResponse?.name ?? "vehicle name"
+            self.filmURLArray = vehicleResponse?.films ?? []
+            self.residentsURLArray = vehicleResponse?.pilots ?? []
+            
+            guard let desc = vehicleResponse?.descriptionString
+            else {return}
+            self.description = desc
+            
+            fillInfo(arrayOfUrls: filmURLArray, contentType: .Films)
+            fillInfo(arrayOfUrls: residentsURLArray, contentType: .People)
+            
+            
+            
+            
         }
         
         
