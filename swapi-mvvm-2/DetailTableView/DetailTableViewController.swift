@@ -59,6 +59,8 @@ import UIKit
             config.text = viewModel?.planetName(for: indexPath.row)
         case 4:
             config.text = viewModel?.vehicleName(for: indexPath.row)
+        case 5:
+            config.text = viewModel?.speciesName(for: indexPath.row)
         default:
             config.text = "test"
         }

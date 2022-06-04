@@ -61,7 +61,7 @@ class EntityListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == viewModel.array.count - 1 {
             print("end of array")
-            EntityListViewModel.createViewModel(url: viewModel.nextUrl, type: viewModel.contentType) { result in
+            EntityListViewModel.createEntityListViewModel(url: viewModel.nextUrl, type: viewModel.contentType) { result in
                 print("\(self.viewModel.contentType) TYPE")
                 self.viewModel.array.append(contentsOf: result.array)
                 self.viewModel.urlArray.append(contentsOf: result.urlArray)

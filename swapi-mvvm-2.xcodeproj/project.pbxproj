@@ -17,8 +17,6 @@
 		0018BD12283690FB0066B1D8 /* JsonService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018BD11283690FB0066B1D8 /* JsonService.swift */; };
 		0018BD14283696910066B1D8 /* MainCollectionViewControllerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018BD13283696910066B1D8 /* MainCollectionViewControllerViewModel.swift */; };
 		0018BD162836970B0066B1D8 /* MainScreenCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018BD152836970B0066B1D8 /* MainScreenCell.swift */; };
-		0057928B2842C2ED0081DDC3 /* filmDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005792872842C2ED0081DDC3 /* filmDescription.swift */; };
-		0057928C2842C2ED0081DDC3 /* vehicleDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005792882842C2ED0081DDC3 /* vehicleDescription.swift */; };
 		005DE317283AE85900290EC1 /* MainCollectionViewControllerViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE316283AE85900290EC1 /* MainCollectionViewControllerViewModelProtocol.swift */; };
 		005DE320283B81E000290EC1 /* FilmNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE31A283B81E000290EC1 /* FilmNetworkResponse.swift */; };
 		005DE321283B81E000290EC1 /* PersonNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE31B283B81E000290EC1 /* PersonNetworkResponse.swift */; };
@@ -47,8 +45,6 @@
 		0018BD11283690FB0066B1D8 /* JsonService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonService.swift; sourceTree = "<group>"; };
 		0018BD13283696910066B1D8 /* MainCollectionViewControllerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewControllerViewModel.swift; sourceTree = "<group>"; };
 		0018BD152836970B0066B1D8 /* MainScreenCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainScreenCell.swift; sourceTree = "<group>"; };
-		005792872842C2ED0081DDC3 /* filmDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = filmDescription.swift; sourceTree = "<group>"; };
-		005792882842C2ED0081DDC3 /* vehicleDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = vehicleDescription.swift; sourceTree = "<group>"; };
 		005DE316283AE85900290EC1 /* MainCollectionViewControllerViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewControllerViewModelProtocol.swift; sourceTree = "<group>"; };
 		005DE31A283B81E000290EC1 /* FilmNetworkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilmNetworkResponse.swift; sourceTree = "<group>"; };
 		005DE31B283B81E000290EC1 /* PersonNetworkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonNetworkResponse.swift; sourceTree = "<group>"; };
@@ -78,7 +74,6 @@
 		0018BCEB28368DE90066B1D8 = {
 			isa = PBXGroup;
 			children = (
-				005792842842C2ED0081DDC3 /* Description */,
 				0018BCF628368DE90066B1D8 /* swapi-mvvm-2 */,
 				0018BCF528368DE90066B1D8 /* Products */,
 			);
@@ -108,15 +103,6 @@
 				0018BD0528368DEB0066B1D8 /* Info.plist */,
 			);
 			path = "swapi-mvvm-2";
-			sourceTree = "<group>";
-		};
-		005792842842C2ED0081DDC3 /* Description */ = {
-			isa = PBXGroup;
-			children = (
-				005792872842C2ED0081DDC3 /* filmDescription.swift */,
-				005792882842C2ED0081DDC3 /* vehicleDescription.swift */,
-			);
-			path = Description;
 			sourceTree = "<group>";
 		};
 		005D8D17284135F8009B241F /* DetailTableView */ = {
@@ -245,7 +231,6 @@
 				005DE322283B81E000290EC1 /* VehicleNetworkResponse.swift in Sources */,
 				0018BD0E28368E860066B1D8 /* Networking.swift in Sources */,
 				007CD93A283BD3FC00452415 /* EntityViewModelProtocol.swift in Sources */,
-				0057928B2842C2ED0081DDC3 /* filmDescription.swift in Sources */,
 				005DE323283B81E000290EC1 /* SpeciesNetworkResponse.swift in Sources */,
 				0018BD1028368E920066B1D8 /* Keys.swift in Sources */,
 				0018BD12283690FB0066B1D8 /* JsonService.swift in Sources */,
@@ -256,7 +241,6 @@
 				007CD938283BD3BF00452415 /* EntityListViewModel.swift in Sources */,
 				0018BD162836970B0066B1D8 /* MainScreenCell.swift in Sources */,
 				0018BCF828368DE90066B1D8 /* AppDelegate.swift in Sources */,
-				0057928C2842C2ED0081DDC3 /* vehicleDescription.swift in Sources */,
 				005DE321283B81E000290EC1 /* PersonNetworkResponse.swift in Sources */,
 				005DE328283B836300290EC1 /* PlanetListTableViewController.swift in Sources */,
 				0018BCFA28368DE90066B1D8 /* SceneDelegate.swift in Sources */,

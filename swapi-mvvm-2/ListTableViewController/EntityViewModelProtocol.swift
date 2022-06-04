@@ -15,7 +15,7 @@ protocol EntityListViewModelProtocol {
     var urlArray: [String] {get set}
     var nextUrl: String {get set}
     var contentType: ContentType {get set}
-    static func createViewModel(url: String, type: ContentType, completion: @escaping (EntityListViewModelProtocol) -> Void)
+    static func createEntityListViewModel(url: String, type: ContentType, completion: @escaping (EntityListViewModelProtocol) -> Void)
 }
 
 

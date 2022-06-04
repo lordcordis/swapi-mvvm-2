@@ -16,7 +16,13 @@ struct EntityListViewModel: EntityListViewModelProtocol {
     }
     
     func generateViewModelHelper (viewModel: EntityListViewModelProtocol, indexPath: IndexPath, contentType: ContentType, responseType: NetworkResponse.Type, completion: @escaping (InfoViewModel?)->Void) {
+        
+        
         let url = viewModel.urlArray[indexPath.row]
+        
+        
+        
+        
         Networking.getData(url: url) { result in
             switch result {
             case.success(let data):
@@ -105,10 +111,8 @@ struct EntityListViewModel: EntityListViewModelProtocol {
 //            }
             
             generateViewModelHelper(viewModel: viewModel, indexPath: indexPath, contentType: .People, responseType: PersonNetworkResponse.self, completion: completion)
-            
-            
         case .Species:
-            print(viewModel.contentType)
+            generateViewModelHelper(viewModel: viewModel, indexPath: indexPath, contentType: .Species, responseType: SpeciesNetworkResponse.self, completion: completion)
         case .Starships:
             generateViewModelHelper(viewModel: viewModel, indexPath: indexPath, contentType: .Starships, responseType: StarshipNetworkResponse.self, completion: completion)
         case .Vehicles:
@@ -159,7 +163,7 @@ struct EntityListViewModel: EntityListViewModelProtocol {
     //        }
     //    }
     
-    static func createViewModel(url: String, type: ContentType, completion: @escaping (EntityListViewModelProtocol) -> Void) {
+    static func createEntityListViewModel(url: String, type: ContentType, completion: @escaping (EntityListViewModelProtocol) -> Void) {
         Networking.getData(url: url) { result in
             switch (result, type) {
             case (.success(let data), .People):

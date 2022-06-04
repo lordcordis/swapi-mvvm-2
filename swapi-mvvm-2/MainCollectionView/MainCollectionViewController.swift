@@ -53,7 +53,7 @@ class MainCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let type = viewModel.buttonNames[indexPath.row]
         guard let contentType = ContentType.init(rawValue: type) else {return}
-                EntityListViewModel.createViewModel(url: viewModel.buttonURLs[indexPath.row], type: contentType, completion: { [weak self] result in
+                EntityListViewModel.createEntityListViewModel(url: viewModel.buttonURLs[indexPath.row], type: contentType, completion: { [weak self] result in
                     guard let self = self else {return}
                     DispatchQueue.main.async {
                         let vm = EntityListTableViewController(style: .plain)
