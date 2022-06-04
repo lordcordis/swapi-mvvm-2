@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00104DCC284C14D80054FC26 /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00104DCB284C14D80054FC26 /* Generator.swift */; };
 		0018BCF828368DE90066B1D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018BCF728368DE90066B1D8 /* AppDelegate.swift */; };
 		0018BCFA28368DE90066B1D8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018BCF928368DE90066B1D8 /* SceneDelegate.swift */; };
 		0018BD0128368DEB0066B1D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0018BD0028368DEB0066B1D8 /* Assets.xcassets */; };
@@ -33,6 +34,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		00104DCB284C14D80054FC26 /* Generator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Generator.swift; sourceTree = "<group>"; };
 		0018BCF428368DE90066B1D8 /* swapi-mvvm-2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "swapi-mvvm-2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0018BCF728368DE90066B1D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0018BCF928368DE90066B1D8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 			children = (
 				007CD939283BD3FC00452415 /* EntityViewModelProtocol.swift */,
 				007CD937283BD3BF00452415 /* EntityListViewModel.swift */,
+				00104DCB284C14D80054FC26 /* Generator.swift */,
 				005DE327283B836300290EC1 /* PlanetListTableViewController.swift */,
 			);
 			path = ListTableViewController;
@@ -245,6 +248,7 @@
 				005DE328283B836300290EC1 /* PlanetListTableViewController.swift in Sources */,
 				0018BCFA28368DE90066B1D8 /* SceneDelegate.swift in Sources */,
 				0070CBB8284366490071447E /* DetailTableViewController.swift in Sources */,
+				00104DCC284C14D80054FC26 /* Generator.swift in Sources */,
 				0018BD14283696910066B1D8 /* MainCollectionViewControllerViewModel.swift in Sources */,
 				005DE317283AE85900290EC1 /* MainCollectionViewControllerViewModelProtocol.swift in Sources */,
 				00E68725284AA2A700BF5D79 /* DescriptionService.swift in Sources */,

@@ -150,12 +150,12 @@ class InfoViewModel {
     
     private var description: String = ""
     
-    private var filmURLArray: [String] = []
-    private var residentsURLArray: [String] = []
-    private var planetURLArray: [String] = []
-    private var vehicleURLArray: [String] = []
-    private var starshipsURLArray: [String] = []
-    private var speciesURLArray: [String] = []
+    var filmURLArray: [String] = []
+    var residentsURLArray: [String] = []
+    var planetURLArray: [String] = []
+    var vehicleURLArray: [String] = []
+    var starshipsURLArray: [String] = []
+    var speciesURLArray: [String] = []
     
     private var filmNames: [String] = []
     private var residentNames: [String] = []

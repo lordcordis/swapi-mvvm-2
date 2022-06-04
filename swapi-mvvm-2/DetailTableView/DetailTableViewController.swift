@@ -18,11 +18,6 @@ import UIKit
     
     
      var viewModel: InfoViewModel?
-//     {
-//         didSet{
-//             updateView()
-//         }
-//     }
 
     override func viewDidLoad() {
         
@@ -64,10 +59,6 @@ import UIKit
         default:
             config.text = "test"
         }
-        
-        
-        
-        
         cell.contentConfiguration = config
         return cell
     }
@@ -78,11 +69,74 @@ import UIKit
 
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         switch indexPath.section {
         case 0: tableView.deselectRow(at: indexPath, animated: false)
         case 1:
-//            print("selected")
             tableView.deselectRow(at: indexPath, animated: true)
+            guard let viewModel = viewModel else {
+                return
+            }
+            Generator.generateViewModelHelper(url: viewModel.filmURLArray[indexPath.row], contentType: .Films, responseType: FilmNetworkResponse.self) { viewModel in
+                
+                DispatchQueue.main.async {
+                    let vc = DetailTableViewController(style: .insetGrouped)
+                    vc.viewModel = viewModel
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
+        case 2:
+            tableView.deselectRow(at: indexPath, animated: true)
+            guard let viewModel = viewModel else {
+                return
+            }
+            Generator.generateViewModelHelper(url: viewModel.residentsURLArray[indexPath.row], contentType: .People, responseType: PersonNetworkResponse.self) { viewModel in
+                
+                DispatchQueue.main.async {
+                    let vc = DetailTableViewController(style: .insetGrouped)
+                    vc.viewModel = viewModel
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
+        case 3:
+            tableView.deselectRow(at: indexPath, animated: true)
+            guard let viewModel = viewModel else {
+                return
+            }
+            Generator.generateViewModelHelper(url: viewModel.planetURLArray[indexPath.row], contentType: .Planets, responseType: PlanetNetworkResponse.self) { viewModel in
+                
+                DispatchQueue.main.async {
+                    let vc = DetailTableViewController(style: .insetGrouped)
+                    vc.viewModel = viewModel
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
+        case 4:
+            tableView.deselectRow(at: indexPath, animated: true)
+            guard let viewModel = viewModel else {
+                return
+            }
+            Generator.generateViewModelHelper(url: viewModel.vehicleURLArray[indexPath.row], contentType: .Vehicles, responseType: VehicleNetworkResponse.self) { viewModel in
+                
+                DispatchQueue.main.async {
+                    let vc = DetailTableViewController(style: .insetGrouped)
+                    vc.viewModel = viewModel
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
+        case 5:
+            tableView.deselectRow(at: indexPath, animated: true)
+            guard let viewModel = viewModel else {
+                return
+            }
+            Generator.generateViewModelHelper(url: viewModel.speciesURLArray[indexPath.row], contentType: .Species, responseType: SpeciesNetworkResponse.self) { viewModel in
+                
+                DispatchQueue.main.async {
+                    let vc = DetailTableViewController(style: .insetGrouped)
+                    vc.viewModel = viewModel
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
         default:
             print("default")
         }

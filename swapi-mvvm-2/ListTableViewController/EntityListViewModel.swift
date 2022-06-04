@@ -15,12 +15,15 @@ struct EntityListViewModel: EntityListViewModelProtocol {
         return array[indexPath]
     }
     
-    func generateViewModelHelper (viewModel: EntityListViewModelProtocol, indexPath: IndexPath, contentType: ContentType, responseType: NetworkResponse.Type, completion: @escaping (InfoViewModel?)->Void) {
+//    func generateViewModelHelper (viewModel: EntityListViewModelProtocol, indexPath: IndexPath, contentType: ContentType, responseType: NetworkResponse.Type, completion: @escaping (InfoViewModel?)->Void) {
+//
+//
+//        let url = viewModel.urlArray[indexPath.row]
         
-        
-        let url = viewModel.urlArray[indexPath.row]
-        
-        
+        func generateViewModelHelper (viewModel: EntityListViewModelProtocol, indexPath: IndexPath, contentType: ContentType, responseType: NetworkResponse.Type, completion: @escaping (InfoViewModel?)->Void) {
+            
+            
+            let url = viewModel.urlArray[indexPath.row]
         
         
         Networking.getData(url: url) { result in
