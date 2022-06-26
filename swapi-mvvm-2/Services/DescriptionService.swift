@@ -27,6 +27,16 @@ class DescriptionService {
         
     }
     
+    func filmDescription (film: FilmNetworkResponse) -> String {
+        let output = """
+        Opening crawl: \n \n \(film.openingCrawl)\n
+        Director: \(film.director)\n
+        Producer: \(film.producer)\n
+        Release date: \(film.releaseDate)\n
+        """
+        return output
+    }
+    
     func characterDescription (character: PersonNetworkResponse) -> String? {
         
         let output = """
@@ -45,43 +55,57 @@ class DescriptionService {
         return output
     }
     
-    func filmDescription (film: FilmNetworkResponse) -> String {
+    func vehicleDescription(vehicle: VehicleNetworkResponse) -> String {
         let output = """
-        Opening crawl: \n \n \(film.openingCrawl)\n
-        Director: \(film.director)\n
-        Producer: \(film.producer)\n
-        Release date: \(film.releaseDate)\n
-        Starships: \(film.planets)\n
-        Vehicles: \(film.planets)\n
-        Species: \(film.species)\n
-        """
+            Cargo capacity: \(vehicle.cargoCapacity) \n
+            Consumables: \(vehicle.consumables) \n
+            Cost in credits: \(vehicle.costInCredits)\n
+            Crew: \(vehicle.crew)\n
+            Length: \(vehicle.length)\n
+            Manufacturer: \(vehicle.manufacturer.capitalized)\n
+            Max Atmosphering Speed: \(vehicle.maxAtmospheringSpeed)\n
+            Model: \(vehicle.model.capitalized)\n
+            Passengers: \(vehicle.passengers)\n
+            Vehicle Class: \(vehicle.vehicleClass.capitalized) \n
+            """
         return output
+        
     }
     
     func speciesDescription(species: SpeciesNetworkResponse) -> String {
         
         let output = """
-name \(species.name)\n
-classification \(species.classification)\n
-designation: Designation\n
-averageHeight \(species.averageHeight)\n
-skinColors \(species.skinColors)\n
-hairColors \(species.hairColors)\n
-eyeColors: \(species.eyeColors)\n
-averageLifespan: \(species.averageLifespan)\n
-homeworld: String \(species.homeworld ?? "unknown")\n
-language: \(species.language)\n
-people \(species.people)\n
-films \(species.films)\n
-"""
+        Name: \(species.name)\n
+        Classification: \(species.classification.capitalized)\n
+        Average height: \(species.averageHeight)\n
+        Skin colors: \(species.skinColors.capitalized)\n
+        Hair colors: \(species.hairColors)\n
+        Eye colors: \(species.eyeColors.capitalized)\n
+        Average lifespan: \(species.averageLifespan) years \n
+        Language: \(species.language)\n
+        """
         
         return output
-        
-        
-//        enum Designation: String, Codable {
-//            case reptilian = "reptilian"
-//            case sentient = "sentient"
-//        }
     }
+    
+    func starshipDescription (starship: StarshipNetworkResponse) -> String {
+        let output = """
+            MGLT: \(starship.mglt)\n
+            Cargo capacity: \(starship.cargoCapacity)\n
+            Consumables: \(starship.consumables)\n
+            Cost in credits: \(starship.costInCredits)\n
+            Crew: \(starship.crew)\n
+            Hyperdrive rating: \(starship.hyperdriveRating)\n
+            Length: \(starship.length)\n
+            Manufacturer: \(starship.manufacturer)\n
+            Max atmosphering speed: \(starship.maxAtmospheringSpeed)\n
+            Model: \(starship.model)\n
+            Name: \(starship.name)\n
+            Passengers: \(starship.passengers)\n
+            Starship class: \(starship.starshipClass)
+            """
+        return output
+    }
+    
     
 }

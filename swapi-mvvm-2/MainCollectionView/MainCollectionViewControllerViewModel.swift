@@ -14,8 +14,7 @@ class MainCollectionViewControllerViewModel: MainCollectionViewControllerViewMod
     func textForButton(at indexPath: Int) -> String {
         return buttonNames[indexPath]
     }
-    
-    
+
     var buttonNames: [String] = []
     
     var buttonURLs: [String] = []
@@ -23,6 +22,8 @@ class MainCollectionViewControllerViewModel: MainCollectionViewControllerViewMod
     init(completion: @escaping ()->Void) {
         getData(completion: completion)
     }
+    
+    
     
     func getData(completion: @escaping ()-> Void) {
         Networking.getData(url: Keys.initalURL) { [weak self] result in

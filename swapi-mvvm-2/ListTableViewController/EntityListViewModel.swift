@@ -15,15 +15,10 @@ struct EntityListViewModel: EntityListViewModelProtocol {
         return array[indexPath]
     }
     
-//    func generateViewModelHelper (viewModel: EntityListViewModelProtocol, indexPath: IndexPath, contentType: ContentType, responseType: NetworkResponse.Type, completion: @escaping (InfoViewModel?)->Void) {
-//
-//
-//        let url = viewModel.urlArray[indexPath.row]
+    func generateViewModelHelper (viewModel: EntityListViewModelProtocol, indexPath: IndexPath, contentType: ContentType, responseType: NetworkResponse.Type, completion: @escaping (InfoViewModel?)->Void) {
         
-        func generateViewModelHelper (viewModel: EntityListViewModelProtocol, indexPath: IndexPath, contentType: ContentType, responseType: NetworkResponse.Type, completion: @escaping (InfoViewModel?)->Void) {
-            
-            
-            let url = viewModel.urlArray[indexPath.row]
+        
+        let url = viewModel.urlArray[indexPath.row]
         
         
         Networking.getData(url: url) { result in
@@ -61,90 +56,25 @@ struct EntityListViewModel: EntityListViewModelProtocol {
     func generateViewModel (indexPath: IndexPath, viewModel: EntityListViewModelProtocol, completion: @escaping (InfoViewModel?)->Void) {
         
         switch viewModel.contentType {
+            
         case .Planets:
-            
             generateViewModelHelper(viewModel: viewModel, indexPath: indexPath, contentType: .Planets, responseType: PlanetNetworkResponse.self, completion: completion)
-//            let url = viewModel.urlArray[indexPath.row]
-//            Networking.getData(url: url) { result in
-//                switch result {
-//                case.success(let data):
-//                    guard let res = JsonService.decodeJsonToNetworkResponse(data: data, contentType: .Planets) else {return}
-//                    let viewModel = InfoViewModel.init(response: res as! PlanetNetworkResponse, contentType: .Planets)
-//                    completion(viewModel)
-//                case .failure(let error):
-//                    print(error.localizedDescription)
-//                    completion(nil)
-//                }
-//            }
-            
             
         case .Films:
-            
             generateViewModelHelper(viewModel: viewModel, indexPath: indexPath, contentType: .Films, responseType: FilmNetworkResponse.self, completion: completion)
             
-//            let url = viewModel.urlArray[indexPath.row]
-//            Networking.getData(url: url) { result in
-//                switch result {
-//                case.success(let data):
-//                    guard let res = JsonService.decodeJsonToNetworkResponse(data: data, contentType: .Films) else {return}
-//                    let viewModel = InfoViewModel.init(response: res as! FilmNetworkResponse, contentType: .Films)
-//                    completion(viewModel)
-//                case .failure(let error):
-//                    print(error.localizedDescription)
-//                    completion(nil)
-//                }
-//            }
-            
-            
-            
-            
         case .People:
-            
-//            let url = viewModel.urlArray[indexPath.row]
-//            Networking.getData(url: url) { result in
-//                switch result {
-//                case.success(let data):
-//                    guard let res = JsonService.decodeJsonToNetworkResponse(data: data, contentType: .People) else {return}
-//                    let viewModel = InfoViewModel.init(response: res as! PersonNetworkResponse, contentType: .People)
-//                    completion(viewModel)
-//                case .failure(let error):
-//                    print(error.localizedDescription)
-//                    completion(nil)
-//                }
-//            }
-            
             generateViewModelHelper(viewModel: viewModel, indexPath: indexPath, contentType: .People, responseType: PersonNetworkResponse.self, completion: completion)
+            
         case .Species:
             generateViewModelHelper(viewModel: viewModel, indexPath: indexPath, contentType: .Species, responseType: SpeciesNetworkResponse.self, completion: completion)
+            
         case .Starships:
             generateViewModelHelper(viewModel: viewModel, indexPath: indexPath, contentType: .Starships, responseType: StarshipNetworkResponse.self, completion: completion)
+            
         case .Vehicles:
             generateViewModelHelper(viewModel: viewModel, indexPath: indexPath, contentType: viewModel.contentType, responseType: VehicleNetworkResponse.self, completion: completion)
-            
-//
-//
-//            let url = viewModel.urlArray[indexPath.row]
-//            Networking.getData(url: url) { result in
-//                switch result {
-//                case.success(let data):
-//                    guard let res = JsonService.decodeJsonToNetworkResponse(data: data, contentType: .Vehicles) else {return}
-//                    let viewModel = InfoViewModel.init(response: res as! VehicleNetworkResponse, contentType: .Vehicles)
-//                    completion(viewModel)
-//                case .failure(let error):
-//                    print(error.localizedDescription)
-//                    completion(nil)
-//                }
-//            }
-//
-            
-            
-            
-            
-            
-            
         }
-        
-        
     }
     
     
@@ -152,19 +82,6 @@ struct EntityListViewModel: EntityListViewModelProtocol {
     var nextUrl: String = ""
     var array: [String] = []
     var urlArray: [String] = []
-    
-    //    init(url: String, type: ContentType) {
-    //        EntityListViewModel.createViewModel(url: url, type: type) {
-    //            result in
-    //            self.array.append(contentsOf: result.array)
-    //            self.urlArray.append(contentsOf: result.urlArray)
-    ////                print(self.viewModel.array.count)
-    //            self.nextUrl = result.nextUrl
-    ////                print(self.viewModel.nextUrl)
-    //
-    //
-    //        }
-    //    }
     
     static func createEntityListViewModel(url: String, type: ContentType, completion: @escaping (EntityListViewModelProtocol) -> Void) {
         Networking.getData(url: url) { result in

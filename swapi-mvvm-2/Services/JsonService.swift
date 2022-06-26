@@ -110,7 +110,7 @@ struct JsonService {
             guard let result = try? jsonDec.decode(PlanetsListNetworkResponse.self, from: data) else {
                 print("planets nope")
                 return nil}
-            urlNext = result.next
+            urlNext = result.next ?? ""
             result.results.forEach { planet in
                 array.append(planet.name)
                 urlArray.append(planet.url)

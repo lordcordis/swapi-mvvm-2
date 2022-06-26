@@ -25,7 +25,7 @@
 		005DE323283B81E000290EC1 /* SpeciesNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE31D283B81E000290EC1 /* SpeciesNetworkResponse.swift */; };
 		005DE324283B81E000290EC1 /* PlanetNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE31E283B81E000290EC1 /* PlanetNetworkResponse.swift */; };
 		005DE325283B81E000290EC1 /* StarshipNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE31F283B81E000290EC1 /* StarshipNetworkResponse.swift */; };
-		005DE328283B836300290EC1 /* PlanetListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE327283B836300290EC1 /* PlanetListTableViewController.swift */; };
+		005DE328283B836300290EC1 /* EntityListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE327283B836300290EC1 /* EntityListTableViewController.swift */; };
 		0070CBB628435A5F0071447E /* InfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0070CBB528435A5F0071447E /* InfoViewModel.swift */; };
 		0070CBB8284366490071447E /* DetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0070CBB7284366490071447E /* DetailTableViewController.swift */; };
 		007CD938283BD3BF00452415 /* EntityListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007CD937283BD3BF00452415 /* EntityListViewModel.swift */; };
@@ -54,7 +54,7 @@
 		005DE31D283B81E000290EC1 /* SpeciesNetworkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeciesNetworkResponse.swift; sourceTree = "<group>"; };
 		005DE31E283B81E000290EC1 /* PlanetNetworkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanetNetworkResponse.swift; sourceTree = "<group>"; };
 		005DE31F283B81E000290EC1 /* StarshipNetworkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarshipNetworkResponse.swift; sourceTree = "<group>"; };
-		005DE327283B836300290EC1 /* PlanetListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetListTableViewController.swift; sourceTree = "<group>"; };
+		005DE327283B836300290EC1 /* EntityListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityListTableViewController.swift; sourceTree = "<group>"; };
 		0070CBB528435A5F0071447E /* InfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewModel.swift; sourceTree = "<group>"; };
 		0070CBB7284366490071447E /* DetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewController.swift; sourceTree = "<group>"; };
 		007CD937283BD3BF00452415 /* EntityListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityListViewModel.swift; sourceTree = "<group>"; };
@@ -93,8 +93,8 @@
 			isa = PBXGroup;
 			children = (
 				005DE326283B820A00290EC1 /* MainCollectionView */,
-				005D8D17284135F8009B241F /* DetailTableView */,
 				005DE329283B836C00290EC1 /* ListTableViewController */,
+				005D8D17284135F8009B241F /* DetailTableView */,
 				005DE319283B81E000290EC1 /* NetworkResponse */,
 				005DE318283B712100290EC1 /* Services */,
 				0018BD0F28368E920066B1D8 /* Keys.swift */,
@@ -119,6 +119,7 @@
 		005DE318283B712100290EC1 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				00104DCB284C14D80054FC26 /* Generator.swift */,
 				0018BD0D28368E860066B1D8 /* Networking.swift */,
 				0018BD11283690FB0066B1D8 /* JsonService.swift */,
 				00E68724284AA2A700BF5D79 /* DescriptionService.swift */,
@@ -155,8 +156,7 @@
 			children = (
 				007CD939283BD3FC00452415 /* EntityViewModelProtocol.swift */,
 				007CD937283BD3BF00452415 /* EntityListViewModel.swift */,
-				00104DCB284C14D80054FC26 /* Generator.swift */,
-				005DE327283B836300290EC1 /* PlanetListTableViewController.swift */,
+				005DE327283B836300290EC1 /* EntityListTableViewController.swift */,
 			);
 			path = ListTableViewController;
 			sourceTree = "<group>";
@@ -245,7 +245,7 @@
 				0018BD162836970B0066B1D8 /* MainScreenCell.swift in Sources */,
 				0018BCF828368DE90066B1D8 /* AppDelegate.swift in Sources */,
 				005DE321283B81E000290EC1 /* PersonNetworkResponse.swift in Sources */,
-				005DE328283B836300290EC1 /* PlanetListTableViewController.swift in Sources */,
+				005DE328283B836300290EC1 /* EntityListTableViewController.swift in Sources */,
 				0018BCFA28368DE90066B1D8 /* SceneDelegate.swift in Sources */,
 				0070CBB8284366490071447E /* DetailTableViewController.swift in Sources */,
 				00104DCC284C14D80054FC26 /* Generator.swift in Sources */,

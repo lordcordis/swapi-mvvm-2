@@ -12,23 +12,15 @@ class MainCollectionViewController: UICollectionViewController {
     
     var viewModel: MainCollectionViewControllerViewModelProtocol!
     
-//    func presentError(text: String) {
-//        let alert = UIAlertController(title: text, message: nil, preferredStyle: .alert)
-//        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-//        alert.addAction(action)
-//        
-//        DispatchQueue.main.async {
-//            self.present(alert, animated: true)
-//        }
-//    }
+    var canMoveToNextViewController = true
     
     override func viewWillAppear(_ animated: Bool) {
+        canMoveToNextViewController = true
         title = "SWAPI"
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        collectionView.backgroundColor = .systemTeal
         
         viewModel = MainCollectionViewControllerViewModel(completion: {
             DispatchQueue.main.async {
@@ -36,17 +28,17 @@ class MainCollectionViewController: UICollectionViewController {
             }
         })
         
+        
+        
         self.collectionView!.register(MainScreenCell.self, forCellWithReuseIdentifier:  Keys.mainScreenCellIdentificator)
     }
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
         return viewModel.buttonNames.count
     }
     
@@ -58,7 +50,13 @@ class MainCollectionViewController: UICollectionViewController {
                     DispatchQueue.main.async {
                         let vm = EntityListTableViewController(style: .plain)
                         vm.viewModel = result
-                        self.navigationController?.pushViewController(vm, animated: true)
+                        print(vm.viewModel.nextUrl)
+                        if self.canMoveToNextViewController {
+                            self.navigationController?.pushViewController(vm, animated: true)
+                            self.canMoveToNextViewController = false
+                        } else {
+                            return
+                        }
                     }
                 })
     }

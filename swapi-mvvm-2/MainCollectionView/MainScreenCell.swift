@@ -15,10 +15,8 @@ class MainScreenCell: UICollectionViewCell {
         super.init(frame: frame)
         headlineLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(headlineLabel)
-
         headlineLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         headlineLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        
         headlineLabel.font = UIFont.preferredFont(forTextStyle: .headline)
         headlineLabel.adjustsFontForContentSizeCategory = true
     }

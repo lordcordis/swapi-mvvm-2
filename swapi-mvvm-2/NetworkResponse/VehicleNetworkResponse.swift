@@ -26,22 +26,22 @@ struct VehicleNetworkResponse: Codable, NetworkResponse {
         case vehicleClass = "vehicle_class"
     }
     
-    var descriptionString: String {
-        let output = """
-
-        Cargo capacity: \(cargoCapacity) \n
-        Consumables: \(consumables) \n
-        Cost in credits: \(costInCredits)\n
-        Crew: \(crew)\n
-        Length: \(length)\n
-        Manufacturer: \(manufacturer.capitalized)\n
-        Max Atmosphering Speed: \(maxAtmospheringSpeed)\n
-        Model: \(model.capitalized)\n
-        Passengers: \(passengers)\n
-        Vehicle Class: \(vehicleClass.capitalized) \n
-    """
-        return output
-    }
+//    var descriptionString: String {
+//        let output = """
+//
+//        Cargo capacity: \(cargoCapacity) \n
+//        Consumables: \(consumables) \n
+//        Cost in credits: \(costInCredits)\n
+//        Crew: \(crew)\n
+//        Length: \(length)\n
+//        Manufacturer: \(manufacturer.capitalized)\n
+//        Max Atmosphering Speed: \(maxAtmospheringSpeed)\n
+//        Model: \(model.capitalized)\n
+//        Passengers: \(passengers)\n
+//        Vehicle Class: \(vehicleClass.capitalized) \n
+//    """
+//        return output
+//    }
 }
 
 struct VehicleListNetworkResponse: Codable {

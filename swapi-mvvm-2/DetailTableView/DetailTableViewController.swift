@@ -18,6 +18,7 @@ import UIKit
     
     
      var viewModel: InfoViewModel?
+     var canMoveToNextViewController = true
 
     override func viewDidLoad() {
         
@@ -28,6 +29,10 @@ import UIKit
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: Keys.detailViewInfoCell)
         title = viewModel?.name
     }
+     
+     override func viewWillAppear(_ animated: Bool) {
+         canMoveToNextViewController = true
+     }
 
     // MARK: - Table view data source
 
@@ -56,6 +61,8 @@ import UIKit
             config.text = viewModel?.vehicleName(for: indexPath.row)
         case 5:
             config.text = viewModel?.speciesName(for: indexPath.row)
+        case 6:
+            config.text = viewModel?.starshipName(for: indexPath.row)
         default:
             config.text = "test"
         }
@@ -70,6 +77,10 @@ import UIKit
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+//        viewModel?.clear()
+        
+        guard canMoveToNextViewController == true else {return}
+        
         switch indexPath.section {
         case 0: tableView.deselectRow(at: indexPath, animated: false)
         case 1:
@@ -82,7 +93,18 @@ import UIKit
                 DispatchQueue.main.async {
                     let vc = DetailTableViewController(style: .insetGrouped)
                     vc.viewModel = viewModel
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    
+                    
+                    if self.canMoveToNextViewController {
+                        self.navigationController?.pushViewController(vc, animated: true)
+                        self.canMoveToNextViewController = false
+                    } else {
+                        return
+                    }
+                    
+                    
+//                    self.navigationController?.pushViewController(vc, animated: true)
+//                    self.canMoveToNextViewController = false
                 }
             }
         case 2:
@@ -95,7 +117,16 @@ import UIKit
                 DispatchQueue.main.async {
                     let vc = DetailTableViewController(style: .insetGrouped)
                     vc.viewModel = viewModel
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    
+                    if self.canMoveToNextViewController {
+                        self.navigationController?.pushViewController(vc, animated: true)
+                        self.canMoveToNextViewController = false
+                    } else {
+                        return
+                    }
+                    
+//                    self.navigationController?.pushViewController(vc, animated: true)
+//                    self.canMoveToNextViewController = false
                 }
             }
         case 3:
@@ -108,7 +139,14 @@ import UIKit
                 DispatchQueue.main.async {
                     let vc = DetailTableViewController(style: .insetGrouped)
                     vc.viewModel = viewModel
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    if self.canMoveToNextViewController {
+                        self.navigationController?.pushViewController(vc, animated: true)
+                        self.canMoveToNextViewController = false
+                    } else {
+                        return
+                    }
+//                    self.navigationController?.pushViewController(vc, animated: true)
+//                    self.canMoveToNextViewController = false
                 }
             }
         case 4:
@@ -121,7 +159,14 @@ import UIKit
                 DispatchQueue.main.async {
                     let vc = DetailTableViewController(style: .insetGrouped)
                     vc.viewModel = viewModel
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    if self.canMoveToNextViewController {
+                        self.navigationController?.pushViewController(vc, animated: true)
+                        self.canMoveToNextViewController = false
+                    } else {
+                        return
+                    }
+//                    self.navigationController?.pushViewController(vc, animated: true)
+//                    self.canMoveToNextViewController = false
                 }
             }
         case 5:
@@ -134,7 +179,30 @@ import UIKit
                 DispatchQueue.main.async {
                     let vc = DetailTableViewController(style: .insetGrouped)
                     vc.viewModel = viewModel
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    if self.canMoveToNextViewController {
+                        self.navigationController?.pushViewController(vc, animated: true)
+                        self.canMoveToNextViewController = false
+                    } else {
+                        return
+                    }
+                }
+            }
+        case 6:
+            tableView.deselectRow(at: indexPath, animated: true)
+            guard let viewModel = viewModel else {
+                return
+            }
+            Generator.generateViewModelHelper(url: viewModel.starshipsURLArray[indexPath.row], contentType: .Starships, responseType: StarshipNetworkResponse.self) { viewModel in
+                
+                DispatchQueue.main.async {
+                    let vc = DetailTableViewController(style: .insetGrouped)
+                    vc.viewModel = viewModel
+                    if self.canMoveToNextViewController {
+                        self.navigationController?.pushViewController(vc, animated: true)
+                        self.canMoveToNextViewController = false
+                    } else {
+                        return
+                    }
                 }
             }
         default:
