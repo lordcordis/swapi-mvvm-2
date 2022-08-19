@@ -9,12 +9,20 @@ import UIKit
 
 class EntityListTableViewController: UITableViewController {
     
+    var canMoveToNextVc: Bool = true
+    
     var viewModel: EntityListViewModelProtocol! {
         didSet{
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                print("viewModel changed: \(self.viewModel.entityArray.description)")
             }
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        canMoveToNextVc = true
     }
     
     override func viewDidLoad() {
@@ -45,7 +53,7 @@ class EntityListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.array.count
+        return viewModel.entityArray.count
     }
     
     
@@ -59,65 +67,37 @@ class EntityListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == viewModel.array.count - 1 {
-//            print("end of array")
-            EntityListViewModel.createEntityListViewModel(url: viewModel.nextUrl, type: viewModel.contentType) { result in
-//                print(result.nextUrl)
-//                print("\(self.viewModel.contentType) TYPE")
-                self.viewModel.nextUrl = result.nextUrl
-                self.viewModel.array.append(contentsOf: result.array)
-                self.viewModel.urlArray.append(contentsOf: result.urlArray)
+        if indexPath.row == viewModel.entityArray.count - 1 {
+            viewModel.loadMore { model, string in
+                self.viewModel.entityArray.append(contentsOf: model)
+                guard let string = string else {return}
+                self.viewModel.nextUrl = string
+//                tableView.reloadData()
             }
+//
+//            viewModel.loadAdditional { res in
+//                print("LOAD ADDITIONAL :\(res)")
+//                self.viewModel.entityArray.append(contentsOf: res!)
+//            }
         }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-//        print(viewModel.urlArray[indexPath.row])
         
         viewModel.generateViewModel(indexPath: indexPath, viewModel: self.viewModel) { viewModelExport in
             guard let viewModelExport = viewModelExport else {
                 return
             }
-            DispatchQueue.main.async {
-                let vc = DetailTableViewController(style: .insetGrouped)
-                vc.viewModel = viewModelExport
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
             
+            guard self.canMoveToNextVc == true else { return }
+            
+            DispatchQueue.main.async {
+                let vc = DetailTableViewController(model: viewModelExport, style: .plain)
+//                vc.viewModel = viewModelExport
+                self.navigationController?.pushViewController(vc, animated: true)
+                self.canMoveToNextVc = false
+            }
         }
-        
-        //        switch viewModel.contentType {
-        //        case .Planets:
-        //            let url = viewModel.urlArray[indexPath.row]
-        //            Networking.getData(url: url) { result in
-        //                switch result {
-        //                case.success(let data):
-        //                    guard let res = JsonDecoderService.decodeJsonToNetworkResponse(data: data, contentType: .Planets) else {return}
-        //                    let viewModel = InfoViewModel.init(response: res as! PlanetNetworkResponse, contentType: .Planets)
-        //                    DispatchQueue.main.async {
-        //                        let vc = PlanetInfoTableViewController(style: .insetGrouped)
-        //                        vc.viewModel = viewModel
-        //                        self.navigationController?.pushViewController(vc, animated: true)
-        //                    }
-        //
-        //                case .failure(let error):
-        //                    print(error.localizedDescription)
-        //                }
-        //            }
-        //
-        //
-        //        case .Films:
-        //            print(viewModel.contentType)
-        //        case .People:
-        //            print(viewModel.contentType)
-        //        case .Species:
-        //            print(viewModel.contentType)
-        //        case .Starships:
-        //            print(viewModel.contentType)
-        //        case .Vehicles:
-        //            print(viewModel.contentType)
-        //        }
     }
-    
 }

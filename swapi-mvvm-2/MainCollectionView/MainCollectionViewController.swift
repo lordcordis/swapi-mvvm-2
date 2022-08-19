@@ -45,12 +45,11 @@ class MainCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let type = viewModel.buttonNames[indexPath.row]
         guard let contentType = ContentType.init(rawValue: type) else {return}
-                EntityListViewModel.createEntityListViewModel(url: viewModel.buttonURLs[indexPath.row], type: contentType, completion: { [weak self] result in
-                    guard let self = self else {return}
+                EntityListViewModel.createEntityListViewModel(url: viewModel.buttonURLs[indexPath.row], type: contentType, completion: { result in
                     DispatchQueue.main.async {
                         let vm = EntityListTableViewController(style: .plain)
                         vm.viewModel = result
-                        print(vm.viewModel.nextUrl)
+//                        print(vm.viewModel)
                         if self.canMoveToNextViewController {
                             self.navigationController?.pushViewController(vm, animated: true)
                             self.canMoveToNextViewController = false

@@ -11,14 +11,42 @@ import UIKit
 
 struct EntityListViewModel: EntityListViewModelProtocol {
     
+//    var nextUrl: String
+    
+    var provideURL: String?
+    
     func textFor(indexPath: Int) -> String {
-        return array[indexPath]
+        return entityArray[indexPath].name
+    }
+    
+    func loadMore(completion: @escaping (([EntityModel], String?))->Void) {
+        
+        var entityList: [EntityModel] = []
+        
+        EntityListViewModel.createEntityListViewModel(url: nextUrl, type: contentType) { result in
+            let res = result.entityArray
+            entityList.append(contentsOf: res)
+            completion((entityList, result.nextUrl))
+        }
+    }
+    
+    
+    mutating func loadAdditional(completion: @escaping (([EntityModel])?)->Void) {
+//        EntityListViewModel.createEntityListViewModel(url: nextUrl, type: contentType) { result in
+//            if result != nil {
+//                let res = result.entityArray
+//                print("LOAD ADD \(res)")
+//                print("NEXT URL LOAD ADDITIONAL \(result.nextUrl)")
+//                nextUrl = result.nextUrl
+//                completion(res)
+//            }
+//        }
     }
     
     func generateViewModelHelper (viewModel: EntityListViewModelProtocol, indexPath: IndexPath, contentType: ContentType, responseType: NetworkResponse.Type, completion: @escaping (InfoViewModel?)->Void) {
         
         
-        let url = viewModel.urlArray[indexPath.row]
+        let url = viewModel.entityArray[indexPath.row].url
         
         
         Networking.getData(url: url) { result in
@@ -53,7 +81,9 @@ struct EntityListViewModel: EntityListViewModelProtocol {
         }
     }
     
-    func generateViewModel (indexPath: IndexPath, viewModel: EntityListViewModelProtocol, completion: @escaping (InfoViewModel?)->Void) {
+//    MARK: - Generating detail view ViewModel from a network response
+    
+    func generateViewModel (indexPath: IndexPath, viewModel: EntityListViewModelProtocol, completion: @escaping (InfoViewModel?) -> Void) {
         
         switch viewModel.contentType {
             
@@ -79,9 +109,15 @@ struct EntityListViewModel: EntityListViewModelProtocol {
     
     
     var contentType: ContentType
-    var nextUrl: String = ""
-    var array: [String] = []
-    var urlArray: [String] = []
+    
+    var nextUrl: String = "" {
+        didSet{
+            print("NEXT URL \(nextUrl)")
+        }
+    }
+    var entityArray: [EntityModel] = []
+    
+//     MARK: -- Generating a EntityListViewModel with chosen content type
     
     static func createEntityListViewModel(url: String, type: ContentType, completion: @escaping (EntityListViewModelProtocol) -> Void) {
         Networking.getData(url: url) { result in

@@ -11,8 +11,7 @@ class DescriptionService {
     static var shared = DescriptionService()
     
     func planetDescription (planet: PlanetNetworkResponse) -> String? {
-        
-        let description: String = """
+        return """
         Rotation period: \(planet.rotationPeriod) \n
         Orbital period: \(planet.orbitalPeriod) \n
         Diameter: \(planet.diameter) \n
@@ -22,41 +21,31 @@ class DescriptionService {
         Surface water level: \(planet.surfaceWater.capitalized) \n
         Population: \(planet.population)
         """
-        
-        return description
-        
     }
     
     func filmDescription (film: FilmNetworkResponse) -> String {
-        let output = """
+        return """
         Opening crawl: \n \n \(film.openingCrawl)\n
         Director: \(film.director)\n
         Producer: \(film.producer)\n
-        Release date: \(film.releaseDate)\n
+        Release date: \(film.releaseDate)
         """
-        return output
     }
     
     func characterDescription (character: PersonNetworkResponse) -> String? {
-        
-        let output = """
-    Height: \(character.height) \n
-    Mass: \(character.mass) \n
-    Hair color: \(character.hairColor.capitalized) \n
-    Skin color: \(character.skinColor.capitalized) \n
-    Eye color: \(character.eyeColor.capitalized) \n
-    Birth year: \(character.birthYear) \n
-    Gender: \(character.gender.capitalized) \n
-    Species: \([character.species]) \n
-    Starships: \(character.starships) \n
-    """
-        
-        
-        return output
+        return """
+        Height: \(character.height) \n
+        Mass: \(character.mass) \n
+        Hair color: \(character.hairColor.capitalized) \n
+        Skin color: \(character.skinColor.capitalized) \n
+        Eye color: \(character.eyeColor.capitalized) \n
+        Birth year: \(character.birthYear) \n
+        Gender: \(character.gender.capitalized)
+        """
     }
     
     func vehicleDescription(vehicle: VehicleNetworkResponse) -> String {
-        let output = """
+        return """
             Cargo capacity: \(vehicle.cargoCapacity) \n
             Consumables: \(vehicle.consumables) \n
             Cost in credits: \(vehicle.costInCredits)\n
@@ -66,15 +55,13 @@ class DescriptionService {
             Max Atmosphering Speed: \(vehicle.maxAtmospheringSpeed)\n
             Model: \(vehicle.model.capitalized)\n
             Passengers: \(vehicle.passengers)\n
-            Vehicle Class: \(vehicle.vehicleClass.capitalized) \n
+            Vehicle Class: \(vehicle.vehicleClass.capitalized)
             """
-        return output
-        
     }
     
     func speciesDescription(species: SpeciesNetworkResponse) -> String {
         
-        let output = """
+        return """
         Name: \(species.name)\n
         Classification: \(species.classification.capitalized)\n
         Average height: \(species.averageHeight)\n
@@ -82,14 +69,12 @@ class DescriptionService {
         Hair colors: \(species.hairColors)\n
         Eye colors: \(species.eyeColors.capitalized)\n
         Average lifespan: \(species.averageLifespan) years \n
-        Language: \(species.language)\n
+        Language: \(species.language)
         """
-        
-        return output
     }
     
     func starshipDescription (starship: StarshipNetworkResponse) -> String {
-        let output = """
+        return """
             MGLT: \(starship.mglt)\n
             Cargo capacity: \(starship.cargoCapacity)\n
             Consumables: \(starship.consumables)\n
@@ -104,8 +89,5 @@ class DescriptionService {
             Passengers: \(starship.passengers)\n
             Starship class: \(starship.starshipClass)
             """
-        return output
     }
-    
-    
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Generator {
+struct Factory {
     static func generateViewModelHelper (url: String, contentType: ContentType, responseType: NetworkResponse.Type, completion: @escaping (InfoViewModel?)->Void) {
         
         Networking.getData(url: url) { result in

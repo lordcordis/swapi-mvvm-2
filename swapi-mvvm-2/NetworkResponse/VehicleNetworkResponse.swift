@@ -46,7 +46,7 @@ struct VehicleNetworkResponse: Codable, NetworkResponse {
 
 struct VehicleListNetworkResponse: Codable {
     let count: Int
-    let next: String
+    let next: String?
     let previous: String?
     let results: [VehicleNetworkResponse]
 }

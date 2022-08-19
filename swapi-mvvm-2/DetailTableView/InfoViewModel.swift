@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol InfoViewModelDelegate {
     func updateView()
@@ -17,12 +18,20 @@ class InfoViewModel {
     
     var delegate: InfoViewModelDelegate?
     
+    
     func headerInSection(section: Int) -> String? {
         switch section {
         case 0:
             return nil
         case 1:
-            return contentType == .Films ? nil : "Films"
+//            return contentType == .Films ? nil : "Films"
+            if contentType == .Films {
+                return nil
+            } else if filmNames.isEmpty {
+                return nil
+            } else {
+                return "Films"
+            }
         case 2:
             switch contentType {
             case .Films:
@@ -30,9 +39,9 @@ class InfoViewModel {
             case .People:
                 return nil
             case .Vehicles:
-                return "Pilots"
+                return residentNames.isEmpty ? nil : "Pilots"
             case .Planets, .Species:
-                return "Residents"
+                return residentNames.isEmpty ? nil : "Residents"
             case .Starships:
                 return residentNames.isEmpty ? nil : "Pilots"
             }
@@ -48,11 +57,9 @@ class InfoViewModel {
         case 4:
             return vehicleNames.isEmpty ? nil : "Vehicles"
         case 5:
-            return "Species"
+            return speciesNames.isEmpty ? nil : "Species"
         case 6:
-            return "Starships"
-            
-            
+            return starshipNames.isEmpty ? nil : "Starships"
         default:
             return "header-in-section"
         }
@@ -118,6 +125,13 @@ class InfoViewModel {
     
     private var description: String = ""
     
+    private var films: [EntityModel] = []
+    private var residents: [EntityModel] = []
+    private var planets: [EntityModel] = []
+    private var vehicles: [EntityModel] = []
+    private var starships: [EntityModel] = []
+    private var species: [EntityModel] = []
+    
     var filmURLArray: [String] = []
     var residentsURLArray: [String] = []
     var planetURLArray: [String] = []
@@ -132,24 +146,29 @@ class InfoViewModel {
     private var starshipNames: [String] = []
     private var speciesNames: [String] = []
     
-//    func clear() {
-//                self.filmURLArray.removeAll()
-//                self.residentsURLArray.removeAll()
-//                self.planetURLArray.removeAll()
-//                self.vehicleURLArray.removeAll()
-//                self.starshipsURLArray.removeAll()
-//                self.speciesURLArray.removeAll()
-//    }
+    func clear() {
+        self.filmURLArray.removeAll()
+        self.filmNames.removeAll()
+        self.residentsURLArray.removeAll()
+        self.residentNames.removeAll()
+        self.planetURLArray.removeAll()
+        self.planetNames.removeAll()
+        self.vehicleURLArray.removeAll()
+        self.vehicleNames.removeAll()
+        self.starshipsURLArray.removeAll()
+        self.starshipNames.removeAll()
+        self.speciesURLArray.removeAll()
+    }
     
     //    MARK: Info Fill
     
     func fillInfo(arrayOfUrls: [String], contentType: ContentType) {
-
+        
         for url in arrayOfUrls {
             Networking.getData(url: url) { result in
                 switch result {
                 case .success(let data):
-
+                    
                     JsonService.decodeJsonToName(data: data, contentType: contentType) { name in
                         if let name = name {
                             switch contentType {
@@ -162,7 +181,7 @@ class InfoViewModel {
                             case .Species:
                                 self.speciesNames.append(name)
                             case .Starships:
-                               self.starshipNames.append(name)
+                                self.starshipNames.append(name)
                             case .Vehicles:
                                 self.vehicleNames.append(name)
                             }
@@ -184,21 +203,17 @@ class InfoViewModel {
         case .Films:
             self.contentType = .Films
             
+            clear()
             let filmResponse = response as? FilmNetworkResponse
             let desc = DescriptionService.shared.filmDescription(film: filmResponse!)
             self.name = filmResponse?.title ?? ""
             self.description = desc
             
-            //
             self.residentsURLArray = filmResponse?.characters ?? []
-//            print(residentsURLArray)
             fillInfo(arrayOfUrls: residentsURLArray, contentType: .People)
-//            print(residentNames)
             
             self.vehicleURLArray = filmResponse?.vehicles ?? []
-//            print(vehicleURLArray)
             fillInfo(arrayOfUrls: vehicleURLArray, contentType: .Vehicles)
-//            print(vehicleNames)
             
             self.speciesURLArray = filmResponse?.species ?? []
             fillInfo(arrayOfUrls: speciesURLArray, contentType: .Species)
@@ -208,38 +223,39 @@ class InfoViewModel {
             fillInfo(arrayOfUrls: self.planetURLArray, contentType: .Planets)
             
             self.vehicleURLArray = filmResponse?.vehicles ?? []
-//            print(vehicleURLArray)
             fillInfo(arrayOfUrls: vehicleURLArray, contentType: .Vehicles)
-//            print(vehicleNames)
             
             
         case .People:
             self.contentType = .People
+            
+            clear()
             let characterResponse = response as? PersonNetworkResponse
             guard let desc = DescriptionService.shared.characterDescription(character: characterResponse!) else {return}
             self.description = desc
             self.name = characterResponse?.name ?? ""
+            
             self.filmURLArray = characterResponse?.films ?? []
-
             fillInfo(arrayOfUrls: filmURLArray, contentType: .Films)
+            
             let homeworldURL = characterResponse?.homeworld
             self.planetURLArray.append(homeworldURL ?? "")
-                fillInfo(arrayOfUrls: self.planetURLArray, contentType: .Planets)
-//            print(self.planetNames)
+            fillInfo(arrayOfUrls: self.planetURLArray, contentType: .Planets)
             
             self.speciesURLArray = characterResponse?.species ?? []
             fillInfo(arrayOfUrls: speciesURLArray, contentType: .Species)
             
             self.vehicleURLArray = characterResponse?.vehicles ?? []
-//            print(vehicleURLArray)
             fillInfo(arrayOfUrls: vehicleURLArray, contentType: .Vehicles)
-//            print(vehicleNames)
+
+            self.starshipsURLArray = characterResponse?.starships ?? []
+            fillInfo(arrayOfUrls: starshipsURLArray, contentType: .Starships)
             
             
         case .Planets:
             self.contentType = .Planets
+            clear()
             let planetResponse = response as? PlanetNetworkResponse
-            
             self.name = planetResponse?.name ?? "planet name"
             self.filmURLArray = planetResponse?.films ?? []
             self.residentsURLArray = planetResponse?.residents ?? []
@@ -251,6 +267,7 @@ class InfoViewModel {
             fillInfo(arrayOfUrls: residentsURLArray, contentType: .People)
         case .Species:
             self.contentType = .Species
+            clear()
             let speciesResponse = response as? SpeciesNetworkResponse
             self.name = speciesResponse?.name ?? "unknown"
             let desc = DescriptionService.shared.speciesDescription(species: speciesResponse!)
@@ -260,30 +277,27 @@ class InfoViewModel {
             
             let homeworldURL = speciesResponse?.homeworld
             self.planetURLArray.append(homeworldURL ?? "")
-                fillInfo(arrayOfUrls: self.planetURLArray, contentType: .Planets)
+            fillInfo(arrayOfUrls: self.planetURLArray, contentType: .Planets)
             
             self.residentsURLArray = speciesResponse?.people ?? []
-//            print(residentsURLArray)
+            //            print(residentsURLArray)
             fillInfo(arrayOfUrls: residentsURLArray, contentType: .People)
             
             
         case .Starships:
             self.contentType = .Starships
+            clear()
             guard let starshipResponse = response as? StarshipNetworkResponse else {return}
             self.name = starshipResponse.name
             self.description = DescriptionService.shared.starshipDescription(starship: starshipResponse)
-            
-            
-//            self.description = starshipResponse?.description ?? "description is empty"
-//            films
             self.filmURLArray = starshipResponse.films
             fillInfo(arrayOfUrls: filmURLArray, contentType: .Films)
-//            pilots
             self.residentsURLArray = starshipResponse.pilots ?? []
             fillInfo(arrayOfUrls: residentsURLArray, contentType: .People)
             
         case .Vehicles:
             self.contentType = .Vehicles
+            clear()
             let vehicleResponse = response as? VehicleNetworkResponse
             self.name = vehicleResponse?.name ?? "vehicle name"
             self.filmURLArray = vehicleResponse?.films.sorted() ?? []
@@ -294,25 +308,5 @@ class InfoViewModel {
             fillInfo(arrayOfUrls: filmURLArray, contentType: .Films)
             fillInfo(arrayOfUrls: residentsURLArray, contentType: .People)
         }
-        
-        
-        
-        
-        
-        
-        
     }
-    
-    
-    //    init(planetResponse: PlanetNetworkResponse, contentType: ContentType) {
-    //        self.contentType = contentType
-    //        self.description = InfoViewModel.planetDescriptionString(planet: planetResponse)
-    //        self.filmURLArray = planetResponse.films
-    //        self.residentsURLArray = planetResponse.residents ?? []
-    //        self.name = planetResponse.name
-    //
-    //
-    //        fillInfo(arrayOfUrls: filmURLArray, contentType: .Films)
-    //        fillInfo(arrayOfUrls: residentsURLArray, contentType: .People)
-    //    }
 }

@@ -7,12 +7,7 @@
 
 import Foundation
 
-//protocol EntityViewModelProtocol {
-//    var description: String {get}
-//    var desc: String {get}
-//}
-
-protocol NetworkResponse {
+protocol NetworkResponse: Decodable {
     var url: String {get}
 }
 
@@ -48,7 +43,7 @@ struct JsonService {
                 return completion(nil)}
             completion(response.name)
         case .Starships:
-            guard let response = JsonService.decodeJsonToNetworkResponse(data: data, contentType: .Planets) as! StarshipNetworkResponse? else {
+            guard let response = JsonService.decodeJsonToNetworkResponse(data: data, contentType: .Starships) as! StarshipNetworkResponse? else {
                 print("decodeJsonToName \(contentType.rawValue) failed")
                 return completion(nil)}
             completion(response.name)
@@ -101,73 +96,93 @@ struct JsonService {
     
     static func decodeJsonToEntityList(data: Data, contentType: ContentType) -> EntityListViewModelProtocol? {
         let jsonDec = JSONDecoder()
-        var array: [String] = []
-        var urlArray: [String] = []
-        var urlNext = String()
+        
+        var entitiesArray: [EntityModel] = [] {
+            didSet {
+                print("entities array: \(entitiesArray.last?.name) end")
+            }
+        }
+        
+        var urlNext: String = String() {
+            didSet {
+//                print("urlNext changed: \(urlNext) \n end of urlNext")
+//                decode(url: urlNext)
+            }
+        }
+        
+        var provideURL: String?
+        
+//        func decode(url: String) {
+//            guard let result = try? jsonDec.decode(PlanetsListNetworkResponse.self, from: data) else {return}
+//            urlNext = result.next ?? ""
+//            result.results.forEach { planet in
+//                entitiesArray.append(EntityModel(name: planet.name, url: planet.url, type: .Planets))
+//            }
+//            print(entitiesArray)
+//        }
         
         switch contentType {
+            
         case .Planets:
-            guard let result = try? jsonDec.decode(PlanetsListNetworkResponse.self, from: data) else {
-                print("planets nope")
-                return nil}
-            urlNext = result.next ?? ""
-            result.results.forEach { planet in
-                array.append(planet.name)
-                urlArray.append(planet.url)
+            entitiesArray = []
+            var planetsArray: [EntityModel] = [] {
+                didSet {
+                    print("planetsArray: \(planetsArray.last?.name) end")
+                }
             }
-            let viewModel = EntityListViewModel(contentType: .Planets, nextUrl: urlNext, array: array, urlArray: urlArray)
-            print(viewModel)
+            guard let result = try? jsonDec.decode(PlanetsListNetworkResponse.self, from: data) else {return nil}
+//            urlNext = result.next ?? ""
+            result.results.forEach { planet in
+                planetsArray.append(EntityModel(name: planet.name, url: planet.url, type: .Planets))
+            }
+            let viewModel = EntityListViewModel(contentType: .Planets, nextUrl: result.next ?? "", entityArray: planetsArray)
+            print("decodeJsonToEntityList viewmodel: \(viewModel)")
             return viewModel
         case .People:
             guard let result = try? jsonDec.decode(CharacterListNetworkResponse.self, from: data) else {return nil}
-            urlNext = result.next
+            urlNext = result.next ?? ""
             result.results.forEach { planet in
-                array.append(planet.name)
-                urlArray.append(planet.url)
+                entitiesArray.append(EntityModel(name: planet.name, url: planet.url, type: .People))
             }
-            let viewModel = EntityListViewModel(contentType: .People, nextUrl: urlNext, array: array, urlArray: urlArray)
+            let viewModel = EntityListViewModel(contentType: .People, nextUrl: urlNext, entityArray: entitiesArray)
             print(viewModel)
             return viewModel
         case .Starships:
             guard let result = try? jsonDec.decode(StarshipListNetworkResponse.self, from: data) else {return nil}
-            urlNext = result.next
+            urlNext = result.next ?? ""
             result.results.forEach { planet in
-                array.append(planet.name)
-                urlArray.append(planet.url)
+                entitiesArray.append(EntityModel(name: planet.name, url: planet.url, type: .Starships))
             }
-            let viewModel = EntityListViewModel(contentType: .Starships, nextUrl: urlNext, array: array, urlArray: urlArray)
+            let viewModel = EntityListViewModel(contentType: .Starships, nextUrl: urlNext, entityArray: entitiesArray)
             print(viewModel)
             return viewModel
         case .Vehicles:
             guard let result = try? jsonDec.decode(VehicleListNetworkResponse.self, from: data) else {return nil}
-            urlNext = result.next
+            urlNext = result.next ?? ""
             result.results.forEach { planet in
-                array.append(planet.name)
-                urlArray.append(planet.url)
+                entitiesArray.append(EntityModel(name: planet.name, url: planet.url, type: .Vehicles))
             }
-            let viewModel = EntityListViewModel(contentType: .Vehicles, nextUrl: urlNext, array: array, urlArray: urlArray)
+            let viewModel = EntityListViewModel(contentType: .Vehicles, nextUrl: urlNext, entityArray: entitiesArray)
             return viewModel
         case .Films:
             guard let result = try? jsonDec.decode(FilmListNetworkResponse.self, from: data) else { print("\(FilmListNetworkResponse.self) FAIL")
                 return nil}
             urlNext = result.next ?? ""
             result.results.forEach { planet in
-                array.append(planet.title)
-                urlArray.append(planet.url)
+                entitiesArray.append(EntityModel(name: planet.title, url: planet.url, type: .Films))
             }
-            let viewModel = EntityListViewModel(contentType: .Films, nextUrl: urlNext, array: array, urlArray: urlArray)
+            let viewModel = EntityListViewModel(contentType: .Films, nextUrl: urlNext, entityArray: entitiesArray)
             print(viewModel)
             return viewModel
         case .Species:
             guard let result = try? jsonDec.decode(SpeciesListNetworkResponse.self, from: data) else {
                 print("error spec")
                 return nil}
-            urlNext = result.next
-            result.results.forEach { species in
-                array.append(species.name)
-                urlArray.append(species.url)
+            urlNext = result.next ?? ""
+            result.results.forEach { planet in
+                entitiesArray.append(EntityModel(name: planet.name, url: planet.url, type: .Species))
             }
-            let viewModel = EntityListViewModel(contentType: .Species, nextUrl: urlNext, array: array, urlArray: urlArray)
+            let viewModel = EntityListViewModel(contentType: .Species, nextUrl: urlNext, entityArray: entitiesArray)
             print(viewModel)
             return viewModel
         }

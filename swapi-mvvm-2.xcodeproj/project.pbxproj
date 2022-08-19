@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00104DCC284C14D80054FC26 /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00104DCB284C14D80054FC26 /* Generator.swift */; };
+		00104DCC284C14D80054FC26 /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00104DCB284C14D80054FC26 /* Factory.swift */; };
 		0018BCF828368DE90066B1D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018BCF728368DE90066B1D8 /* AppDelegate.swift */; };
 		0018BCFA28368DE90066B1D8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018BCF928368DE90066B1D8 /* SceneDelegate.swift */; };
 		0018BD0128368DEB0066B1D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0018BD0028368DEB0066B1D8 /* Assets.xcassets */; };
@@ -18,6 +18,7 @@
 		0018BD12283690FB0066B1D8 /* JsonService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018BD11283690FB0066B1D8 /* JsonService.swift */; };
 		0018BD14283696910066B1D8 /* MainCollectionViewControllerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018BD13283696910066B1D8 /* MainCollectionViewControllerViewModel.swift */; };
 		0018BD162836970B0066B1D8 /* MainScreenCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018BD152836970B0066B1D8 /* MainScreenCell.swift */; };
+		004FBF9A2868DFA20085CF7F /* EntityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004FBF992868DFA20085CF7F /* EntityModel.swift */; };
 		005DE317283AE85900290EC1 /* MainCollectionViewControllerViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE316283AE85900290EC1 /* MainCollectionViewControllerViewModelProtocol.swift */; };
 		005DE320283B81E000290EC1 /* FilmNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE31A283B81E000290EC1 /* FilmNetworkResponse.swift */; };
 		005DE321283B81E000290EC1 /* PersonNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DE31B283B81E000290EC1 /* PersonNetworkResponse.swift */; };
@@ -34,7 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		00104DCB284C14D80054FC26 /* Generator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Generator.swift; sourceTree = "<group>"; };
+		00104DCB284C14D80054FC26 /* Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
 		0018BCF428368DE90066B1D8 /* swapi-mvvm-2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "swapi-mvvm-2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0018BCF728368DE90066B1D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0018BCF928368DE90066B1D8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -47,6 +48,7 @@
 		0018BD11283690FB0066B1D8 /* JsonService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonService.swift; sourceTree = "<group>"; };
 		0018BD13283696910066B1D8 /* MainCollectionViewControllerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewControllerViewModel.swift; sourceTree = "<group>"; };
 		0018BD152836970B0066B1D8 /* MainScreenCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainScreenCell.swift; sourceTree = "<group>"; };
+		004FBF992868DFA20085CF7F /* EntityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityModel.swift; sourceTree = "<group>"; };
 		005DE316283AE85900290EC1 /* MainCollectionViewControllerViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewControllerViewModelProtocol.swift; sourceTree = "<group>"; };
 		005DE31A283B81E000290EC1 /* FilmNetworkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilmNetworkResponse.swift; sourceTree = "<group>"; };
 		005DE31B283B81E000290EC1 /* PersonNetworkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonNetworkResponse.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 				005DE319283B81E000290EC1 /* NetworkResponse */,
 				005DE318283B712100290EC1 /* Services */,
 				0018BD0F28368E920066B1D8 /* Keys.swift */,
+				004FBF992868DFA20085CF7F /* EntityModel.swift */,
 				0018BCF728368DE90066B1D8 /* AppDelegate.swift */,
 				0018BCF928368DE90066B1D8 /* SceneDelegate.swift */,
 				0018BD0028368DEB0066B1D8 /* Assets.xcassets */,
@@ -119,7 +122,7 @@
 		005DE318283B712100290EC1 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				00104DCB284C14D80054FC26 /* Generator.swift */,
+				00104DCB284C14D80054FC26 /* Factory.swift */,
 				0018BD0D28368E860066B1D8 /* Networking.swift */,
 				0018BD11283690FB0066B1D8 /* JsonService.swift */,
 				00E68724284AA2A700BF5D79 /* DescriptionService.swift */,
@@ -242,13 +245,14 @@
 				0018BD0C28368E290066B1D8 /* MainCollectionViewController.swift in Sources */,
 				0070CBB628435A5F0071447E /* InfoViewModel.swift in Sources */,
 				007CD938283BD3BF00452415 /* EntityListViewModel.swift in Sources */,
+				004FBF9A2868DFA20085CF7F /* EntityModel.swift in Sources */,
 				0018BD162836970B0066B1D8 /* MainScreenCell.swift in Sources */,
 				0018BCF828368DE90066B1D8 /* AppDelegate.swift in Sources */,
 				005DE321283B81E000290EC1 /* PersonNetworkResponse.swift in Sources */,
 				005DE328283B836300290EC1 /* EntityListTableViewController.swift in Sources */,
 				0018BCFA28368DE90066B1D8 /* SceneDelegate.swift in Sources */,
 				0070CBB8284366490071447E /* DetailTableViewController.swift in Sources */,
-				00104DCC284C14D80054FC26 /* Generator.swift in Sources */,
+				00104DCC284C14D80054FC26 /* Factory.swift in Sources */,
 				0018BD14283696910066B1D8 /* MainCollectionViewControllerViewModel.swift in Sources */,
 				005DE317283AE85900290EC1 /* MainCollectionViewControllerViewModelProtocol.swift in Sources */,
 				00E68725284AA2A700BF5D79 /* DescriptionService.swift in Sources */,

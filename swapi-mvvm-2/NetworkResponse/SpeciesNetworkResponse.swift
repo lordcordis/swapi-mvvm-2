@@ -36,7 +36,7 @@ enum Designation: String, Codable {
 
 struct SpeciesListNetworkResponse: Codable {
     let count: Int
-    let next: String
+    let next: String?
     let previous: String?
     let results: [SpeciesNetworkResponse]
 }
