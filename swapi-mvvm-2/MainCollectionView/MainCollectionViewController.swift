@@ -49,7 +49,6 @@ class MainCollectionViewController: UICollectionViewController {
                     DispatchQueue.main.async {
                         let vm = EntityListTableViewController(style: .plain)
                         vm.viewModel = result
-//                        print(vm.viewModel)
                         if self.canMoveToNextViewController {
                             self.navigationController?.pushViewController(vm, animated: true)
                             self.canMoveToNextViewController = false

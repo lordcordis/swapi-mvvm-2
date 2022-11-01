@@ -112,7 +112,7 @@ import UIKit
         case 1:
             tableView.deselectRow(at: indexPath, animated: true)
 
-            Factory.generateViewModelHelper(url: viewModel.filmURLArray[indexPath.row], contentType: .Films, responseType: FilmNetworkResponse.self) { viewModel in
+            Factory.generateViewModelHelper(url: viewModel.films[indexPath.row].url, contentType: .Films, responseType: FilmNetworkResponse.self) { viewModel in
                 
                 DispatchQueue.main.async {
                     let vc = DetailTableViewController(model: viewModel!, style: .plain)
@@ -122,7 +122,7 @@ import UIKit
             }
         case 2:
             tableView.deselectRow(at: indexPath, animated: true)
-            Factory.generateViewModelHelper(url: viewModel.residentsURLArray[indexPath.row], contentType: .People, responseType: PersonNetworkResponse.self) { viewModel in
+            Factory.generateViewModelHelper(url: viewModel.residents[indexPath.row].url, contentType: .People, responseType: PersonNetworkResponse.self) { viewModel in
                 guard let viewModel = viewModel else {
                     return
                 }
@@ -135,14 +135,11 @@ import UIKit
                     } else {
                         return
                     }
-                    
-//                    self.navigationController?.pushViewController(vc, animated: true)
-//                    self.canMoveToNextViewController = false
                 }
             }
         case 3:
             tableView.deselectRow(at: indexPath, animated: true)
-            Factory.generateViewModelHelper(url: viewModel.planetURLArray[indexPath.row], contentType: .Planets, responseType: PlanetNetworkResponse.self) { viewModel in
+            Factory.generateViewModelHelper(url: viewModel.planets[indexPath.row].url, contentType: .Planets, responseType: PlanetNetworkResponse.self) { viewModel in
                 guard let viewModel = viewModel else {
                     return
                 }
@@ -163,7 +160,7 @@ import UIKit
         case 4:
             tableView.deselectRow(at: indexPath, animated: true)
 
-            Factory.generateViewModelHelper(url: viewModel.vehicleURLArray[indexPath.row], contentType: .Vehicles, responseType: VehicleNetworkResponse.self) { viewModel in
+            Factory.generateViewModelHelper(url: viewModel.vehicles[indexPath.row].url, contentType: .Vehicles, responseType: VehicleNetworkResponse.self) { viewModel in
                 
                 DispatchQueue.main.async {
                     guard let viewModel = viewModel else {
@@ -177,14 +174,12 @@ import UIKit
                     } else {
                         return
                     }
-//                    self.navigationController?.pushViewController(vc, animated: true)
-//                    self.canMoveToNextViewController = false
                 }
             }
         case 5:
             tableView.deselectRow(at: indexPath, animated: true)
 
-            Factory.generateViewModelHelper(url: viewModel.speciesURLArray[indexPath.row], contentType: .Species, responseType: SpeciesNetworkResponse.self) { viewModel in
+            Factory.generateViewModelHelper(url: viewModel.species[indexPath.row].url, contentType: .Species, responseType: SpeciesNetworkResponse.self) { viewModel in
                 guard let viewModel = viewModel else {
                     return
                 }
@@ -204,7 +199,7 @@ import UIKit
         case 6:
             tableView.deselectRow(at: indexPath, animated: true)
 
-            Factory.generateViewModelHelper(url: viewModel.starshipsURLArray[indexPath.row], contentType: .Starships, responseType: StarshipNetworkResponse.self) { viewModel in
+            Factory.generateViewModelHelper(url: viewModel.starships[indexPath.row].url, contentType: .Starships, responseType: StarshipNetworkResponse.self) { viewModel in
                 guard let viewModel = viewModel else {
                     return
                 }

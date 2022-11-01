@@ -99,7 +99,7 @@ struct JsonService {
         
         var entitiesArray: [EntityModel] = [] {
             didSet {
-                print("entities array: \(entitiesArray.last?.name) end")
+//                print("entities array: \(entitiesArray.last?.name) end")
             }
         }
         
@@ -110,7 +110,7 @@ struct JsonService {
             }
         }
         
-        var provideURL: String?
+//        var provideURL: String?
         
 //        func decode(url: String) {
 //            guard let result = try? jsonDec.decode(PlanetsListNetworkResponse.self, from: data) else {return}
@@ -127,7 +127,7 @@ struct JsonService {
             entitiesArray = []
             var planetsArray: [EntityModel] = [] {
                 didSet {
-                    print("planetsArray: \(planetsArray.last?.name) end")
+//                    print("planetsArray: \(planetsArray.last?.name) end")
                 }
             }
             guard let result = try? jsonDec.decode(PlanetsListNetworkResponse.self, from: data) else {return nil}
@@ -136,7 +136,7 @@ struct JsonService {
                 planetsArray.append(EntityModel(name: planet.name, url: planet.url, type: .Planets))
             }
             let viewModel = EntityListViewModel(contentType: .Planets, nextUrl: result.next ?? "", entityArray: planetsArray)
-            print("decodeJsonToEntityList viewmodel: \(viewModel)")
+//            print("decodeJsonToEntityList viewmodel: \(viewModel)")
             return viewModel
         case .People:
             guard let result = try? jsonDec.decode(CharacterListNetworkResponse.self, from: data) else {return nil}
@@ -145,7 +145,7 @@ struct JsonService {
                 entitiesArray.append(EntityModel(name: planet.name, url: planet.url, type: .People))
             }
             let viewModel = EntityListViewModel(contentType: .People, nextUrl: urlNext, entityArray: entitiesArray)
-            print(viewModel)
+//            print(viewModel)
             return viewModel
         case .Starships:
             guard let result = try? jsonDec.decode(StarshipListNetworkResponse.self, from: data) else {return nil}
@@ -154,7 +154,7 @@ struct JsonService {
                 entitiesArray.append(EntityModel(name: planet.name, url: planet.url, type: .Starships))
             }
             let viewModel = EntityListViewModel(contentType: .Starships, nextUrl: urlNext, entityArray: entitiesArray)
-            print(viewModel)
+//            print(viewModel)
             return viewModel
         case .Vehicles:
             guard let result = try? jsonDec.decode(VehicleListNetworkResponse.self, from: data) else {return nil}
@@ -172,7 +172,7 @@ struct JsonService {
                 entitiesArray.append(EntityModel(name: planet.title, url: planet.url, type: .Films))
             }
             let viewModel = EntityListViewModel(contentType: .Films, nextUrl: urlNext, entityArray: entitiesArray)
-            print(viewModel)
+//            print(viewModel)
             return viewModel
         case .Species:
             guard let result = try? jsonDec.decode(SpeciesListNetworkResponse.self, from: data) else {
@@ -183,7 +183,7 @@ struct JsonService {
                 entitiesArray.append(EntityModel(name: planet.name, url: planet.url, type: .Species))
             }
             let viewModel = EntityListViewModel(contentType: .Species, nextUrl: urlNext, entityArray: entitiesArray)
-            print(viewModel)
+//            print(viewModel)
             return viewModel
         }
     }

@@ -15,7 +15,6 @@ class EntityListTableViewController: UITableViewController {
         didSet{
             DispatchQueue.main.async {
                 self.tableView.reloadData()
-                print("viewModel changed: \(self.viewModel.entityArray.description)")
             }
         }
     }
@@ -72,13 +71,7 @@ class EntityListTableViewController: UITableViewController {
                 self.viewModel.entityArray.append(contentsOf: model)
                 guard let string = string else {return}
                 self.viewModel.nextUrl = string
-//                tableView.reloadData()
             }
-//
-//            viewModel.loadAdditional { res in
-//                print("LOAD ADDITIONAL :\(res)")
-//                self.viewModel.entityArray.append(contentsOf: res!)
-//            }
         }
     }
     

@@ -32,15 +32,7 @@ struct EntityListViewModel: EntityListViewModelProtocol {
     
     
     mutating func loadAdditional(completion: @escaping (([EntityModel])?)->Void) {
-//        EntityListViewModel.createEntityListViewModel(url: nextUrl, type: contentType) { result in
-//            if result != nil {
-//                let res = result.entityArray
-//                print("LOAD ADD \(res)")
-//                print("NEXT URL LOAD ADDITIONAL \(result.nextUrl)")
-//                nextUrl = result.nextUrl
-//                completion(res)
-//            }
-//        }
+        
     }
     
     func generateViewModelHelper (viewModel: EntityListViewModelProtocol, indexPath: IndexPath, contentType: ContentType, responseType: NetworkResponse.Type, completion: @escaping (InfoViewModel?)->Void) {
