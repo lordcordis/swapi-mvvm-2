@@ -7,7 +7,7 @@
 
 import UIKit
 
- class DetailTableViewController: UITableViewController, InfoViewModelDelegate {
+class DetailTableViewController: UITableViewController, InfoViewModelDelegate {
     
     
     func updateView() {
@@ -16,10 +16,9 @@ import UIKit
         }
     }
     
+    var viewModel: InfoViewModel?
+    var canMoveToNextViewController = true
     
-     var viewModel: InfoViewModel?
-     var canMoveToNextViewController = true
-
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -29,28 +28,31 @@ import UIKit
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: Keys.detailViewInfoCell)
         title = viewModel?.name
     }
-     
-     override func viewWillAppear(_ animated: Bool) {
-         canMoveToNextViewController = true
-     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        canMoveToNextViewController = true
+    }
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return viewModel?.numberOfSections ?? 1
     }
-
+    
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel?.rowsInSection(section: section) ?? 0
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Keys.detailViewInfoCell, for: indexPath)
         var config = cell.defaultContentConfiguration()
+        cell.accessoryType = .disclosureIndicator
         
         switch indexPath.section {
         case 0:
             config.text = viewModel?.giveDescription()
+            cell.accessoryType = .none
         case 1:
             config.text = viewModel?.filmName(for: indexPath.row)
         case 2:
@@ -73,22 +75,21 @@ import UIKit
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return viewModel?.headerInSection(section: section)
     }
-
+    
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-//        viewModel?.clear()
-        
         guard canMoveToNextViewController == true else {return}
+        tableView.deselectRow(at: indexPath, animated: true)
         
         switch indexPath.section {
-        case 0: tableView.deselectRow(at: indexPath, animated: false)
+        case 0: return
         case 1:
-            tableView.deselectRow(at: indexPath, animated: true)
+            
             guard let viewModel = viewModel else {
                 return
             }
-            Generator.generateViewModelHelper(url: viewModel.filmURLArray[indexPath.row], contentType: .Films, responseType: FilmNetworkResponse.self) { viewModel in
+            Generator.generateViewModelHelper(url: viewModel.films[indexPath.row].url, contentType: .Films, responseType: FilmNetworkResponse.self) { viewModel in
                 
                 DispatchQueue.main.async {
                     let vc = DetailTableViewController(style: .insetGrouped)
@@ -101,18 +102,14 @@ import UIKit
                     } else {
                         return
                     }
-                    
-                    
-//                    self.navigationController?.pushViewController(vc, animated: true)
-//                    self.canMoveToNextViewController = false
                 }
             }
         case 2:
-            tableView.deselectRow(at: indexPath, animated: true)
+            //            tableView.deselectRow(at: indexPath, animated: true)
             guard let viewModel = viewModel else {
                 return
             }
-            Generator.generateViewModelHelper(url: viewModel.residentsURLArray[indexPath.row], contentType: .People, responseType: PersonNetworkResponse.self) { viewModel in
+            Generator.generateViewModelHelper(url: viewModel.residents[indexPath.row].url, contentType: .People, responseType: PersonNetworkResponse.self) { viewModel in
                 
                 DispatchQueue.main.async {
                     let vc = DetailTableViewController(style: .insetGrouped)
@@ -124,17 +121,14 @@ import UIKit
                     } else {
                         return
                     }
-                    
-//                    self.navigationController?.pushViewController(vc, animated: true)
-//                    self.canMoveToNextViewController = false
                 }
             }
         case 3:
-            tableView.deselectRow(at: indexPath, animated: true)
+            //            tableView.deselectRow(at: indexPath, animated: true)
             guard let viewModel = viewModel else {
                 return
             }
-            Generator.generateViewModelHelper(url: viewModel.planetURLArray[indexPath.row], contentType: .Planets, responseType: PlanetNetworkResponse.self) { viewModel in
+            Generator.generateViewModelHelper(url: viewModel.planets[indexPath.row].url, contentType: .Planets, responseType: PlanetNetworkResponse.self) { viewModel in
                 
                 DispatchQueue.main.async {
                     let vc = DetailTableViewController(style: .insetGrouped)
@@ -145,16 +139,14 @@ import UIKit
                     } else {
                         return
                     }
-//                    self.navigationController?.pushViewController(vc, animated: true)
-//                    self.canMoveToNextViewController = false
                 }
             }
         case 4:
-            tableView.deselectRow(at: indexPath, animated: true)
+            //            tableView.deselectRow(at: indexPath, animated: true)
             guard let viewModel = viewModel else {
                 return
             }
-            Generator.generateViewModelHelper(url: viewModel.vehicleURLArray[indexPath.row], contentType: .Vehicles, responseType: VehicleNetworkResponse.self) { viewModel in
+            Generator.generateViewModelHelper(url: viewModel.vehicles[indexPath.row].url, contentType: .Vehicles, responseType: VehicleNetworkResponse.self) { viewModel in
                 
                 DispatchQueue.main.async {
                     let vc = DetailTableViewController(style: .insetGrouped)
@@ -165,16 +157,14 @@ import UIKit
                     } else {
                         return
                     }
-//                    self.navigationController?.pushViewController(vc, animated: true)
-//                    self.canMoveToNextViewController = false
                 }
             }
         case 5:
-            tableView.deselectRow(at: indexPath, animated: true)
+            
             guard let viewModel = viewModel else {
                 return
             }
-            Generator.generateViewModelHelper(url: viewModel.speciesURLArray[indexPath.row], contentType: .Species, responseType: SpeciesNetworkResponse.self) { viewModel in
+            Generator.generateViewModelHelper(url: viewModel.species[indexPath.row].url, contentType: .Species, responseType: SpeciesNetworkResponse.self) { viewModel in
                 
                 DispatchQueue.main.async {
                     let vc = DetailTableViewController(style: .insetGrouped)
@@ -188,11 +178,11 @@ import UIKit
                 }
             }
         case 6:
-            tableView.deselectRow(at: indexPath, animated: true)
+            
             guard let viewModel = viewModel else {
                 return
             }
-            Generator.generateViewModelHelper(url: viewModel.starshipsURLArray[indexPath.row], contentType: .Starships, responseType: StarshipNetworkResponse.self) { viewModel in
+            Generator.generateViewModelHelper(url: viewModel.starships[indexPath.row].url, contentType: .Starships, responseType: StarshipNetworkResponse.self) { viewModel in
                 
                 DispatchQueue.main.async {
                     let vc = DetailTableViewController(style: .insetGrouped)
@@ -209,5 +199,4 @@ import UIKit
             print("default")
         }
     }
-
 }

@@ -79,7 +79,7 @@ struct EntityListViewModel: EntityListViewModelProtocol {
     
     
     var contentType: ContentType
-    var nextUrl: String = ""
+    var nextUrl: String?
     var array: [String] = []
     var urlArray: [String] = []
     

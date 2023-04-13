@@ -30,7 +30,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let navController = UINavigationController(rootViewController: mainCollectionViewController)
         navController.navigationBar.tintColor = .systemPink
-//        navController.navigationBar.prefersLargeTitles = true
+//        navController.navigationBar.backgroundColor = .systemPink
+        navController.navigationBar.prefersLargeTitles = true
+        navController.topViewController?.navigationController?.navigationBar.prefersLargeTitles = false
         
         self.window!.rootViewController = navController
         self.window!.makeKeyAndVisible()

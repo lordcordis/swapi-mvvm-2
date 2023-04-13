@@ -113,10 +113,11 @@ struct JsonService {
             urlNext = result.next ?? ""
             result.results.forEach { planet in
                 array.append(planet.name)
+                print(array)
                 urlArray.append(planet.url)
             }
             let viewModel = EntityListViewModel(contentType: .Planets, nextUrl: urlNext, array: array, urlArray: urlArray)
-            print(viewModel)
+//            print(viewModel)
             return viewModel
         case .People:
             guard let result = try? jsonDec.decode(CharacterListNetworkResponse.self, from: data) else {return nil}

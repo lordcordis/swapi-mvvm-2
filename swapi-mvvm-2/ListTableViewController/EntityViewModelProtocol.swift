@@ -13,7 +13,7 @@ protocol EntityListViewModelProtocol {
     var array: [String] {get set}
     func textFor(indexPath: Int) -> String
     var urlArray: [String] {get set}
-    var nextUrl: String {get set}
+    var nextUrl: String? {get set}
     var contentType: ContentType {get set}
     static func createEntityListViewModel(url: String, type: ContentType, completion: @escaping (EntityListViewModelProtocol) -> Void)
 }

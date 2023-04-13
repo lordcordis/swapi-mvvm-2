@@ -30,6 +30,7 @@
 		0070CBB8284366490071447E /* DetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0070CBB7284366490071447E /* DetailTableViewController.swift */; };
 		007CD938283BD3BF00452415 /* EntityListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007CD937283BD3BF00452415 /* EntityListViewModel.swift */; };
 		007CD93A283BD3FC00452415 /* EntityViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007CD939283BD3FC00452415 /* EntityViewModelProtocol.swift */; };
+		00B6FE7229E483940092F3D8 /* EntityWithUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B6FE7129E483940092F3D8 /* EntityWithUrl.swift */; };
 		00E68725284AA2A700BF5D79 /* DescriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E68724284AA2A700BF5D79 /* DescriptionService.swift */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +60,7 @@
 		0070CBB7284366490071447E /* DetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewController.swift; sourceTree = "<group>"; };
 		007CD937283BD3BF00452415 /* EntityListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityListViewModel.swift; sourceTree = "<group>"; };
 		007CD939283BD3FC00452415 /* EntityViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityViewModelProtocol.swift; sourceTree = "<group>"; };
+		00B6FE7129E483940092F3D8 /* EntityWithUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityWithUrl.swift; sourceTree = "<group>"; };
 		00E68724284AA2A700BF5D79 /* DescriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -123,6 +125,7 @@
 				0018BD0D28368E860066B1D8 /* Networking.swift */,
 				0018BD11283690FB0066B1D8 /* JsonService.swift */,
 				00E68724284AA2A700BF5D79 /* DescriptionService.swift */,
+				00B6FE7129E483940092F3D8 /* EntityWithUrl.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -249,6 +252,7 @@
 				0018BCFA28368DE90066B1D8 /* SceneDelegate.swift in Sources */,
 				0070CBB8284366490071447E /* DetailTableViewController.swift in Sources */,
 				00104DCC284C14D80054FC26 /* Generator.swift in Sources */,
+				00B6FE7229E483940092F3D8 /* EntityWithUrl.swift in Sources */,
 				0018BD14283696910066B1D8 /* MainCollectionViewControllerViewModel.swift in Sources */,
 				005DE317283AE85900290EC1 /* MainCollectionViewControllerViewModelProtocol.swift in Sources */,
 				00E68725284AA2A700BF5D79 /* DescriptionService.swift in Sources */,
@@ -320,7 +324,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -374,7 +378,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
