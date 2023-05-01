@@ -53,6 +53,7 @@ class DetailTableViewController: UITableViewController, InfoViewModelDelegate {
         case 0:
             config.text = viewModel?.giveDescription()
             cell.accessoryType = .none
+            cell.selectionStyle = .none
         case 1:
             config.text = viewModel?.filmName(for: indexPath.row)
         case 2:
@@ -76,6 +77,24 @@ class DetailTableViewController: UITableViewController, InfoViewModelDelegate {
         return viewModel?.headerInSection(section: section)
     }
     
+//    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        if viewModel?.displayHeaderForSection(section: section) == false {return 0}
+//        else {return 30}
+//    }
+//
+//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        if viewModel?.displayHeaderForSection(section: indexPath.section) == false {return 0}
+//        else {return 60}
+//    }
+//
+    
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section != 0 { return 50}
+        else {
+            return tableView.estimatedRowHeight
+        }
+    }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -105,7 +124,6 @@ class DetailTableViewController: UITableViewController, InfoViewModelDelegate {
                 }
             }
         case 2:
-            //            tableView.deselectRow(at: indexPath, animated: true)
             guard let viewModel = viewModel else {
                 return
             }

@@ -45,6 +45,11 @@ class EntityListTableViewController: UITableViewController {
         return 1
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        50
+    }
+    
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.array.count
     }
@@ -93,9 +98,7 @@ class EntityListTableViewController: UITableViewController {
         deselectRow(at: indexPath)
         
         viewModel.generateViewModel(indexPath: indexPath, viewModel: self.viewModel) { viewModelExport in
-            guard let viewModelExport = viewModelExport else {
-                return
-            }
+            guard let viewModelExport = viewModelExport else { return }
             DispatchQueue.main.async {
                 let vc = DetailTableViewController(style: .insetGrouped)
                 vc.viewModel = viewModelExport

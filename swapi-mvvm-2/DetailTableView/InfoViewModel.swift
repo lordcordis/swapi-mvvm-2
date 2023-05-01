@@ -19,6 +19,17 @@ class InfoViewModel {
     
     // MARK: - header for section
     
+    func displayHeaderForSection(section: Int) -> Bool {
+        if section == 0 {return false}
+        else if section == 1 { return !films.isEmpty}
+        else if section == 2 { return !residents.isEmpty}
+        else if section == 3 { return !planets.isEmpty}
+        else if section == 4 { return !vehicles.isEmpty}
+        else if section == 5 { return !species.isEmpty}
+        else if section == 6 { return !starships.isEmpty}
+        else {return false}
+    }
+    
     func headerInSection(section: Int) -> String? {
         switch section {
         case 0:
@@ -36,10 +47,12 @@ class InfoViewModel {
                     return nil
                 case .Vehicles:
                     return "Pilots"
-                case .Planets, .Species:
+                case .Planets:
                     return "Residents"
                 case .Starships:
                     return residents.isEmpty ? nil : "Pilots"
+                case .Species:
+                    return "Representatives"
                 }
             } else {
                 return nil
@@ -181,9 +194,8 @@ class InfoViewModel {
             self.contentType = .Films
             
             let filmResponse = response as? FilmNetworkResponse
-            let desc = DescriptionService.shared.filmDescription(film: filmResponse!)
+            self.description = DescriptionService.shared.filmDescription(film: filmResponse!)
             self.name = filmResponse?.title ?? ""
-            self.description = desc
             
 
             fillInfo(arrayOfUrls: filmResponse?.characters ?? [], contentType: .People)
@@ -196,8 +208,7 @@ class InfoViewModel {
         case .People:
             self.contentType = .People
             let characterResponse = response as? PersonNetworkResponse
-            guard let desc = DescriptionService.shared.characterDescription(character: characterResponse!) else {return}
-            self.description = desc
+            self.description = DescriptionService.shared.characterDescription(character: characterResponse!) ?? "description empty"
             self.name = characterResponse?.name ?? ""
 
             

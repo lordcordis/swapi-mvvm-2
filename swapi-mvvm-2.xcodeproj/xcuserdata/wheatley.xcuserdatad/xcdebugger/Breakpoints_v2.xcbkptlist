@@ -126,8 +126,8 @@
             filePath = "swapi-mvvm-2/DetailTableView/InfoViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "189"
-            endingLineNumber = "189"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
             landmarkName = "init(response:contentType:)"
             landmarkType = "7">
          </BreakpointContent>
