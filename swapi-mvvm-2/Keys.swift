@@ -23,25 +23,8 @@ enum ContentType: String, CaseIterable, RawRepresentable {
     case Starships
     case Vehicles
     
-    static func convertContentTypeIntoSectionType (type: ContentType) -> DetailTableViewControllerDiff.Section {
-        switch type {
-        case .Films:
-            return DetailTableViewControllerDiff.Section.Films
-        case .People:
-            return DetailTableViewControllerDiff.Section.People
-        case .Planets:
-            return DetailTableViewControllerDiff.Section.Planets
-        case .Species:
-            return DetailTableViewControllerDiff.Section.Species
-        case .Starships:
-            return DetailTableViewControllerDiff.Section.Starships
-        case .Vehicles:
-            return DetailTableViewControllerDiff.Section.Vehicles
-        }
-    }
-    
-    static func convertContentTypeIntoNetworkResponseType(for type: ContentType) -> NetworkResponse.Type {
-        switch type {
+    func intoNetworkResponseType() -> NetworkResponse.Type {
+        switch self {
         case .Films: return FilmNetworkResponse.self
         case .People:
             return PersonNetworkResponse.self
@@ -53,6 +36,23 @@ enum ContentType: String, CaseIterable, RawRepresentable {
             return StarshipNetworkResponse.self
         case .Vehicles:
             return VehicleNetworkResponse.self
+        }
+    }
+    
+    func intoSectionType() -> DetailTableViewController.Section {
+        switch self {
+        case .Films:
+            return DetailTableViewController.Section.Films
+        case .People:
+            return DetailTableViewController.Section.People
+        case .Planets:
+            return DetailTableViewController.Section.Planets
+        case .Species:
+            return DetailTableViewController.Section.Species
+        case .Starships:
+            return DetailTableViewController.Section.Starships
+        case .Vehicles:
+            return DetailTableViewController.Section.Vehicles
         }
     }
 }

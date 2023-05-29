@@ -34,5 +34,8 @@ struct PlanetsListNetworkResponse: Codable {
     let results: [PlanetNetworkResponse]
 }
 
+protocol ListNetworkResponse {
+    var next: String? {get}
+}
 
 

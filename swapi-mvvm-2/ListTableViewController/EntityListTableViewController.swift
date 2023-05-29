@@ -1,110 +1,133 @@
-////
-////  ListTableViewController.swift
-////  swapi-mvvm-2
-////
-////  Created by Wheatley on 23.05.2022.
-////
 //
-//import UIKit
+//  DetailTableViewController(Diff).swift
+//  swapi-mvvm-2
 //
-//class EntityListTableViewController: UITableViewController {
-//    
-//    var viewModel: EntityListViewModelProtocol! {
-//        didSet{
-//            DispatchQueue.main.async {
-//                self.tableView.reloadData()
-//            }
-//        }
-//    }
-//    
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        tableView.tintColor = .systemPink
-//        tableView.sectionFooterHeight = 0
-//        
-//        switch viewModel.contentType {
-//        case .People:
-//            title = "People"
-//        case .Planets:
-//            title = "Planets"
-//        case .Starships:
-//            title = "Starships"
-//        case .Species:
-//            title = "Species"
-//        case .Vehicles:
-//            title = "Vehicles"
-//        case .Films:
-//            title = "Films"
-//        }
-//        
-//        tableView.register(UITableViewCell.self, forCellReuseIdentifier: Keys.listTableViewCellId)
-//    }
-//    
-//    // MARK: - Table view data source
-//    
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//        return 1
-//    }
-//    
-//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        50
-//    }
-//    
-//    
-//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return viewModel.array.count
-//    }
-//    
-//    
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: Keys.listTableViewCellId, for: indexPath)
-//        var content = cell.defaultContentConfiguration()
-//        content.text = viewModel.textFor(indexPath: indexPath.row)
-//        cell.accessoryType = .disclosureIndicator
-//        cell.contentConfiguration = content
-//        
-////        if #available(iOS 16.0, *) {
-////            cell.contentConfiguration = UIHostingConfiguration {
-////                HStack {
-////                    Spacer()
-////                    Text(Date(), style: .date).foregroundStyle(.secondary).font(.footnote)
-////                }
-////            }
-////        } else {
-////            // Fallback on earlier versions
-////        }
-//        return cell
-//    }
-//    
-//    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        if indexPath.row == viewModel.array.count - 1 {
-//            EntityListViewModel.createEntityListViewModel(url: viewModel.nextUrl ?? "", type: viewModel.contentType) { result in
-//                self.viewModel.nextUrl = result.nextUrl ?? nil
-//                
-////                checking data source for duplicates
-//                
-//                if !self.viewModel.array.contains(result.array) {
-//                    self.viewModel.array.append(contentsOf: result.array)
-//                    self.viewModel.urlArray.append(contentsOf: result.urlArray)
-//                }
-//            }
-//        }
-//    }
-//    
-//    func deselectRow(at indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
-//    }
-//    
-//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        deselectRow(at: indexPath)
-//        
-//        viewModel.generateViewModel(indexPath: indexPath, viewModel: self.viewModel) { [weak self] viewModelExport in
-//            guard let viewModelExport = viewModelExport else { return }
-//            DispatchQueue.main.async {
-//                let vc = DetailTableViewController(style: .insetGrouped)
+//  Created by Роман Коренев on 22.05.2023.
+//
+
+import UIKit
+
+class EntityListTableViewController: UIViewController, UITableViewDelegate {
+    
+    let cellID = "EntityListTableViewControllerDiff"
+    
+    
+    enum Section: String, CaseIterable {
+        case main
+    }
+    
+    var viewModel: EntityListViewModelProtocol
+    var dataSource: UITableViewDiffableDataSource<Section, EntityViewModel>! = nil
+    var tableView: UITableView! = nil
+    
+    
+    init(viewModel: EntityListViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupTitle()
+        setupTableView()
+        setupDataSource()
+    }
+    
+    func setupTitle() {
+        switch viewModel.contentType {
+        case .People:
+            title = "People"
+        case .Planets:
+            title = "Planets"
+        case .Starships:
+            title = "Starships"
+        case .Species:
+            title = "Species"
+        case .Vehicles:
+            title = "Vehicles"
+        case .Films:
+            title = "Films"
+        }
+    }
+    
+    func setupTableView() {
+        tableView = UITableView(frame: view.bounds, style: .plain)
+        tableView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
+        view.addSubview(tableView)
+        tableView.delegate = self
+    }
+    
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == viewModel.entitiesArray.count - 1 {
+            EntityListViewModel.createEntityListViewModel(url: viewModel.nextUrl ?? "", type: viewModel.contentType) {  result in
+                self.viewModel.nextUrl = result.nextUrl ?? nil
+                
+                //                checking data source for duplicates
+                
+                if !self.viewModel.entitiesArray.contains(result.entitiesArray) {
+                    self.viewModel.entitiesArray.append(contentsOf: result.entitiesArray)
+                    
+                    var snapshot = self.dataSource.snapshot()
+                    snapshot.appendItems(result.entitiesArray, toSection: .main)
+                    
+                    DispatchQueue.global().async {
+                        self.dataSource.apply(snapshot)
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    func setupDataSource() {
+        dataSource = UITableViewDiffableDataSource <Section, EntityViewModel>(tableView: tableView, cellProvider: { tableView, indexPath, entity in
+            let cell = tableView.dequeueReusableCell(withIdentifier: self.cellID)
+            cell?.accessoryType = .disclosureIndicator
+            var content = cell?.defaultContentConfiguration()
+            content?.text = entity.name
+            cell?.contentConfiguration = content
+            return cell
+        })
+        
+        
+        //        dataSource.tableView(tableView, titleForFooterInSection: 1)
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Section, EntityViewModel>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(viewModel.entitiesArray, toSection: .main)
+        print(snapshot.sectionIdentifiers)
+        
+        
+        DispatchQueue.global().async {
+            self.dataSource.apply(snapshot)
+        }
+    }
+
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        viewModel.generateViewModel(indexPath: indexPath, viewModel: self.viewModel) { [weak self] viewModelExport in
+            guard let viewModelExport = viewModelExport else { return }
+            DispatchQueue.main.async {
+                let vc = DetailTableViewController(viewModel: viewModelExport)
 //                vc.viewModel = viewModelExport
-//                self?.navigationController?.pushViewController(vc, animated: true)
-//            }
-//        }
-//    }
-//}
+                self?.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+    }
+    
+    
+    
+    
+    
+}
+

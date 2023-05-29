@@ -52,7 +52,7 @@ class MainCollectionViewController: UICollectionViewController {
                 EntityListViewModel.createEntityListViewModel(url: viewModel.buttonURLs[indexPath.row], type: contentType, completion: { [weak self] result in
                     guard let self = self else {return}
                     DispatchQueue.main.async {
-                        let vm = EntityListTableViewControllerDiff(viewModel: result)
+                        let vm = EntityListTableViewController(viewModel: result)
                         if self.canMoveToNextViewController {
                             self.navigationController?.pushViewController(vm, animated: true)
                             self.canMoveToNextViewController = false

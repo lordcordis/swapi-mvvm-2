@@ -10,11 +10,8 @@ import UIKit
 
 
 protocol EntityListViewModelProtocol {
-    func generateViewModel (indexPath: IndexPath, viewModel: EntityListViewModelProtocol, completion: @escaping (InfoViewModel?)->Void)
-//    var dataSource: UITableViewDiffableDataSource <Section, EntityViewModel> { get set }
-//    var array: [String] {get set}
+    func generateViewModel (indexPath: IndexPath, viewModel: EntityListViewModelProtocol, completion: @escaping (DetailTableViewControllerViewModel?)->Void)
     func textFor(indexPath: Int) -> String
-//    var urlArray: [String] {get set}
     var entitiesArray: [EntityViewModel] {get set}
     var nextUrl: String? {get set}
     var contentType: ContentType {get set}

@@ -13,7 +13,7 @@ import UIKit
 //    var desc: String {get}
 //}
 
-protocol NetworkResponse {
+protocol NetworkResponse: Codable {
     var url: String {get}
 }
 
@@ -65,46 +65,18 @@ struct JsonService {
     
     static func decodeJsonToNetworkResponse(data: Data, contentType: ContentType) -> NetworkResponse? {
         let jsondec = JSONDecoder()
-        switch contentType {
-        case .Films:
-            guard let result = try? jsondec.decode(FilmNetworkResponse.self, from: data) else {
-                print("decodeJsonToEntity .film failed")
-                return nil}
-            return result
-        case .People:
-            guard let result = try? jsondec.decode(PersonNetworkResponse.self, from: data) else {
-                print("decodeJsonToEntity .person failed")
-                return nil}
-            return result
-        case .Planets:
-            guard let result = try? jsondec.decode(PlanetNetworkResponse.self, from: data) else {
-                print("decodeJsonToEntity .planet failed")
-                return nil}
-            return result
-        case .Species:
-            guard let result = try? jsondec.decode(SpeciesNetworkResponse.self, from: data) else {
-                print("decodeJsonToEntity .species failed")
-                return nil}
-            return result
-        case .Starships:
-            guard let result = try? jsondec.decode(StarshipNetworkResponse.self, from: data) else {
-                print("decodeJsonToEntity .starship failed")
-                return nil}
-            return result
-        case .Vehicles:
-            guard let result = try? jsondec.decode(VehicleNetworkResponse.self, from: data) else {
-                print("decodeJsonToEntity .vehicle failed")
-                return nil}
-            return result
-        }
-        
+        let responseType: NetworkResponse.Type = contentType.intoNetworkResponseType()
+        guard let result = try? jsondec.decode(responseType.self, from: data) else {
+            print("decodeJsonToEntity .film failed")
+            return nil}
+        return result
     }
     
     static func decodeJsonToEntityList(data: Data, contentType: ContentType) -> EntityListViewModelProtocol? {
         let jsonDec = JSONDecoder()
         var entitiesArray: [EntityViewModel] = []
         var urlNext = String()
-//        var dataSource = UITableViewDiffableDataSource<Section, EntityViewModel>()
+
         
         switch contentType {
         case .Planets:
@@ -117,7 +89,6 @@ struct JsonService {
                 entitiesArray.append(entity)
             }
             let viewModel = EntityListViewModel(contentType: .Planets, nextUrl: urlNext, entitiesArray: entitiesArray)
-            //            print(viewModel)
             return viewModel
             
         case .People:
@@ -128,7 +99,6 @@ struct JsonService {
                 entitiesArray.append(entity)
             }
             let viewModel = EntityListViewModel(contentType: .People, nextUrl: urlNext, entitiesArray: entitiesArray)
-//            print(viewModel)
             return viewModel
             
         case .Starships:
@@ -139,7 +109,6 @@ struct JsonService {
                 entitiesArray.append(entity)
             }
             let viewModel = EntityListViewModel(contentType: .Starships, nextUrl: urlNext, entitiesArray: entitiesArray)
-//            print(viewModel)
             return viewModel
             
         case .Vehicles:
@@ -161,7 +130,6 @@ struct JsonService {
                 entitiesArray.append(entity)
             }
             let viewModel = EntityListViewModel(contentType: .Films, nextUrl: urlNext, entitiesArray: entitiesArray)
-//            print(viewModel)
             return viewModel
             
         case .Species:
@@ -174,7 +142,7 @@ struct JsonService {
                 entitiesArray.append(entity)
             }
             let viewModel = EntityListViewModel(contentType: .Species, nextUrl: urlNext, entitiesArray: entitiesArray)
-            print(viewModel)
+//            print(viewModel)
             return viewModel
         }
     }

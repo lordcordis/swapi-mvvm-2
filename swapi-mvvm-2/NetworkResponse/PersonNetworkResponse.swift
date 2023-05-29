@@ -26,46 +26,6 @@ struct PersonNetworkResponse: Codable, NetworkResponse {
         case birthYear = "birth_year"
         case gender, homeworld, films, species, vehicles, starships, created, edited, url
     }
-    
-//    var description: String {
-//        let output = """
-//    Height: \(height) \n
-//    Mass: \(mass) \n
-//    Hair color: \(hairColor.capitalized) \n
-//    Skin color: \(skinColor.capitalized) \n
-//    Eye color: \(eyeColor.capitalized) \n
-//    Birth year: \(birthYear) \n
-//    Gender: \(gender.capitalized) \n
-//    Species: \([species]) \n
-//    Vehicles: \(vehicles) \n
-//    Starships: \(starships) \n
-//    Homeworld: \(homeworld)
-//    """
-//        
-//        
-//        return output
-//    }
-    
-    
-//    static func characterDescription (character: PersonNetworkResponse) -> String? {
-//
-//        let output = """
-//    Height: \(character.height) \n
-//    Mass: \(character.mass) \n
-//    Hair color: \(character.hairColor.capitalized) \n
-//    Skin color: \(character.skinColor.capitalized) \n
-//    Eye color: \(character.eyeColor.capitalized) \n
-//    Birth year: \(character.birthYear) \n
-//    Gender: \(character.gender.capitalized) \n
-//    Species: \([character.species]) \n
-//    Vehicles: \(character.vehicles) \n
-//    Starships: \(character.starships) \n
-//    Homeworld: \(character.homeworld)
-//    """
-//
-//
-//        return output
-//    }
 }
 
 struct CharacterListNetworkResponse: Codable {

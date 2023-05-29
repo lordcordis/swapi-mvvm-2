@@ -11,7 +11,7 @@ protocol InfoViewModelDelegate {
     func addItemToSnapshot(type: ContentType, item: EntityViewModel)
 }
 
-class InfoViewModel {
+class DetailTableViewControllerViewModel {
     
     var contentType: ContentType
     
@@ -19,7 +19,7 @@ class InfoViewModel {
     
     // MARK: - header for section
     
-    func displayHeaderForSection(section: DetailTableViewControllerDiff.Section) -> Bool {
+    func displayHeaderForSection(section: DetailTableViewController.Section) -> Bool {
         
         switch section {
         case .main:
@@ -49,18 +49,25 @@ class InfoViewModel {
 //        else if section == 6 { return !starships.isEmpty}
 //        else {return false}
     }
-    
-    func textForHeaderInSection(section: DetailTableViewControllerDiff.Section) -> String? {
+        
+    func textForHeaderInSection(section: DetailTableViewController.Section) -> String? {
         
         switch section {
+            
         case .main:
             return "nil"
+            
         case .Films:
-            return films.isEmpty ? nil : "Films"
-//            return "Films"
+            if films.isEmpty {
+                return nil
+            } else if films.count == 1 {
+                return "Film"
+            } else {
+                return "Films"
+            }
+            
         case .People:
             guard !residents.isEmpty else {return nil}
-            
             
             switch contentType {
             case .Films:
@@ -76,37 +83,20 @@ class InfoViewModel {
             case .Species:
                 return "Representatives"
             }
-            
-            //            if !residents.isEmpty {
-            //                switch contentType {
-            //                case .Films:
-            //                    return "Characters"
-            //                case .People:
-            //                    return nil
-            //                case .Vehicles:
-            //                    return "Pilots"
-            //                case .Planets:
-            //                    return "Residents"
-            //                case .Starships:
-            //                    return residents.isEmpty ? nil : "Pilots"
-            //                case .Species:
-            //                    return "Representatives"
-            //                }}
-            
         case .Planets:
             
             
             
             guard !planets.isEmpty else {return nil}
             
-                        switch contentType {
-                        case .Films:
-                            return "Planets"
-                        case .Species, .People :
-                            return "Homeworld"
-                        case .Planets, .Vehicles, .Starships:
-                            return nil
-                        }
+            switch contentType {
+            case .Films:
+                return "Planets"
+            case .Species, .People :
+                return "Homeworld"
+            case .Planets, .Vehicles, .Starships:
+                return nil
+            }
             
             
             
@@ -198,7 +188,7 @@ class InfoViewModel {
         }
     }
     
-    var name: String = ""
+    var titleForTableView: String = ""
     
     var numberOfSections: Int {
         return 7
@@ -222,7 +212,7 @@ class InfoViewModel {
     }
     
     
-    func isSectionEmpty(section: DetailTableViewControllerDiff.Section) -> Bool {
+    func isSectionEmpty(section: DetailTableViewController.Section) -> Bool {
         switch section {
         case .main:
             return true
@@ -306,7 +296,7 @@ class InfoViewModel {
             
             let filmResponse = response as? FilmNetworkResponse
             self.description = DescriptionService.shared.filmDescription(film: filmResponse!)
-            self.name = "Film: \(filmResponse?.title ?? "")"
+            self.titleForTableView = "Film: \(filmResponse?.title ?? "")"
             
 
             fillInfo(arrayOfUrls: filmResponse?.characters ?? [], contentType: .People)
@@ -320,7 +310,7 @@ class InfoViewModel {
             self.contentType = .People
             let characterResponse = response as? PersonNetworkResponse
             self.description = DescriptionService.shared.characterDescription(character: characterResponse!) ?? "description empty"
-            self.name = "Character: \(characterResponse?.name ?? "")"
+            self.titleForTableView = "Character: \(characterResponse?.name ?? "")"
             
 
             
@@ -340,7 +330,7 @@ class InfoViewModel {
             self.contentType = .Planets
             let planetResponse = response as? PlanetNetworkResponse
             
-            self.name = "Planet: \(planetResponse?.name ?? "planet name")"
+            self.titleForTableView = "Planet: \(planetResponse?.name ?? "planet name")"
 
             guard let desc = DescriptionService.shared.planetDescription(planet: planetResponse!) else {return}
             self.description = desc
@@ -353,7 +343,7 @@ class InfoViewModel {
         case .Species:
             self.contentType = .Species
             let speciesResponse = response as? SpeciesNetworkResponse
-            self.name = "Species: \(speciesResponse?.name ?? "unknown")"
+            self.titleForTableView = "Species: \(speciesResponse?.name ?? "unknown")"
             let desc = DescriptionService.shared.speciesDescription(species: speciesResponse!)
             self.description = desc
             
@@ -370,13 +360,13 @@ class InfoViewModel {
         case .Starships:
             self.contentType = .Starships
             guard let starshipResponse = response as? StarshipNetworkResponse else {return}
-            self.name = "Starship: \(starshipResponse.name)"
+            self.titleForTableView = "Starship: \(starshipResponse.name)"
             self.description = DescriptionService.shared.starshipDescription(starship: starshipResponse)
             
         case .Vehicles:
             self.contentType = .Vehicles
             let vehicleResponse = response as? VehicleNetworkResponse
-            self.name = "Vehicle: \(vehicleResponse?.name ?? "vehicle name")"
+            self.titleForTableView = "Vehicle: \(vehicleResponse?.name ?? "vehicle name")"
             guard let vehicle = vehicleResponse else {return}
             let desc = DescriptionService.shared.vehicleDescription(vehicle: vehicle)
             self.description = desc
