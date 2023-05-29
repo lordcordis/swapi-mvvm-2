@@ -11,14 +11,31 @@ import UIKit
 
 struct EntityListViewModel: EntityListViewModelProtocol {
     
+//    var dataSource: UITableViewDiffableDataSource<Section, EntityViewModel>
+    
+    
+    var contentType: ContentType
+    var nextUrl: String?
+    
+    var entitiesArray: [EntityViewModel] = []
+
+    
+//    var dataSource: UITableViewDiffableDataSource<Section, EntityViewModel>! = nil
+    
+//    func arrayLength() -> Int {
+//        return entitiesArray.count
+//    }
+    
     func textFor(indexPath: Int) -> String {
-        return array[indexPath]
+        return entitiesArray[indexPath].name
     }
+    
     
     func generateViewModelHelper (viewModel: EntityListViewModelProtocol, indexPath: IndexPath, contentType: ContentType, responseType: NetworkResponse.Type, completion: @escaping (InfoViewModel?)->Void) {
         
         
-        let url = viewModel.urlArray[indexPath.row]
+//        let url = viewModel.urlArray[indexPath.row]
+        let url = viewModel.entitiesArray[indexPath.row].url
         
         
         Networking.getData(url: url) { result in
@@ -78,10 +95,7 @@ struct EntityListViewModel: EntityListViewModelProtocol {
     }
     
     
-    var contentType: ContentType
-    var nextUrl: String?
-    var array: [String] = []
-    var urlArray: [String] = []
+
     
     static func createEntityListViewModel(url: String, type: ContentType, completion: @escaping (EntityListViewModelProtocol) -> Void) {
         Networking.getData(url: url) { result in

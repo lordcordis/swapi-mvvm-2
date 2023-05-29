@@ -6,13 +6,16 @@
 //
 
 import Foundation
+import UIKit
 
 
 protocol EntityListViewModelProtocol {
     func generateViewModel (indexPath: IndexPath, viewModel: EntityListViewModelProtocol, completion: @escaping (InfoViewModel?)->Void)
-    var array: [String] {get set}
+//    var dataSource: UITableViewDiffableDataSource <Section, EntityViewModel> { get set }
+//    var array: [String] {get set}
     func textFor(indexPath: Int) -> String
-    var urlArray: [String] {get set}
+//    var urlArray: [String] {get set}
+    var entitiesArray: [EntityViewModel] {get set}
     var nextUrl: String? {get set}
     var contentType: ContentType {get set}
     static func createEntityListViewModel(url: String, type: ContentType, completion: @escaping (EntityListViewModelProtocol) -> Void)

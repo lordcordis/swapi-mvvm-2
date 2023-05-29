@@ -7,7 +7,15 @@
 
 import Foundation
 
-struct EntityWithUrl {
+struct EntityViewModel: Hashable {
     let name: String
     let url: String
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(url)
+    }
 }
+
+//enum Section: String {
+//    case main
+//}

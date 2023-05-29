@@ -27,10 +27,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         layout.itemSize = CGSize(width: 250, height: 60)
         layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
         let mainCollectionViewController = MainCollectionViewController(collectionViewLayout: layout)
+//        let mainCollectionViewController = DetailTableViewControllerDiff()
+
         
         let navController = UINavigationController(rootViewController: mainCollectionViewController)
         navController.navigationBar.tintColor = .systemPink
-//        navController.navigationBar.backgroundColor = .systemPink
+        
+        
         navController.navigationBar.prefersLargeTitles = true
         navController.topViewController?.navigationController?.navigationBar.prefersLargeTitles = false
         
