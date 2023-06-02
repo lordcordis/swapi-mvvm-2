@@ -10,7 +10,7 @@ class DetailTableViewController: UIViewController, UITableViewDelegate, InfoView
     
     var viewModel: DetailTableViewControllerViewModel
     var dataSource: UITableViewDiffableDataSource<Section, EntityViewModel>! = nil
-    var tableView: UITableView! = nil
+    var tableView: UITableView = UITableView()
     let cellID = "DetailTableViewControllerDiff"
     var canMoveToNextViewController = true
     
@@ -60,17 +60,21 @@ class DetailTableViewController: UIViewController, UITableViewDelegate, InfoView
         
         var snapshot = dataSource.snapshot()
     
-        
         // Checking if snapshot of datasource has a section for item, if not - adding the section
         
-        if !snapshot.sectionIdentifiers.contains(type.intoSectionType()) {
-            snapshot.appendSections([type.intoSectionType()])
+        let typeOfSection = type.intoSectionType()
+        if !snapshot.sectionIdentifiers.contains(typeOfSection) {
+            snapshot.appendSections([typeOfSection])
         }
         
         //  Applying to dataSource
-        
         snapshot.appendItems([item], toSection: type.intoSectionType())
-        dataSource.apply(snapshot)
+        
+        DispatchQueue.global().async {
+            self.dataSource.apply(snapshot)
+        }
+        
+
     }
     
     

@@ -15,7 +15,3 @@ struct EntityViewModel: Hashable {
         hasher.combine(url)
     }
 }
-
-//enum Section: String {
-//    case main
-//}

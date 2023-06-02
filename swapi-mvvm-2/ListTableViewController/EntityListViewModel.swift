@@ -30,6 +30,43 @@ struct EntityListViewModel: EntityListViewModelProtocol {
         return entitiesArray[indexPath].name
     }
     
+    func generateViewModelDiff (viewModel: EntityListViewModelProtocol, entity: EntityViewModel, contentType: ContentType, responseType: NetworkResponse.Type, completion: @escaping (DetailTableViewControllerViewModel?)->Void) {
+
+        let url = entity.url
+                
+                Networking.getData(url: url) { result in
+                    switch result {
+                    case.success(let data):
+                        guard let res = JsonService.decodeJsonToNetworkResponse(data: data, contentType: contentType) else {return}
+                        
+                        switch contentType {
+                        case .Films:
+                            let viewModel = DetailTableViewControllerViewModel.init(response: res as! FilmNetworkResponse, contentType: .Films)
+                            completion(viewModel)
+                        case .People:
+                            let viewModel = DetailTableViewControllerViewModel.init(response: res as! PersonNetworkResponse, contentType: .People)
+                            completion(viewModel)
+                        case .Planets:
+                            let viewModel = DetailTableViewControllerViewModel.init(response: res as! PlanetNetworkResponse, contentType: .Planets)
+                            completion(viewModel)
+                        case .Species:
+                            let viewModel = DetailTableViewControllerViewModel.init(response: res as! SpeciesNetworkResponse, contentType: .Species)
+                            completion(viewModel)
+                        case .Starships:
+                            let viewModel = DetailTableViewControllerViewModel.init(response: res as! StarshipNetworkResponse, contentType: .Starships)
+                            completion(viewModel)
+                        case .Vehicles:
+                            let viewModel = DetailTableViewControllerViewModel.init(response: res as! VehicleNetworkResponse, contentType: .Vehicles)
+                            completion(viewModel)
+                        }
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                        completion(nil)
+                    }
+                }
+            }
+    
+    
     
     func generateViewModelHelper (viewModel: EntityListViewModelProtocol, indexPath: IndexPath, contentType: ContentType, responseType: NetworkResponse.Type, completion: @escaping (DetailTableViewControllerViewModel?)->Void) {
         
@@ -76,8 +113,12 @@ struct EntityListViewModel: EntityListViewModelProtocol {
         
     }
     
-    
+    func generateViewModelHelperDiff (entity: EntityViewModel, viewModel: EntityListViewModelProtocol, completion: @escaping (DetailTableViewControllerViewModel?)->Void) {
 
+        generateViewModelDiff(viewModel: viewModel, entity: entity, contentType: viewModel.contentType, responseType: contentType.intoNetworkResponseType(), completion: completion)
+        
+    }
+    
     
 //    Creating view model for list table view using ContentType and URL
     

@@ -10,6 +10,8 @@ import UIKit
 class EntityListTableViewController: UIViewController, UITableViewDelegate {
     
     let cellID = "EntityListTableViewControllerDiff"
+    var stillLoading = true
+
     
     
     enum Section: String, CaseIterable {
@@ -18,7 +20,7 @@ class EntityListTableViewController: UIViewController, UITableViewDelegate {
     
     var viewModel: EntityListViewModelProtocol
     var dataSource: UITableViewDiffableDataSource<Section, EntityViewModel>! = nil
-    var tableView: UITableView! = nil
+    var tableView: UITableView = UITableView()
     
     
     init(viewModel: EntityListViewModelProtocol) {
@@ -37,6 +39,7 @@ class EntityListTableViewController: UIViewController, UITableViewDelegate {
         setupTitle()
         setupTableView()
         setupDataSource()
+        configureNavigationController()
     }
     
     func setupTitle() {
@@ -65,7 +68,39 @@ class EntityListTableViewController: UIViewController, UITableViewDelegate {
     }
     
     
+    func loadData() {
+        
+        
+//        EntityListViewModel.createEntityListViewModel(url: viewModel.nextUrl ?? "", type: viewModel.contentType) {  result in
+//            
+//            
+//            guard let nextUrl = result.nextUrl else {
+//                self.stillLoading = false
+//                return
+//            }
+//            self.viewModel.nextUrl = nextUrl
+//            //                checking data source for duplicates
+//            
+//            if !self.viewModel.entitiesArray.contains(result.entitiesArray) {
+//                self.viewModel.entitiesArray.append(contentsOf: result.entitiesArray)
+//                
+//                var snapshot = self.dataSource.snapshot()
+//                snapshot.appendItems(result.entitiesArray, toSection: .main)
+//                
+//                DispatchQueue.global().async {
+//                    self.dataSource.apply(snapshot)
+//                }
+//            }
+//            
+//            
+//        }
+    }
+    
+    
+    
+    
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
         if indexPath.row == viewModel.entitiesArray.count - 1 {
             EntityListViewModel.createEntityListViewModel(url: viewModel.nextUrl ?? "", type: viewModel.contentType) {  result in
                 self.viewModel.nextUrl = result.nextUrl ?? nil
@@ -105,29 +140,47 @@ class EntityListTableViewController: UIViewController, UITableViewDelegate {
         snapshot.appendItems(viewModel.entitiesArray, toSection: .main)
         print(snapshot.sectionIdentifiers)
         
-        
         DispatchQueue.global().async {
             self.dataSource.apply(snapshot)
         }
     }
-
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        viewModel.generateViewModel(indexPath: indexPath, viewModel: self.viewModel) { [weak self] viewModelExport in
-            guard let viewModelExport = viewModelExport else { return }
-            DispatchQueue.main.async {
-                let vc = DetailTableViewController(viewModel: viewModelExport)
-//                vc.viewModel = viewModelExport
-                self?.navigationController?.pushViewController(vc, animated: true)
-            }
+        guard let item = dataSource.itemIdentifier(for: indexPath) else {return}
+        
+        viewModel.generateViewModelHelperDiff(entity: item, viewModel: self.viewModel) { [weak self] viewModelExport in
+                       guard let viewModelExport = viewModelExport else { return }
+                       DispatchQueue.main.async {
+                           let vc = DetailTableViewController(viewModel: viewModelExport)
+                           self?.navigationController?.pushViewController(vc, animated: true)
+                       }
+                   }
+            
+        }
+
+    
+    @objc func sortItemsAlpahetically() {
+        
+        var snapshot = dataSource.snapshot()
+        let items = snapshot.itemIdentifiers(inSection: .main)
+        snapshot.deleteItems(items)
+        let result = items.sorted { item, item2 in
+            item.name < item2.name
+        }
+        snapshot.appendItems(result, toSection: .main)
+    
+        DispatchQueue.global().async {
+            self.dataSource.apply(snapshot)
         }
     }
     
     
-    
-    
-    
+    func configureNavigationController() {
+        let sortItemsBarButton = UIBarButtonItem(image: UIImage(systemName: "arrow.up.arrow.down"), style: .done, target: self, action: #selector(sortItemsAlpahetically))
+        navigationItem.rightBarButtonItem = sortItemsBarButton
+    }
 }
 

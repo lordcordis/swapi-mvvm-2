@@ -311,10 +311,6 @@ class DetailTableViewControllerViewModel {
             let characterResponse = response as? PersonNetworkResponse
             self.description = DescriptionService.shared.characterDescription(character: characterResponse!) ?? "description empty"
             self.titleForTableView = "Character: \(characterResponse?.name ?? "")"
-            
-
-            
-            
             guard let homeworldURL = characterResponse?.homeworld else {return}
             var array = [String]()
             array.append(homeworldURL)
@@ -323,21 +319,19 @@ class DetailTableViewControllerViewModel {
             fillInfo(arrayOfUrls: characterResponse?.species ?? [], contentType: .Species)
             fillInfo(arrayOfUrls: characterResponse?.vehicles ?? [], contentType: .Vehicles)
             fillInfo(arrayOfUrls: characterResponse?.films ?? [], contentType: .Films)
+            fillInfo(arrayOfUrls: characterResponse?.starships ?? [], contentType: .Starships)
 
             
             
         case .Planets:
             self.contentType = .Planets
             let planetResponse = response as? PlanetNetworkResponse
-            
             self.titleForTableView = "Planet: \(planetResponse?.name ?? "planet name")"
-
             guard let desc = DescriptionService.shared.planetDescription(planet: planetResponse!) else {return}
             self.description = desc
             
             fillInfo(arrayOfUrls: planetResponse?.films ?? [], contentType: .Films)
             fillInfo(arrayOfUrls: planetResponse?.residents ?? [], contentType: .People)
-            
             
             
         case .Species:
@@ -346,22 +340,23 @@ class DetailTableViewControllerViewModel {
             self.titleForTableView = "Species: \(speciesResponse?.name ?? "unknown")"
             let desc = DescriptionService.shared.speciesDescription(species: speciesResponse!)
             self.description = desc
-            
-            fillInfo(arrayOfUrls: speciesResponse?.films ?? [], contentType: .Films)
-            
-            
+        
             guard let homeworldURL = speciesResponse?.homeworld else {return}
             var array = [String]()
             array.append(homeworldURL)
             
             fillInfo(arrayOfUrls: array, contentType: .Planets)
             fillInfo(arrayOfUrls: speciesResponse?.people ?? [], contentType: .People)
+            fillInfo(arrayOfUrls: speciesResponse?.films ?? [], contentType: .Films)
+            
             
         case .Starships:
             self.contentType = .Starships
             guard let starshipResponse = response as? StarshipNetworkResponse else {return}
             self.titleForTableView = "Starship: \(starshipResponse.name)"
             self.description = DescriptionService.shared.starshipDescription(starship: starshipResponse)
+            fillInfo(arrayOfUrls: starshipResponse.films, contentType: .Films)
+            fillInfo(arrayOfUrls: starshipResponse.pilots, contentType: .People)
             
         case .Vehicles:
             self.contentType = .Vehicles
@@ -370,6 +365,7 @@ class DetailTableViewControllerViewModel {
             guard let vehicle = vehicleResponse else {return}
             let desc = DescriptionService.shared.vehicleDescription(vehicle: vehicle)
             self.description = desc
+            fillInfo(arrayOfUrls: vehicleResponse?.films ?? [], contentType: .Films)
         }
     }
 }

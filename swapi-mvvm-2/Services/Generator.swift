@@ -15,9 +15,6 @@ struct Generator {
             case.success(let data):
                 guard let res = JsonService.decodeJsonToNetworkResponse(data: data, contentType: contentType) else {return}
                 
-                
-                let networkingType = contentType.intoNetworkResponseType()
-                
                 switch contentType {
                 case .Films:
                     let viewModel = DetailTableViewControllerViewModel.init(response: res as! FilmNetworkResponse, contentType: .Films)

@@ -39,6 +39,10 @@ enum ContentType: String, CaseIterable, RawRepresentable {
         }
     }
     
+    func convertContentIntoSectionType() {
+        
+    }
+    
     func intoSectionType() -> DetailTableViewController.Section {
         switch self {
         case .Films:

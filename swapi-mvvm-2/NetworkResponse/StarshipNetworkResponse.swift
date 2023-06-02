@@ -13,7 +13,7 @@ struct StarshipNetworkResponse: Codable, NetworkResponse {
     let length, manufacturer, maxAtmospheringSpeed, model: String
     let name, passengers: String
     let films: [String]
-    let pilots: [String]?
+    let pilots: [String]
     let starshipClass: String
     let url: String
 
@@ -34,7 +34,7 @@ struct StarshipNetworkResponse: Codable, NetworkResponse {
 
 struct StarshipListNetworkResponse: Codable {
     let count: Int
-    let next: String
+    let next: String?
     let previous: String?
     let results: [StarshipNetworkResponse]
 }

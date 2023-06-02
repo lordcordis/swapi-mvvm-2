@@ -11,6 +11,7 @@ import UIKit
 
 protocol EntityListViewModelProtocol {
     func generateViewModel (indexPath: IndexPath, viewModel: EntityListViewModelProtocol, completion: @escaping (DetailTableViewControllerViewModel?)->Void)
+    func generateViewModelHelperDiff (entity: EntityViewModel, viewModel: EntityListViewModelProtocol, completion: @escaping (DetailTableViewControllerViewModel?)->Void)
     func textFor(indexPath: Int) -> String
     var entitiesArray: [EntityViewModel] {get set}
     var nextUrl: String? {get set}

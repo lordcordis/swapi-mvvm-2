@@ -26,6 +26,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 250, height: 60)
         layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
+        
+//        func createBasicListLayout() -> UICollectionViewLayout {
+//            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+//                                                 heightDimension: .fractionalHeight(1.0))
+//            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+//
+//            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+//                                                  heightDimension: .absolute(44))
+//            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+//                                                             subitems: [item])
+//
+//            let section = NSCollectionLayoutSection(group: group)
+//
+//            let layout = UICollectionViewCompositionalLayout(section: section)
+//            return layout
+//        }
+        
+        
         let mainCollectionViewController = MainCollectionViewController(collectionViewLayout: layout)
 //        let mainCollectionViewController = DetailTableViewControllerDiff()
 
