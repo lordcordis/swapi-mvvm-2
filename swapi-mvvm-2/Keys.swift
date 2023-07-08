@@ -8,7 +8,8 @@
 import Foundation
 
 struct Keys {
-    static let initalURL = "https://swapi.dev/api/"
+//    static let initalURL = "https://swapi.dev/api/"
+    static let initalURL = "https://swapi-api.hbtn.io/api/"
     static let mainScreenCellIdentificator = "mainScreenCellIdentificator"
     static let listTableViewCellId = "listTableViewCellId"
     static let detailViewInfoCell = "detailViewInfoCell"
