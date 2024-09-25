@@ -20,10 +20,8 @@ SWAPI is an iOS application that leverages the Model-View-ViewModel (MVVM) archi
 ### Prerequisites
 
 - Xcode 12.0 or higher
-- iOS 13.0 or higher
+- iOS 16.2 or higher
 
-### Installation
+### License
+This project is licensed under the MIT License. See the LICENSE file for details.
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/lordcordis/swapi-mvvm-2.git
