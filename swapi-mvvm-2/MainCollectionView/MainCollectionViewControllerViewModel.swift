@@ -48,7 +48,10 @@ class MainCollectionViewControllerViewModel: MainCollectionViewControllerViewMod
                 print("Bad URL")
                 completion(.failure(.badURL))
             case .success(let data):
-                guard let jsonOutput = JsonService.decodeJsonToDictionary(data: data) else {return}
+                guard let jsonOutput = JsonService.decodeJsonToDictionary(data: data) else {
+                    completion(.failure(.badData))
+                    return
+                }
                 var arrayOfEntities: [EntityViewModel] = []
                 for (name, path) in jsonOutput.sorted(by: <) {
                     arrayOfEntities.append(EntityViewModel(name: name, url: path))

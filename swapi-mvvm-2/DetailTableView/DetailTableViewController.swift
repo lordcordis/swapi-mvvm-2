@@ -109,18 +109,24 @@ class DetailTableViewController: UIViewController, UITableViewDelegate, InfoView
     
     func setupDataSource() {
         dataSource = UITableViewDiffableDataSource <Section, EntityViewModel>(tableView: tableView, cellProvider: { tableView, indexPath, entity in
-            
+
             let cell = tableView.dequeueReusableCell(withIdentifier: self.cellID)
-            cell?.accessoryType = .disclosureIndicator
             var content = cell?.defaultContentConfiguration()
-            
-            if self.dataSource.sectionIdentifier(for: indexPath.section) == .main {
+
+            let section = self.dataSource.sectionIdentifier(for: indexPath.section)
+            if section == .main {
                 cell?.accessoryType = .none
                 cell?.selectionStyle = .none
             } else {
-                content?.textProperties.font = UIFont.preferredFont(forTextStyle: .subheadline)
+                cell?.accessoryType = .disclosureIndicator
+                content?.textProperties.font = .preferredFont(forTextStyle: .subheadline)
+                if let contentType = section?.intoContentType() {
+                    content?.image = UIImage(systemName: contentType.iconName)
+                    content?.imageProperties.tintColor = .systemYellow
+                    content?.imageProperties.preferredSymbolConfiguration = .init(textStyle: .subheadline)
+                }
             }
-            
+
             content?.text = entity.name
             cell?.contentConfiguration = content
             return cell
@@ -130,8 +136,22 @@ class DetailTableViewController: UIViewController, UITableViewDelegate, InfoView
         var snapshot = NSDiffableDataSourceSnapshot<Section, EntityViewModel>()
         snapshot.appendSections([.main])
         snapshot.appendItems([EntityViewModel(name: viewModel.giveDescription(), url: "noturl")], toSection: .main)
-        
-        DispatchQueue.global().async {
+
+        let sectionData: [(ContentType, [EntityViewModel])] = [
+            (.Films, viewModel.films),
+            (.People, viewModel.residents),
+            (.Planets, viewModel.planets),
+            (.Species, viewModel.species),
+            (.Starships, viewModel.starships),
+            (.Vehicles, viewModel.vehicles),
+        ]
+
+        for (type, items) in sectionData where !items.isEmpty {
+            snapshot.appendSections([type.intoSectionType()])
+            snapshot.appendItems(items, toSection: type.intoSectionType())
+        }
+
+        DispatchQueue.main.async {
             self.dataSource.apply(snapshot)
         }
     }
@@ -147,7 +167,7 @@ class DetailTableViewController: UIViewController, UITableViewDelegate, InfoView
         
         guard let item = dataSource.itemIdentifier(for: indexPath), let sectionType = dataSource.sectionIdentifier(for: indexPath.section), let contentType = sectionType.intoContentType() else { return }
         
-        Generator.generateViewModelHelper(url: item.url, contentType: contentType, responseType: contentType.intoNetworkResponseType()) { [weak self] viewModel in
+        Generator.generateViewModelHelper(url: item.url, contentType: contentType) { [weak self] viewModel in
             guard let viewModel = viewModel else { return }
             DispatchQueue.main.async {
                 

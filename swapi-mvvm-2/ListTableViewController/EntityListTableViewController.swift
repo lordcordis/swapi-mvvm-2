@@ -7,10 +7,9 @@
 
 import UIKit
 
-class EntityListTableViewController: UIViewController, UITableViewDelegate {
+class EntityListTableViewController: UIViewController, UITableViewDelegate, UISearchResultsUpdating, UISearchBarDelegate {
     
     let cellID = "EntityListTableViewControllerDiff"
-    var stillLoading = true
 
     
     
@@ -40,22 +39,23 @@ class EntityListTableViewController: UIViewController, UITableViewDelegate {
         setupTableView()
         setupDataSource()
         configureNavigationController()
+        loadAllPages {}
     }
     
     func setupTitle() {
         switch viewModel.contentType {
         case .People:
-            title = "People"
+            title = String(localized: "People")
         case .Planets:
-            title = "Planets"
+            title = String(localized: "Planets")
         case .Starships:
-            title = "Starships"
+            title = String(localized: "Starships")
         case .Species:
-            title = "Species"
+            title = String(localized: "Species")
         case .Vehicles:
-            title = "Vehicles"
+            title = String(localized: "Vehicles")
         case .Films:
-            title = "Films"
+            title = String(localized: "Films")
         }
     }
     
@@ -68,66 +68,15 @@ class EntityListTableViewController: UIViewController, UITableViewDelegate {
     }
     
     
-    func loadData() {
-        
-        
-//        EntityListViewModel.createEntityListViewModel(url: viewModel.nextUrl ?? "", type: viewModel.contentType) {  result in
-//            
-//            
-//            guard let nextUrl = result.nextUrl else {
-//                self.stillLoading = false
-//                return
-//            }
-//            self.viewModel.nextUrl = nextUrl
-//            //                checking data source for duplicates
-//            
-//            if !self.viewModel.entitiesArray.contains(result.entitiesArray) {
-//                self.viewModel.entitiesArray.append(contentsOf: result.entitiesArray)
-//                
-//                var snapshot = self.dataSource.snapshot()
-//                snapshot.appendItems(result.entitiesArray, toSection: .main)
-//                
-//                DispatchQueue.global().async {
-//                    self.dataSource.apply(snapshot)
-//                }
-//            }
-//            
-//            
-//        }
-    }
-    
-    
-    
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-        if indexPath.row == viewModel.entitiesArray.count - 1 {
-            EntityListViewModel.createEntityListViewModel(url: viewModel.nextUrl ?? "", type: viewModel.contentType) {  result in
-                self.viewModel.nextUrl = result.nextUrl ?? nil
-                
-                //                checking data source for duplicates
-                
-                if !self.viewModel.entitiesArray.contains(result.entitiesArray) {
-                    self.viewModel.entitiesArray.append(contentsOf: result.entitiesArray)
-                    
-                    var snapshot = self.dataSource.snapshot()
-                    snapshot.appendItems(result.entitiesArray, toSection: .main)
-                    
-                    DispatchQueue.global().async {
-                        self.dataSource.apply(snapshot)
-                    }
-                }
-            }
-        }
-    }
-    
-    
     func setupDataSource() {
         dataSource = UITableViewDiffableDataSource <Section, EntityViewModel>(tableView: tableView, cellProvider: { tableView, indexPath, entity in
             let cell = tableView.dequeueReusableCell(withIdentifier: self.cellID)
             cell?.accessoryType = .disclosureIndicator
             var content = cell?.defaultContentConfiguration()
             content?.text = entity.name
+            content?.textProperties.font = .preferredFont(forTextStyle: .body)
+            content?.image = UIImage(systemName: self.viewModel.contentType.iconName)
+            content?.imageProperties.tintColor = .systemYellow
             cell?.contentConfiguration = content
             return cell
         })
@@ -138,9 +87,8 @@ class EntityListTableViewController: UIViewController, UITableViewDelegate {
         var snapshot = NSDiffableDataSourceSnapshot<Section, EntityViewModel>()
         snapshot.appendSections([.main])
         snapshot.appendItems(viewModel.entitiesArray, toSection: .main)
-        print(snapshot.sectionIdentifiers)
-        
-        DispatchQueue.global().async {
+
+        DispatchQueue.main.async {
             self.dataSource.apply(snapshot)
         }
     }
@@ -162,25 +110,72 @@ class EntityListTableViewController: UIViewController, UITableViewDelegate {
         }
 
     
-    @objc func sortItemsAlpahetically() {
-        
-        var snapshot = dataSource.snapshot()
-        let items = snapshot.itemIdentifiers(inSection: .main)
-        snapshot.deleteItems(items)
-        let result = items.sorted { item, item2 in
-            item.name < item2.name
+    func loadAllPages(completion: @escaping () -> Void) {
+        guard let nextUrl = viewModel.nextUrl, !nextUrl.isEmpty else {
+            completion()
+            return
         }
-        snapshot.appendItems(result, toSection: .main)
-    
-        DispatchQueue.global().async {
-            self.dataSource.apply(snapshot)
+
+        EntityListViewModel.createEntityListViewModel(url: nextUrl, type: viewModel.contentType) { result in
+            self.viewModel.nextUrl = result.nextUrl
+            self.viewModel.entitiesArray.append(contentsOf: result.entitiesArray)
+
+            var snapshot = self.dataSource.snapshot()
+            snapshot.appendItems(result.entitiesArray, toSection: .main)
+
+            DispatchQueue.main.async {
+                self.dataSource.apply(snapshot)
+            }
+
+            self.loadAllPages(completion: completion)
         }
     }
-    
-    
+
+    @objc func sortItemsAlpahetically() {
+        navigationItem.rightBarButtonItem?.isEnabled = false
+
+        loadAllPages { [weak self] in
+            guard let self else { return }
+
+            var snapshot = self.dataSource.snapshot()
+            let items = snapshot.itemIdentifiers(inSection: .main)
+            snapshot.deleteItems(items)
+            let sorted = items.sorted { $0.name < $1.name }
+            snapshot.appendItems(sorted, toSection: .main)
+
+            DispatchQueue.main.async {
+                self.dataSource.apply(snapshot)
+            }
+        }
+    }
+
     func configureNavigationController() {
         let sortItemsBarButton = UIBarButtonItem(image: UIImage(systemName: "arrow.up.arrow.down"), style: .done, target: self, action: #selector(sortItemsAlpahetically))
         navigationItem.rightBarButtonItem = sortItemsBarButton
+
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = String(localized: "Search")
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+    }
+
+    func updateSearchResults(for searchController: UISearchController) {
+        let query = searchController.searchBar.text ?? ""
+        let items = viewModel.entitiesArray
+
+        var snapshot = NSDiffableDataSourceSnapshot<Section, EntityViewModel>()
+        snapshot.appendSections([.main])
+
+        if query.isEmpty {
+            snapshot.appendItems(items, toSection: .main)
+        } else {
+            let filtered = items.filter { $0.name.localizedCaseInsensitiveContains(query) }
+            snapshot.appendItems(filtered, toSection: .main)
+        }
+
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
-

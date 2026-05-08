@@ -24,6 +24,17 @@ enum ContentType: String, CaseIterable, RawRepresentable {
     case Starships
     case Vehicles
     
+    var iconName: String {
+        switch self {
+        case .Films: return "film"
+        case .People: return "person.fill"
+        case .Planets: return "globe.americas.fill"
+        case .Species: return "pawprint.fill"
+        case .Starships: return "airplane"
+        case .Vehicles: return "car.fill"
+        }
+    }
+
     func intoNetworkResponseType() -> NetworkResponse.Type {
         switch self {
         case .Films: return FilmNetworkResponse.self

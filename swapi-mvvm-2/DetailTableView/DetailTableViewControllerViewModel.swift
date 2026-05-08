@@ -61,51 +61,46 @@ class DetailTableViewControllerViewModel {
             if films.isEmpty {
                 return nil
             } else if films.count == 1 {
-                return "Film"
+                return String(localized: "Film")
             } else {
-                return "Films"
+                return String(localized: "Films")
             }
-            
+
         case .People:
             guard !residents.isEmpty else {return nil}
-            
+
             switch contentType {
             case .Films:
-                return "Characters"
+                return String(localized: "Characters")
             case .People:
                 return nil
             case .Vehicles:
-                return "Pilots"
+                return String(localized: "Pilots")
             case .Planets:
-                return "Residents"
+                return String(localized: "Residents")
             case .Starships:
-                return residents.isEmpty ? nil : "Pilots"
+                return residents.isEmpty ? nil : String(localized: "Pilots")
             case .Species:
-                return "Representatives"
+                return String(localized: "Representatives")
             }
         case .Planets:
-            
-            
-            
             guard !planets.isEmpty else {return nil}
-            
+
             switch contentType {
             case .Films:
-                return "Planets"
+                return String(localized: "Planets")
             case .Species, .People :
-                return "Homeworld"
+                return String(localized: "Homeworld")
             case .Planets, .Vehicles, .Starships:
                 return nil
             }
-            
-            
-            
+
         case .Species:
-            return species.isEmpty ? nil : "Species"
+            return species.isEmpty ? nil : String(localized: "Species")
         case .Starships:
-            return starships.isEmpty ? nil : "Starships"
+            return starships.isEmpty ? nil : String(localized: "Starships")
         case .Vehicles:
-            return vehicles.isEmpty ? nil : "Vehicles"
+            return vehicles.isEmpty ? nil : String(localized: "Vehicles")
         }
         
     }
@@ -244,43 +239,42 @@ class DetailTableViewControllerViewModel {
      var vehicles = [EntityViewModel]()
      var starships = [EntityViewModel]()
      var species = [EntityViewModel]()
-    
-    
-    //    MARK: Info Fill to viewmodel using array of urls
-    
+
+    private let loadGroup = DispatchGroup()
+
+    func onLoaded(completion: @escaping () -> Void) {
+        loadGroup.notify(queue: .main, execute: completion)
+    }
+
     func fillInfo(arrayOfUrls: [String], contentType: ContentType) {
-        
         for url in arrayOfUrls {
+            loadGroup.enter()
             Networking.getData(url: url) { result in
+                defer { self.loadGroup.leave() }
                 switch result {
                 case .success(let data):
                     JsonService.decodeJsonToName(data: data, contentType: contentType) { name in
                         if let name = name {
+                            let entity = EntityViewModel(name: name, url: url)
                             switch contentType {
                             case .Films:
-                                self.films.append(EntityViewModel(name: name, url: url))
-                                self.delegate?.addItemToSnapshot(type: .Films, item: EntityViewModel(name: name, url: url))
+                                self.films.append(entity)
                             case .People:
-                                self.residents.append(EntityViewModel(name: name, url: url))
-                                self.delegate?.addItemToSnapshot(type: .People, item: EntityViewModel(name: name, url: url))
+                                self.residents.append(entity)
                             case .Planets:
-                                self.planets.append(EntityViewModel(name: name, url: url))
-                                self.delegate?.addItemToSnapshot(type: .Planets, item: EntityViewModel(name: name, url: url))
+                                self.planets.append(entity)
                             case .Species:
-                                self.species.append(EntityViewModel(name: name, url: url))
-                                self.delegate?.addItemToSnapshot(type: .Species, item: EntityViewModel(name: name, url: url))
+                                self.species.append(entity)
                             case .Starships:
-                                self.starships.append(EntityViewModel(name: name, url: url))
-                                self.delegate?.addItemToSnapshot(type: .Starships, item: EntityViewModel(name: name, url: url))
+                                self.starships.append(entity)
                             case .Vehicles:
-                                self.vehicles.append(EntityViewModel(name: name, url: url))
-                                self.delegate?.addItemToSnapshot(type: .Vehicles, item: EntityViewModel(name: name, url: url))
+                                self.vehicles.append(entity)
                             }
-//                            self.delegate?.updateView()
+                            self.delegate?.addItemToSnapshot(type: contentType, item: entity)
                         }
                     }
-                case .failure(let error):
-                    print(error.localizedDescription)
+                case .failure:
+                    break
                 }
             }
         }
@@ -296,7 +290,7 @@ class DetailTableViewControllerViewModel {
             
             let filmResponse = response as? FilmNetworkResponse
             self.description = DescriptionService.shared.filmDescription(film: filmResponse!)
-            self.titleForTableView = "Film: \(filmResponse?.title ?? "")"
+            self.titleForTableView = "\(String(localized: "Film:")) \(filmResponse?.title ?? "")"
             
 
             fillInfo(arrayOfUrls: filmResponse?.characters ?? [], contentType: .People)
@@ -309,8 +303,8 @@ class DetailTableViewControllerViewModel {
         case .People:
             self.contentType = .People
             let characterResponse = response as? PersonNetworkResponse
-            self.description = DescriptionService.shared.characterDescription(character: characterResponse!) ?? "description empty"
-            self.titleForTableView = "Character: \(characterResponse?.name ?? "")"
+            self.description = DescriptionService.shared.characterDescription(character: characterResponse!) ?? ""
+            self.titleForTableView = "\(String(localized: "Character:")) \(characterResponse?.name ?? "")"
             guard let homeworldURL = characterResponse?.homeworld else {return}
             var array = [String]()
             array.append(homeworldURL)
@@ -326,7 +320,7 @@ class DetailTableViewControllerViewModel {
         case .Planets:
             self.contentType = .Planets
             let planetResponse = response as? PlanetNetworkResponse
-            self.titleForTableView = "Planet: \(planetResponse?.name ?? "planet name")"
+            self.titleForTableView = "\(String(localized: "Planet:")) \(planetResponse?.name ?? "")"
             guard let desc = DescriptionService.shared.planetDescription(planet: planetResponse!) else {return}
             self.description = desc
             
@@ -337,7 +331,7 @@ class DetailTableViewControllerViewModel {
         case .Species:
             self.contentType = .Species
             let speciesResponse = response as? SpeciesNetworkResponse
-            self.titleForTableView = "Species: \(speciesResponse?.name ?? "unknown")"
+            self.titleForTableView = "\(String(localized: "Species:")) \(speciesResponse?.name ?? "")"
             let desc = DescriptionService.shared.speciesDescription(species: speciesResponse!)
             self.description = desc
         
@@ -353,7 +347,7 @@ class DetailTableViewControllerViewModel {
         case .Starships:
             self.contentType = .Starships
             guard let starshipResponse = response as? StarshipNetworkResponse else {return}
-            self.titleForTableView = "Starship: \(starshipResponse.name)"
+            self.titleForTableView = "\(String(localized: "Starship:")) \(starshipResponse.name)"
             self.description = DescriptionService.shared.starshipDescription(starship: starshipResponse)
             fillInfo(arrayOfUrls: starshipResponse.films, contentType: .Films)
             fillInfo(arrayOfUrls: starshipResponse.pilots, contentType: .People)
@@ -361,7 +355,7 @@ class DetailTableViewControllerViewModel {
         case .Vehicles:
             self.contentType = .Vehicles
             let vehicleResponse = response as? VehicleNetworkResponse
-            self.titleForTableView = "Vehicle: \(vehicleResponse?.name ?? "vehicle name")"
+            self.titleForTableView = "\(String(localized: "Vehicle:")) \(vehicleResponse?.name ?? "")"
             guard let vehicle = vehicleResponse else {return}
             let desc = DescriptionService.shared.vehicleDescription(vehicle: vehicle)
             self.description = desc

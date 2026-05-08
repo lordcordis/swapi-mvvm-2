@@ -34,10 +34,7 @@ final class MainCollectionViewController: UICollectionViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.textAlignment = .center
-        label.text = """
-        SWAPI is down / Your connection is offline
-        Pull down to refresh
-        """
+        label.text = String(localized: "SWAPI is down / Your connection is offline\nPull down to refresh")
         errorView.addSubview(label)
         
         NSLayoutConstraint.activate([
@@ -58,7 +55,7 @@ final class MainCollectionViewController: UICollectionViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         canMoveToNextViewController = true
-        title = "SWAPI: A Star Wars API"
+        title = String(localized: "SWAPI: A Star Wars API")
     }
     
     override func viewDidLoad() {
@@ -77,7 +74,7 @@ final class MainCollectionViewController: UICollectionViewController {
     }
     
     func applySnapshot(_ snapshot: NSDiffableDataSourceSnapshot<MainCollectionViewController.Section, EntityViewModel>) {
-        DispatchQueue.global().async {
+        DispatchQueue.main.async {
             self.dataSource.apply(snapshot)
         }
     }
@@ -144,7 +141,7 @@ final class MainCollectionViewController: UICollectionViewController {
         
         var snapshot = dataSource.snapshot()
         snapshot.appendSections([.main])
-        DispatchQueue.global().async {
+        DispatchQueue.main.async {
             self.dataSource.apply(snapshot)
         }
         

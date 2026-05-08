@@ -35,6 +35,7 @@
 		007CD93A283BD3FC00452415 /* EntityViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007CD939283BD3FC00452415 /* EntityViewModelProtocol.swift */; };
 		00B6FE7229E483940092F3D8 /* EntityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B6FE7129E483940092F3D8 /* EntityViewModel.swift */; };
 		00E68725284AA2A700BF5D79 /* DescriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E68724284AA2A700BF5D79 /* DescriptionService.swift */; };
+		30ED0CF12FAA6CEF00B0C373 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 30ED0CF02FAA6BD300B0C373 /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +69,7 @@
 		007CD939283BD3FC00452415 /* EntityViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityViewModelProtocol.swift; sourceTree = "<group>"; };
 		00B6FE7129E483940092F3D8 /* EntityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityViewModel.swift; sourceTree = "<group>"; };
 		00E68724284AA2A700BF5D79 /* DescriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionService.swift; sourceTree = "<group>"; };
+		30ED0CF02FAA6BD300B0C373 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 			children = (
 				0018BCF628368DE90066B1D8 /* swapi-mvvm-2 */,
 				0018BCF528368DE90066B1D8 /* Products */,
+				30ED0CF02FAA6BD300B0C373 /* Localizable.xcstrings */,
 			);
 			sourceTree = "<group>";
 		};
@@ -187,6 +190,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				30ED0CEF2FAA6AA100B0C373 /* PBXTargetDependency */,
 			);
 			name = "swapi-mvvm-2";
 			productName = "swapi-mvvm-2";
@@ -217,6 +221,9 @@
 				Base,
 			);
 			mainGroup = 0018BCEB28368DE90066B1D8;
+			packageReferences = (
+				30ED0CED2FAA6A9300B0C373 /* XCRemoteSwiftPackageReference "xcstrings-tool-plugin" */,
+			);
 			productRefGroup = 0018BCF528368DE90066B1D8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -233,6 +240,7 @@
 			files = (
 				0018BD0428368DEB0066B1D8 /* LaunchScreen.storyboard in Resources */,
 				0018BD0128368DEB0066B1D8 /* Assets.xcassets in Resources */,
+				30ED0CF12FAA6CEF00B0C373 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,6 +281,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		30ED0CEF2FAA6AA100B0C373 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 30ED0CEE2FAA6AA100B0C373 /* XCStringsToolPlugin */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		0018BD0228368DEB0066B1D8 /* LaunchScreen.storyboard */ = {
@@ -480,6 +495,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		30ED0CED2FAA6A9300B0C373 /* XCRemoteSwiftPackageReference "xcstrings-tool-plugin" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/liamnichols/xcstrings-tool-plugin";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		30ED0CEE2FAA6AA100B0C373 /* XCStringsToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 30ED0CED2FAA6A9300B0C373 /* XCRemoteSwiftPackageReference "xcstrings-tool-plugin" */;
+			productName = "plugin:XCStringsToolPlugin";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0018BCEC28368DE90066B1D8 /* Project object */;
 }

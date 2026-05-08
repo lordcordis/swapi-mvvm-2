@@ -8,35 +8,37 @@
 import Foundation
 
 struct Generator {
-    static func generateViewModelHelper (url: String, contentType: ContentType, responseType: NetworkResponse.Type, completion: @escaping (DetailTableViewControllerViewModel?)->Void) {
-        
+    static func generateViewModelHelper(url: String, contentType: ContentType, completion: @escaping (DetailTableViewControllerViewModel?) -> Void) {
         Networking.getData(url: url) { result in
             switch result {
-            case.success(let data):
-                guard let res = JsonService.decodeJsonToNetworkResponse(data: data, contentType: contentType) else {return}
-                
+            case .success(let data):
+                guard let res = JsonService.decodeJsonToNetworkResponse(data: data, contentType: contentType) else {
+                    completion(nil)
+                    return
+                }
+
+                let viewModel: DetailTableViewControllerViewModel?
                 switch contentType {
                 case .Films:
-                    let viewModel = DetailTableViewControllerViewModel.init(response: res as! FilmNetworkResponse, contentType: .Films)
-                    completion(viewModel)
+                    viewModel = (res as? FilmNetworkResponse).map { DetailTableViewControllerViewModel(response: $0, contentType: .Films) }
                 case .People:
-                    let viewModel = DetailTableViewControllerViewModel.init(response: res as! PersonNetworkResponse, contentType: .People)
-                    completion(viewModel)
+                    viewModel = (res as? PersonNetworkResponse).map { DetailTableViewControllerViewModel(response: $0, contentType: .People) }
                 case .Planets:
-                    let viewModel = DetailTableViewControllerViewModel.init(response: res as! PlanetNetworkResponse, contentType: .Planets)
-                    completion(viewModel)
+                    viewModel = (res as? PlanetNetworkResponse).map { DetailTableViewControllerViewModel(response: $0, contentType: .Planets) }
                 case .Species:
-                    let viewModel = DetailTableViewControllerViewModel.init(response: res as! SpeciesNetworkResponse, contentType: .Species)
-                    completion(viewModel)
+                    viewModel = (res as? SpeciesNetworkResponse).map { DetailTableViewControllerViewModel(response: $0, contentType: .Species) }
                 case .Starships:
-                    let viewModel = DetailTableViewControllerViewModel.init(response: res as! StarshipNetworkResponse, contentType: .Starships)
-                    completion(viewModel)
+                    viewModel = (res as? StarshipNetworkResponse).map { DetailTableViewControllerViewModel(response: $0, contentType: .Starships) }
                 case .Vehicles:
-                    let viewModel = DetailTableViewControllerViewModel.init(response: res as! VehicleNetworkResponse, contentType: .Vehicles)
-                    completion(viewModel)
+                    viewModel = (res as? VehicleNetworkResponse).map { DetailTableViewControllerViewModel(response: $0, contentType: .Vehicles) }
                 }
-            case .failure(let error):
-                print(error.localizedDescription)
+                if let viewModel {
+                    viewModel.onLoaded { completion(viewModel) }
+                } else {
+                    completion(nil)
+                }
+
+            case .failure:
                 completion(nil)
             }
         }
