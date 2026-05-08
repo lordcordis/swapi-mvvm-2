@@ -14,18 +14,9 @@ struct Networking {
         case badData
     }
     
-    static func getData(url: String, completion: @escaping (Result<Data, NetworkingError>) -> Void) {
-        
-        guard let url = URL(string: url) else {completion(.failure(NetworkingError.badURL))
-            return
-        }
-        let session = URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data else {
-                completion(.failure(.badData))
-                return
-            }
-            completion(.success(data))
-        }
-        session.resume()
+    static func getData(url: String) async throws -> Data {
+        guard let url = URL(string: url) else { throw NetworkingError.badURL }
+        let (data, _) = try await URLSession.shared.data(from: url)
+        return data
     }
 }

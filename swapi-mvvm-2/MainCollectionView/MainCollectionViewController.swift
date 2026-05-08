@@ -70,45 +70,23 @@ final class MainCollectionViewController: UICollectionViewController {
         var snapshot = dataSource.snapshot()
         snapshot.deleteAllItems()
         snapshot.appendSections([.main])
-        applySnapshot(snapshot)
+        dataSource.apply(snapshot)
     }
-    
-    func applySnapshot(_ snapshot: NSDiffableDataSourceSnapshot<MainCollectionViewController.Section, EntityViewModel>) {
-        DispatchQueue.main.async {
-            self.dataSource.apply(snapshot)
-        }
-    }
-    
+
     func initialiseViewModel() {
-        
-        DispatchQueue.global().async {
-            self.resetDataSource()
-        }
-        
-        viewModel = MainCollectionViewControllerViewModel(completion: { [weak self] result in
-            switch result {
-                
-            case .failure(let error):
-                print(error)
-                
-                DispatchQueue.main.async {
-                    self?.maximiseNetworkingErrorView()
-                }
-                
-            case .success (let initialArrayOfItems):
-                
-                DispatchQueue.main.async {
-                    self?.minimiseNetworkingErrorView()
-                }
-                
-                guard let array = initialArrayOfItems, var snapshot = self?.dataSource.snapshot() else {return}
-                snapshot.appendItems(array, toSection: .main)
-                self?.applySnapshot(snapshot)
-                
-            case .none:
-                fatalError()
+        resetDataSource()
+        viewModel = MainCollectionViewControllerViewModel()
+        Task {
+            do {
+                let entities = try await viewModel.getData()
+                minimiseNetworkingErrorView()
+                var snapshot = dataSource.snapshot()
+                snapshot.appendItems(entities, toSection: .main)
+                await dataSource.apply(snapshot)
+            } catch {
+                maximiseNetworkingErrorView()
             }
-        })
+        }
     }
     
     func configureRefreshControl () {
@@ -121,11 +99,7 @@ final class MainCollectionViewController: UICollectionViewController {
     
     @objc func handleRefreshControl() {
         initialiseViewModel()
-        
-        // Dismiss the refresh control.
-        DispatchQueue.main.async {
-            self.collectionView.refreshControl?.endRefreshing()
-        }
+        collectionView.refreshControl?.endRefreshing()
     }
     
     
@@ -141,32 +115,22 @@ final class MainCollectionViewController: UICollectionViewController {
         
         var snapshot = dataSource.snapshot()
         snapshot.appendSections([.main])
-        DispatchQueue.main.async {
-            self.dataSource.apply(snapshot)
-        }
+        dataSource.apply(snapshot)
         
         
     }
     
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        guard let type = dataSource.itemIdentifier(for: indexPath)?.name,
-              let url = dataSource.itemIdentifier(for: indexPath)?.url,
-              let contentType = ContentType.init(rawValue: type.capitalized) else {return}
-        print(type)
-        print(contentType)
-        EntityListViewModel.createEntityListViewModel(url: url, type: contentType, completion: { [weak self] result in
-            guard let self = self else {return}
-            DispatchQueue.main.async {
-                let vm = EntityListTableViewController(viewModel: result)
-                if self.canMoveToNextViewController {
-                    self.navigationController?.pushViewController(vm, animated: true)
-                    self.canMoveToNextViewController = false
-                } else {
-                    return
-                }
-            }
-        })
+        guard let item = dataSource.itemIdentifier(for: indexPath),
+              let contentType = ContentType(rawValue: item.name.capitalized) else { return }
+
+        Task {
+            guard let result = await EntityListViewModel.createEntityListViewModel(url: item.url, type: contentType) else { return }
+            guard canMoveToNextViewController else { return }
+            let vc = EntityListTableViewController(viewModel: result)
+            navigationController?.pushViewController(vc, animated: true)
+            canMoveToNextViewController = false
+        }
     }
 }

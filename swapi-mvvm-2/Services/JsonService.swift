@@ -18,29 +18,26 @@ struct JsonService {
     
     // MARK: - Json To Name
     
-    static func decodeJsonToName(data: Data, contentType: ContentType, completion: @escaping (String?) -> Void) {
+    static func decodeJsonToName(data: Data, contentType: ContentType) -> String? {
         guard let response = JsonService.decodeJsonToNetworkResponse(data: data, contentType: contentType) else {
             print("decodeJsonToName \(contentType.rawValue) failed")
-            return completion(nil)
+            return nil
         }
-        
-        let name: String?
+
         switch contentType {
         case .Films:
-            name = (response as? FilmNetworkResponse)?.title
+            return (response as? FilmNetworkResponse)?.title
         case .People:
-            name = (response as? PersonNetworkResponse)?.name
+            return (response as? PersonNetworkResponse)?.name
         case .Planets:
-            name = (response as? PlanetNetworkResponse)?.name
+            return (response as? PlanetNetworkResponse)?.name
         case .Species:
-            name = (response as? SpeciesNetworkResponse)?.name
+            return (response as? SpeciesNetworkResponse)?.name
         case .Starships:
-            name = (response as? StarshipNetworkResponse)?.name
+            return (response as? StarshipNetworkResponse)?.name
         case .Vehicles:
-            name = (response as? VehicleNetworkResponse)?.name
+            return (response as? VehicleNetworkResponse)?.name
         }
-        
-        completion(name)
     }
     
     

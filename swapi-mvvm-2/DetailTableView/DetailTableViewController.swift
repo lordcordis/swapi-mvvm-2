@@ -6,7 +6,7 @@
 //
 
 import UIKit
-class DetailTableViewController: UIViewController, UITableViewDelegate, InfoViewModelDelegate {
+class DetailTableViewController: UIViewController, UITableViewDelegate {
     
     var viewModel: DetailTableViewControllerViewModel
     var dataSource: UITableViewDiffableDataSource<Section, EntityViewModel>! = nil
@@ -48,33 +48,10 @@ class DetailTableViewController: UIViewController, UITableViewDelegate, InfoView
         super.init(nibName: nil, bundle: nil)
         setupTableView()
         setupDataSource()
-        viewModel.delegate = self
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    
-    func addItemToSnapshot(type: ContentType, item: EntityViewModel) {
-        
-        var snapshot = dataSource.snapshot()
-    
-        // Checking if snapshot of datasource has a section for item, if not - adding the section
-        
-        let typeOfSection = type.intoSectionType()
-        if !snapshot.sectionIdentifiers.contains(typeOfSection) {
-            snapshot.appendSections([typeOfSection])
-        }
-        
-        //  Applying to dataSource
-        snapshot.appendItems([item], toSection: type.intoSectionType())
-        
-        DispatchQueue.global().async {
-            self.dataSource.apply(snapshot)
-        }
-        
-
     }
     
     
@@ -122,7 +99,7 @@ class DetailTableViewController: UIViewController, UITableViewDelegate, InfoView
                 content?.textProperties.font = .preferredFont(forTextStyle: .subheadline)
                 if let contentType = section?.intoContentType() {
                     content?.image = UIImage(systemName: contentType.iconName)
-                    content?.imageProperties.tintColor = .systemYellow
+                    content?.imageProperties.tintColor = .systemPink
                     content?.imageProperties.preferredSymbolConfiguration = .init(textStyle: .subheadline)
                 }
             }
@@ -151,9 +128,7 @@ class DetailTableViewController: UIViewController, UITableViewDelegate, InfoView
             snapshot.appendItems(items, toSection: type.intoSectionType())
         }
 
-        DispatchQueue.main.async {
-            self.dataSource.apply(snapshot)
-        }
+        dataSource.apply(snapshot)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -161,22 +136,19 @@ class DetailTableViewController: UIViewController, UITableViewDelegate, InfoView
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        guard canMoveToNextViewController == true else { return }
+        guard canMoveToNextViewController else { return }
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        guard let item = dataSource.itemIdentifier(for: indexPath), let sectionType = dataSource.sectionIdentifier(for: indexPath.section), let contentType = sectionType.intoContentType() else { return }
-        
-        Generator.generateViewModelHelper(url: item.url, contentType: contentType) { [weak self] viewModel in
-            guard let viewModel = viewModel else { return }
-            DispatchQueue.main.async {
-                
-                let vc = DetailTableViewController(viewModel: viewModel)
-                
-                guard self?.canMoveToNextViewController == true else {return}
-                self?.navigationController?.pushViewController(vc, animated: true)
-                self?.canMoveToNextViewController = false
-            }
+
+        guard let item = dataSource.itemIdentifier(for: indexPath),
+              let sectionType = dataSource.sectionIdentifier(for: indexPath.section),
+              let contentType = sectionType.intoContentType() else { return }
+
+        Task {
+            guard let viewModel = await Generator.generateViewModelHelper(url: item.url, contentType: contentType) else { return }
+            guard canMoveToNextViewController else { return }
+            let vc = DetailTableViewController(viewModel: viewModel)
+            navigationController?.pushViewController(vc, animated: true)
+            canMoveToNextViewController = false
         }
     }
 }

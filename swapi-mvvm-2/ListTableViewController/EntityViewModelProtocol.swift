@@ -10,13 +10,12 @@ import UIKit
 
 
 protocol EntityListViewModelProtocol {
-    func generateViewModel (indexPath: IndexPath, viewModel: EntityListViewModelProtocol, completion: @escaping (DetailTableViewControllerViewModel?)->Void)
-    func generateViewModelHelperDiff (entity: EntityViewModel, viewModel: EntityListViewModelProtocol, completion: @escaping (DetailTableViewControllerViewModel?)->Void)
+    func generateViewModelHelperDiff(entity: EntityViewModel, viewModel: EntityListViewModelProtocol) async -> DetailTableViewControllerViewModel?
     func textFor(indexPath: Int) -> String
-    var entitiesArray: [EntityViewModel] {get set}
-    var nextUrl: String? {get set}
-    var contentType: ContentType {get set}
-    static func createEntityListViewModel(url: String, type: ContentType, completion: @escaping (EntityListViewModelProtocol) -> Void)
+    var entitiesArray: [EntityViewModel] { get set }
+    var nextUrl: String? { get set }
+    var contentType: ContentType { get set }
+    static func createEntityListViewModel(url: String, type: ContentType) async -> EntityListViewModelProtocol?
 }
 
 

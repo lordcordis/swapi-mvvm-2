@@ -7,16 +7,10 @@
 
 import Foundation
 
-protocol InfoViewModelDelegate {
-    func addItemToSnapshot(type: ContentType, item: EntityViewModel)
-}
-
 class DetailTableViewControllerViewModel {
-    
+
     var contentType: ContentType
-    
-    var delegate: InfoViewModelDelegate?
-    
+
     // MARK: - header for section
     
     func displayHeaderForSection(section: DetailTableViewController.Section) -> Bool {
@@ -240,126 +234,122 @@ class DetailTableViewControllerViewModel {
      var starships = [EntityViewModel]()
      var species = [EntityViewModel]()
 
-    private let loadGroup = DispatchGroup()
-
-    func onLoaded(completion: @escaping () -> Void) {
-        loadGroup.notify(queue: .main, execute: completion)
-    }
-
-    func fillInfo(arrayOfUrls: [String], contentType: ContentType) {
-        for url in arrayOfUrls {
-            loadGroup.enter()
-            Networking.getData(url: url) { result in
-                defer { self.loadGroup.leave() }
-                switch result {
-                case .success(let data):
-                    JsonService.decodeJsonToName(data: data, contentType: contentType) { name in
-                        if let name = name {
-                            let entity = EntityViewModel(name: name, url: url)
-                            switch contentType {
-                            case .Films:
-                                self.films.append(entity)
-                            case .People:
-                                self.residents.append(entity)
-                            case .Planets:
-                                self.planets.append(entity)
-                            case .Species:
-                                self.species.append(entity)
-                            case .Starships:
-                                self.starships.append(entity)
-                            case .Vehicles:
-                                self.vehicles.append(entity)
-                            }
-                            self.delegate?.addItemToSnapshot(type: contentType, item: entity)
-                        }
+    private func fetchEntities(urls: [String], contentType: ContentType) async -> [EntityViewModel] {
+        await withTaskGroup(of: EntityViewModel?.self) { group in
+            for url in urls {
+                group.addTask {
+                    guard let data = try? await Networking.getData(url: url),
+                          let name = JsonService.decodeJsonToName(data: data, contentType: contentType) else {
+                        return nil
                     }
-                case .failure:
-                    break
+                    return EntityViewModel(name: name, url: url)
                 }
             }
+            var results = [EntityViewModel]()
+            for await entity in group {
+                if let entity { results.append(entity) }
+            }
+            return results
+        }
+    }
+
+    func loadRelatedData(for response: NetworkResponse) async {
+        switch contentType {
+        case .Films:
+            guard let filmResponse = response as? FilmNetworkResponse else { return }
+            async let r = fetchEntities(urls: filmResponse.characters, contentType: .People)
+            async let v = fetchEntities(urls: filmResponse.vehicles, contentType: .Vehicles)
+            async let sp = fetchEntities(urls: filmResponse.species, contentType: .Species)
+            async let p = fetchEntities(urls: filmResponse.planets, contentType: .Planets)
+            async let st = fetchEntities(urls: filmResponse.starships, contentType: .Starships)
+            residents = await r
+            vehicles = await v
+            species = await sp
+            planets = await p
+            starships = await st
+
+        case .People:
+            guard let characterResponse = response as? PersonNetworkResponse else { return }
+            var homeworldURLs = [String]()
+            homeworldURLs.append(characterResponse.homeworld)
+            async let p = fetchEntities(urls: homeworldURLs, contentType: .Planets)
+            async let sp = fetchEntities(urls: characterResponse.species ?? [], contentType: .Species)
+            async let v = fetchEntities(urls: characterResponse.vehicles ?? [], contentType: .Vehicles)
+            async let f = fetchEntities(urls: characterResponse.films, contentType: .Films)
+            async let st = fetchEntities(urls: characterResponse.starships ?? [], contentType: .Starships)
+            planets = await p
+            species = await sp
+            vehicles = await v
+            films = await f
+            starships = await st
+
+        case .Planets:
+            guard let planetResponse = response as? PlanetNetworkResponse else { return }
+            async let f = fetchEntities(urls: planetResponse.films ?? [], contentType: .Films)
+            async let r = fetchEntities(urls: planetResponse.residents ?? [], contentType: .People)
+            films = await f
+            residents = await r
+
+        case .Species:
+            guard let speciesResponse = response as? SpeciesNetworkResponse else { return }
+            var homeworldURLs = [String]()
+            if let hw = speciesResponse.homeworld { homeworldURLs.append(hw) }
+            async let p = fetchEntities(urls: homeworldURLs, contentType: .Planets)
+            async let r = fetchEntities(urls: speciesResponse.people ?? [], contentType: .People)
+            async let f = fetchEntities(urls: speciesResponse.films ?? [], contentType: .Films)
+            planets = await p
+            residents = await r
+            films = await f
+
+        case .Starships:
+            guard let starshipResponse = response as? StarshipNetworkResponse else { return }
+            async let f = fetchEntities(urls: starshipResponse.films, contentType: .Films)
+            async let r = fetchEntities(urls: starshipResponse.pilots, contentType: .People)
+            films = await f
+            residents = await r
+
+        case .Vehicles:
+            guard let vehicleResponse = response as? VehicleNetworkResponse else { return }
+            async let f = fetchEntities(urls: vehicleResponse.films ?? [], contentType: .Films)
+            films = await f
         }
     }
     
     //    MARK: InfoViewModel initialization from networkResponse
     
     init(response: NetworkResponse, contentType: ContentType) {
-        
+        self.contentType = contentType
+
         switch contentType {
         case .Films:
-            self.contentType = .Films
-            
-            let filmResponse = response as? FilmNetworkResponse
-            self.description = DescriptionService.shared.filmDescription(film: filmResponse!)
-            self.titleForTableView = "\(String(localized: "Film:")) \(filmResponse?.title ?? "")"
-            
+            guard let filmResponse = response as? FilmNetworkResponse else { return }
+            self.description = DescriptionService.shared.filmDescription(film: filmResponse)
+            self.titleForTableView = "\(String(localized: "Film:")) \(filmResponse.title)"
 
-            fillInfo(arrayOfUrls: filmResponse?.characters ?? [], contentType: .People)
-            fillInfo(arrayOfUrls: filmResponse?.vehicles ?? [], contentType: .Vehicles)
-            fillInfo(arrayOfUrls: filmResponse?.species ?? [], contentType: .Species)
-            fillInfo(arrayOfUrls: filmResponse?.planets ?? [], contentType: .Planets)
-            fillInfo(arrayOfUrls: filmResponse?.vehicles ?? [], contentType: .Starships)
-            
-            
         case .People:
-            self.contentType = .People
-            let characterResponse = response as? PersonNetworkResponse
-            self.description = DescriptionService.shared.characterDescription(character: characterResponse!) ?? ""
-            self.titleForTableView = "\(String(localized: "Character:")) \(characterResponse?.name ?? "")"
-            guard let homeworldURL = characterResponse?.homeworld else {return}
-            var array = [String]()
-            array.append(homeworldURL)
+            guard let characterResponse = response as? PersonNetworkResponse else { return }
+            self.description = DescriptionService.shared.characterDescription(character: characterResponse) ?? ""
+            self.titleForTableView = "\(String(localized: "Character:")) \(characterResponse.name)"
 
-            fillInfo(arrayOfUrls: array, contentType: .Planets)
-            fillInfo(arrayOfUrls: characterResponse?.species ?? [], contentType: .Species)
-            fillInfo(arrayOfUrls: characterResponse?.vehicles ?? [], contentType: .Vehicles)
-            fillInfo(arrayOfUrls: characterResponse?.films ?? [], contentType: .Films)
-            fillInfo(arrayOfUrls: characterResponse?.starships ?? [], contentType: .Starships)
-
-            
-            
         case .Planets:
-            self.contentType = .Planets
-            let planetResponse = response as? PlanetNetworkResponse
-            self.titleForTableView = "\(String(localized: "Planet:")) \(planetResponse?.name ?? "")"
-            guard let desc = DescriptionService.shared.planetDescription(planet: planetResponse!) else {return}
-            self.description = desc
-            
-            fillInfo(arrayOfUrls: planetResponse?.films ?? [], contentType: .Films)
-            fillInfo(arrayOfUrls: planetResponse?.residents ?? [], contentType: .People)
-            
-            
+            guard let planetResponse = response as? PlanetNetworkResponse else { return }
+            self.titleForTableView = "\(String(localized: "Planet:")) \(planetResponse.name)"
+            self.description = DescriptionService.shared.planetDescription(planet: planetResponse) ?? ""
+
         case .Species:
-            self.contentType = .Species
-            let speciesResponse = response as? SpeciesNetworkResponse
-            self.titleForTableView = "\(String(localized: "Species:")) \(speciesResponse?.name ?? "")"
-            let desc = DescriptionService.shared.speciesDescription(species: speciesResponse!)
-            self.description = desc
-        
-            guard let homeworldURL = speciesResponse?.homeworld else {return}
-            var array = [String]()
-            array.append(homeworldURL)
-            
-            fillInfo(arrayOfUrls: array, contentType: .Planets)
-            fillInfo(arrayOfUrls: speciesResponse?.people ?? [], contentType: .People)
-            fillInfo(arrayOfUrls: speciesResponse?.films ?? [], contentType: .Films)
-            
-            
+            guard let speciesResponse = response as? SpeciesNetworkResponse else { return }
+            self.titleForTableView = "\(String(localized: "Species:")) \(speciesResponse.name)"
+            self.description = DescriptionService.shared.speciesDescription(species: speciesResponse)
+
         case .Starships:
-            self.contentType = .Starships
-            guard let starshipResponse = response as? StarshipNetworkResponse else {return}
+            guard let starshipResponse = response as? StarshipNetworkResponse else { return }
             self.titleForTableView = "\(String(localized: "Starship:")) \(starshipResponse.name)"
             self.description = DescriptionService.shared.starshipDescription(starship: starshipResponse)
-            fillInfo(arrayOfUrls: starshipResponse.films, contentType: .Films)
-            fillInfo(arrayOfUrls: starshipResponse.pilots, contentType: .People)
-            
+
         case .Vehicles:
-            self.contentType = .Vehicles
-            let vehicleResponse = response as? VehicleNetworkResponse
-            self.titleForTableView = "\(String(localized: "Vehicle:")) \(vehicleResponse?.name ?? "")"
-            guard let vehicle = vehicleResponse else {return}
-            let desc = DescriptionService.shared.vehicleDescription(vehicle: vehicle)
-            self.description = desc
-            fillInfo(arrayOfUrls: vehicleResponse?.films ?? [], contentType: .Films)
+            guard let vehicleResponse = response as? VehicleNetworkResponse else { return }
+            self.titleForTableView = "\(String(localized: "Vehicle:")) \(vehicleResponse.name)"
+            self.description = DescriptionService.shared.vehicleDescription(vehicle: vehicleResponse)
         }
     }
 }

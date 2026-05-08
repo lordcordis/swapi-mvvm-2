@@ -39,7 +39,7 @@ class EntityListTableViewController: UIViewController, UITableViewDelegate, UISe
         setupTableView()
         setupDataSource()
         configureNavigationController()
-        loadAllPages {}
+        Task { await loadAllPages() }
     }
     
     func setupTitle() {
@@ -76,7 +76,7 @@ class EntityListTableViewController: UIViewController, UITableViewDelegate, UISe
             content?.text = entity.name
             content?.textProperties.font = .preferredFont(forTextStyle: .body)
             content?.image = UIImage(systemName: self.viewModel.contentType.iconName)
-            content?.imageProperties.tintColor = .systemYellow
+            content?.imageProperties.tintColor = .systemPink
             cell?.contentConfiguration = content
             return cell
         })
@@ -88,64 +88,47 @@ class EntityListTableViewController: UIViewController, UITableViewDelegate, UISe
         snapshot.appendSections([.main])
         snapshot.appendItems(viewModel.entitiesArray, toSection: .main)
 
-        DispatchQueue.main.async {
-            self.dataSource.apply(snapshot)
-        }
+        dataSource.apply(snapshot)
     }
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        guard let item = dataSource.itemIdentifier(for: indexPath) else {return}
-        
-        viewModel.generateViewModelHelperDiff(entity: item, viewModel: self.viewModel) { [weak self] viewModelExport in
-                       guard let viewModelExport = viewModelExport else { return }
-                       DispatchQueue.main.async {
-                           let vc = DetailTableViewController(viewModel: viewModelExport)
-                           self?.navigationController?.pushViewController(vc, animated: true)
-                       }
-                   }
-            
+
+        guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
+
+        Task {
+            guard let viewModelExport = await viewModel.generateViewModelHelperDiff(entity: item, viewModel: self.viewModel) else { return }
+            let vc = DetailTableViewController(viewModel: viewModelExport)
+            navigationController?.pushViewController(vc, animated: true)
         }
+    }
 
     
-    func loadAllPages(completion: @escaping () -> Void) {
-        guard let nextUrl = viewModel.nextUrl, !nextUrl.isEmpty else {
-            completion()
-            return
-        }
+    func loadAllPages() async {
+        while let nextUrl = viewModel.nextUrl, !nextUrl.isEmpty {
+            guard let result = await EntityListViewModel.createEntityListViewModel(url: nextUrl, type: viewModel.contentType) else { break }
+            viewModel.nextUrl = result.nextUrl
+            viewModel.entitiesArray.append(contentsOf: result.entitiesArray)
 
-        EntityListViewModel.createEntityListViewModel(url: nextUrl, type: viewModel.contentType) { result in
-            self.viewModel.nextUrl = result.nextUrl
-            self.viewModel.entitiesArray.append(contentsOf: result.entitiesArray)
-
-            var snapshot = self.dataSource.snapshot()
+            var snapshot = dataSource.snapshot()
             snapshot.appendItems(result.entitiesArray, toSection: .main)
-
-            DispatchQueue.main.async {
-                self.dataSource.apply(snapshot)
-            }
-
-            self.loadAllPages(completion: completion)
+            await dataSource.apply(snapshot)
         }
     }
 
     @objc func sortItemsAlpahetically() {
         navigationItem.rightBarButtonItem?.isEnabled = false
 
-        loadAllPages { [weak self] in
-            guard let self else { return }
+        Task {
+            await loadAllPages()
 
-            var snapshot = self.dataSource.snapshot()
+            var snapshot = dataSource.snapshot()
             let items = snapshot.itemIdentifiers(inSection: .main)
             snapshot.deleteItems(items)
             let sorted = items.sorted { $0.name < $1.name }
             snapshot.appendItems(sorted, toSection: .main)
-
-            DispatchQueue.main.async {
-                self.dataSource.apply(snapshot)
-            }
+            await dataSource.apply(snapshot)
         }
     }
 

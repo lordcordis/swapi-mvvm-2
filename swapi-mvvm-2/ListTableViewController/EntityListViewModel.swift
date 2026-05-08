@@ -19,24 +19,12 @@ struct EntityListViewModel: EntityListViewModelProtocol {
         return entitiesArray[indexPath].name
     }
 
-    func generateViewModel(indexPath: IndexPath, viewModel: EntityListViewModelProtocol, completion: @escaping (DetailTableViewControllerViewModel?) -> Void) {
-        let url = viewModel.entitiesArray[indexPath.row].url
-        Generator.generateViewModelHelper(url: url, contentType: viewModel.contentType, completion: completion)
+    func generateViewModelHelperDiff(entity: EntityViewModel, viewModel: EntityListViewModelProtocol) async -> DetailTableViewControllerViewModel? {
+        await Generator.generateViewModelHelper(url: entity.url, contentType: viewModel.contentType)
     }
 
-    func generateViewModelHelperDiff(entity: EntityViewModel, viewModel: EntityListViewModelProtocol, completion: @escaping (DetailTableViewControllerViewModel?) -> Void) {
-        Generator.generateViewModelHelper(url: entity.url, contentType: viewModel.contentType, completion: completion)
-    }
-
-    static func createEntityListViewModel(url: String, type: ContentType, completion: @escaping (EntityListViewModelProtocol) -> Void) {
-        Networking.getData(url: url) { result in
-            switch result {
-            case .success(let data):
-                guard let result = JsonService.decodeJsonToEntityList(data: data, contentType: type) else { return }
-                completion(result)
-            case .failure:
-                break
-            }
-        }
+    static func createEntityListViewModel(url: String, type: ContentType) async -> EntityListViewModelProtocol? {
+        guard let data = try? await Networking.getData(url: url) else { return nil }
+        return JsonService.decodeJsonToEntityList(data: data, contentType: type)
     }
 }

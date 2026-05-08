@@ -8,8 +8,5 @@
 import Foundation
 
 protocol MainCollectionViewControllerViewModelProtocol {
-    var buttonNames: [String] {get}
-    var buttonURLs: [String] {get}
-    func getData(completion: @escaping ()-> Void)
-    func textForButton(at indexPath: Int) -> String
+    func getData() async throws -> [EntityViewModel]
 }
